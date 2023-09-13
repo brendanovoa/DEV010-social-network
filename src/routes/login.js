@@ -1,3 +1,5 @@
+import { createUser } from '../firebase/firebaseConfig.js';
+
 function login(navigateTo) {
   const section = document.createElement('section');
   const title = document.createElement('h2');
@@ -7,11 +9,27 @@ function login(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
 
-  inputEmail.placeholder = 'Escribe tu correo';
+  inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
-  title.textContent = 'Login';
+  title.textContent = 'Ingresa a tu cuenta:';
   buttonLogin.textContent = 'ENTRAR';
+  // Signing users
+  buttonLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const email = inputEmail.value;
+    const password = inputPass.value;
+
+    createUser(email, password)
+      .then((cred) => {
+        console.log('Usuario: ', cred.user);
+        // form.requestFullscreen();
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  });
 
   buttonReturn.textContent = 'Regresar';
   buttonReturn.addEventListener('click', () => {
