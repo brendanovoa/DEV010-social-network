@@ -1,4 +1,6 @@
-function login(navigateTo) {
+import { createUser } from '../firebase/firebaseConfig.js';
+
+function userRegister(navigateTo) {
   const section = document.createElement('section');
   const title = document.createElement('h2');
   const buttonReturn = document.createElement('button');
@@ -6,30 +8,38 @@ function login(navigateTo) {
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
-  const textSignin = document.createElement('span');
-  const linkSignin = document.createElement('span');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
-  title.textContent = 'Ingresa a tu cuenta:';
+  title.textContent = 'Crea una cuenta:';
   buttonLogin.textContent = 'ENTRAR';
+  // Signing users
+  buttonLogin.addEventListener('click', (e) => {
+    e.preventDefault();
 
-  textSignin.textContent = 'Si aún no tienes cuenta regístrate ';
-  linkSignin.textContent = 'AQUÍ';
-  linkSignin.addEventListener('click', () => {
-    navigateTo('/userRegister');
+    const email = inputEmail.value;
+    const password = inputPass.value;
+
+    createUser(email, password)
+      .then((cred) => {
+        console.log('Usuario: ', cred.user);
+        // form.requestFullscreen();
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   });
 
   buttonReturn.textContent = 'Regresar';
   buttonReturn.addEventListener('click', () => {
-    navigateTo('/');
+    navigateTo('/login');
   });
 
   form.append(inputEmail, inputPass, buttonLogin);
-  section.append(title, form, buttonReturn, textSignin, linkSignin);
+  section.append(title, form, buttonReturn);
 
   return section;
 }
 
-export default login;
+export default userRegister;

@@ -5,6 +5,7 @@ import { myFunction } from './lib/index.js';
 // Importamos los archivos js que permitirán la visualización
 import home from './routes/home.js';
 import login from './routes/login.js';
+import signin from './routes/userRegister.js';
 import error from './routes/error.js';
 
 myFunction();
@@ -13,6 +14,7 @@ myFunction();
 const routes = [
   { path: '/', component: home },
   { path: '/login', component: login },
+  { path: '/userRegister', component: signin },
   { path: '/error', component: error },
 ];
 
