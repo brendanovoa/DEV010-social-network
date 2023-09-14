@@ -7,15 +7,23 @@ import home from './routes/home.js';
 import login from './routes/login.js';
 import signin from './routes/userRegister.js';
 import error from './routes/error.js';
+import feed from './routes/feed.js';
+import likes from './routes/likes.js';
+import posts from './routes/posts.js';
+import profile from './routes/profile.js';
 
 myFunction();
 
-// Crear una variable con arreglo de objetos para tener ruta e identificar a qué eemento pertenece
+// Crear una variable con arreglo de objetos para tener ruta e identificar a qué elemento pertenece
 const routes = [
   { path: '/', component: home },
   { path: '/login', component: login },
   { path: '/userRegister', component: signin },
   { path: '/error', component: error },
+  { path: '/feed', component: feed },
+  { path: '/likes', component: likes },
+  { path: '/posts', component: posts },
+  { path: '/profile', component: profile },
 ];
 
 // Definir ruta por defecto
