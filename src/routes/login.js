@@ -1,9 +1,12 @@
+
+import { signIn, auth } from '../firebase/firebaseConfig.js';
+
 import {
   GoogleAuthProvider, signInWithRedirect
   // connectAuthEmulator,
   // signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth } from '../firebase/firebaseConfig.js';
+
 function login(navigateTo) {
   const section = document.createElement('section');
   const title = document.createElement('h2');
@@ -12,8 +15,8 @@ function login(navigateTo) {
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
-  const textSignin = document.createElement('span');
-  const linkSignin = document.createElement('span');
+  const textRegister = document.createElement('span');
+  const linkRegister = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement ('button');
 
   inputEmail.placeholder = 'Correo electrónico';
@@ -22,16 +25,40 @@ function login(navigateTo) {
   title.textContent = 'Ingresa a tu cuenta:';
   buttonLogin.textContent = 'ENTRAR';
 
-  buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE' 
+  // Login users
+  buttonLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const email = inputEmail.value;
+    const password = inputPass.value;
+
+    signIn(email, password)
+      .then((userCredential) => {
+      // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        alert('Acceso exitoso')
+      // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert(errorCode);
+      });
+  });
+  
+   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE' 
   buttonLogInWithGoogle.addEventListener('click', () =>{
     const provider = new GoogleAuthProvider()
     signInWithRedirect( auth, provider);
     console.log('funciono');
   });
+  
+  textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
+  linkRegister.textContent = 'AQUÍ';
+  linkRegister.addEventListener('click', () => {
 
-  textSignin.textContent = 'Si aún no tienes cuenta regístrate ';
-  linkSignin.textContent = 'AQUÍ';
-  linkSignin.addEventListener('click', () => {
     navigateTo('/userRegister');
   });
 
@@ -41,7 +68,7 @@ function login(navigateTo) {
   });
 
   form.append(inputEmail, inputPass, buttonLogin, buttonLogInWithGoogle);
-  section.append(title, form, buttonReturn, textSignin, linkSignin);
+  section.append(title, form, buttonReturn, textRegister, linkRegister);
 
   return section;
 }
