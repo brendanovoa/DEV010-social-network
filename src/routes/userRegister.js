@@ -1,4 +1,9 @@
-import { createUser } from '../firebase/firebaseConfig.js';
+import { createUser, auth } from '../firebase/firebaseConfig.js';
+import {
+  GoogleAuthProvider, signInWithRedirect,
+  // connectAuthEmulator,
+  // signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -8,12 +13,14 @@ function userRegister(navigateTo) {
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
+  const buttonSingUpWithGoogle = document.createElement('button');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
   title.textContent = 'Crea una cuenta:';
-  buttonLogin.textContent = 'ENTRAR';
+  buttonLogin.textContent = 'REGISTRAR';
+
   // Signing users
   buttonLogin.addEventListener('click', (e) => {
     e.preventDefault();
@@ -31,12 +38,19 @@ function userRegister(navigateTo) {
       });
   });
 
+  buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
+  buttonSingUpWithGoogle.addEventListener('click', () =>{
+    const provider = new GoogleAuthProvider()
+    signInWithRedirect( auth, provider);
+    console.log('funciono');
+  });
+
   buttonReturn.textContent = 'Regresar';
   buttonReturn.addEventListener('click', () => {
     navigateTo('/login');
   });
 
-  form.append(inputEmail, inputPass, buttonLogin);
+  form.append(inputEmail, inputPass, buttonLogin, buttonSingUpWithGoogle);
   section.append(title, form, buttonReturn);
 
   return section;
