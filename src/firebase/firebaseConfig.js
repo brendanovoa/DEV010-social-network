@@ -4,8 +4,7 @@ import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  // connectAuthEmulator,
-  // signInWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,6 +25,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize services
 const auth = getAuth(app);
-// connectAuthEmulator(auth, "http://localhost:9099");
 
 export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password);
+
+export const signIn = (email, password) => signInWithEmailAndPassword(auth, email, password);

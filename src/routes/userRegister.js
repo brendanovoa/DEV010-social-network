@@ -14,7 +14,7 @@ function userRegister(navigateTo) {
 
   title.textContent = 'Crea una cuenta:';
   buttonLogin.textContent = 'ENTRAR';
-  // Signing users
+  // Creating users
   buttonLogin.addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -22,12 +22,14 @@ function userRegister(navigateTo) {
     const password = inputPass.value;
 
     createUser(email, password)
-      .then((cred) => {
-        console.log('Usuario: ', cred.user);
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        alert('Registro exitoso');
         // form.requestFullscreen();
       })
-      .catch((err) => {
-        console.log(err.message);
+      .catch((error) => {
+        console.log(error.message);
       });
   });
 
