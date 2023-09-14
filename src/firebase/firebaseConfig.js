@@ -21,10 +21,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 // Initialize services
-const auth = getAuth(app);
+
+export const auth = getAuth(app);
+// connectAuthEmulator(auth, "http://localhost:9099");
 
 export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password);
 

@@ -1,4 +1,11 @@
-import { signIn } from '../firebase/firebaseConfig.js';
+
+import { signIn, auth } from '../firebase/firebaseConfig.js';
+
+import {
+  GoogleAuthProvider, signInWithRedirect
+  // connectAuthEmulator,
+  // signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 function login(navigateTo) {
   const section = document.createElement('section');
@@ -10,6 +17,7 @@ function login(navigateTo) {
   const buttonLogin = document.createElement('button');
   const textRegister = document.createElement('span');
   const linkRegister = document.createElement('span');
+  const buttonLogInWithGoogle = document.createElement ('button');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
@@ -39,9 +47,18 @@ function login(navigateTo) {
         alert(errorCode);
       });
   });
+  
+   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE' 
+  buttonLogInWithGoogle.addEventListener('click', () =>{
+    const provider = new GoogleAuthProvider()
+    signInWithRedirect( auth, provider);
+    console.log('funciono');
+  });
+  
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
   linkRegister.textContent = 'AQUÍ';
   linkRegister.addEventListener('click', () => {
+
     navigateTo('/userRegister');
   });
 
@@ -50,7 +67,7 @@ function login(navigateTo) {
     navigateTo('/');
   });
 
-  form.append(inputEmail, inputPass, buttonLogin);
+  form.append(inputEmail, inputPass, buttonLogin, buttonLogInWithGoogle);
   section.append(title, form, buttonReturn, textRegister, linkRegister);
 
   return section;
