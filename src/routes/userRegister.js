@@ -1,7 +1,7 @@
 import {
   GoogleAuthProvider, signInWithRedirect,
 } from 'firebase/auth';
-import { createUser, auth, emailVerification } from '../firebase/firebaseConfig.js';
+import { createUse, auth, emailVerification } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -28,13 +28,13 @@ function userRegister(navigateTo) {
     const email = inputEmail.value;
     const password = inputPass.value;
 
-    createUser(email, password)
+    createUse(email, password)
       .then((userCredential) => {
-        emailVerification();
-        console.log('Verificando email');
         const user = userCredential.user;
         console.log(user);
-        alert('Registro exitoso');
+        emailVerification().then(() => {
+          console.log('Verificando email');
+        });
         // form.requestFullscreen();
       })
       .catch((error) => {
