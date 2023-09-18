@@ -19,7 +19,6 @@ function feed(navigateTo) {
   const buttonPosts = document.createElement('button');
   const buttonProfile = document.createElement('button');
 
-
   buttonSignoff.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQucwe8M3NSHXcUXEtHXegs51MylpBjmPdgrg&usqp=CAU';
   buttonSignoff.addEventListener('click', () => {
     navigateTo('/login');
@@ -37,10 +36,9 @@ function feed(navigateTo) {
 
   main.appendChild(boxContainer);
 
-
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
-    navigateTo('/');
+    navigateTo('/feed');
   });
 
   buttonLikes.textContent = 'Likes';
@@ -63,7 +61,6 @@ function feed(navigateTo) {
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
 
   nav.appendChild(menuContainer);
-
 
   section.append(userName, profileName, pictureUser, textSignoff, buttonSignoff, main, nav);
   return section;

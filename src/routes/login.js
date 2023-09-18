@@ -1,11 +1,9 @@
-
-import { signIn, auth } from '../firebase/firebaseConfig.js';
-
 import {
-  GoogleAuthProvider, signInWithRedirect
-  // connectAuthEmulator,
-  // signInWithEmailAndPassword,
+  GoogleAuthProvider, signInWithRedirect,
 } from 'firebase/auth';
+import {
+  signIn, auth, resetEmail,signinGoogle,
+} from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
   const section = document.createElement('section');
@@ -17,7 +15,9 @@ function login(navigateTo) {
   const buttonLogin = document.createElement('button');
   const textRegister = document.createElement('span');
   const linkRegister = document.createElement('span');
-  const buttonLogInWithGoogle = document.createElement ('button');
+  const linkResetEmail = document.createElement('span');
+  const buttonLogInWithGoogle = document.createElement('button');
+  buttonLogInWithGoogle.setAttribute('type', 'button');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
@@ -34,10 +34,11 @@ function login(navigateTo) {
 
     signIn(email, password)
       .then((userCredential) => {
-      // Signed in
+        // Signed in
         const user = userCredential.user;
         console.log(user);
-        alert('Acceso exitoso')
+        alert('Acceso exitoso');
+        navigateTo('/feed');
       // ...
       })
       .catch((error) => {
@@ -47,19 +48,41 @@ function login(navigateTo) {
         alert(errorCode);
       });
   });
-  
-   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE' 
-  buttonLogInWithGoogle.addEventListener('click', () =>{
-    const provider = new GoogleAuthProvider()
-    signInWithRedirect( auth, provider);
+
+  buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
+  buttonLogInWithGoogle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    signinGoogle(provider);
     console.log('funciono');
+    navigateTo('/feed');
   });
-  
+
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
   linkRegister.textContent = 'AQUÍ';
   linkRegister.addEventListener('click', () => {
-
     navigateTo('/userRegister');
+  });
+
+  // Recuperar contraseña
+  linkResetEmail.textContent = '¿Olvidaste tu contraseña?';
+  linkResetEmail.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const email = inputEmail.value;
+
+    resetEmail(email)
+      .then(() => {
+      // Password reset email sent
+        console.log('Password reset email sent');
+        alert('Password reset email sent');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert(errorCode);
+      });
   });
 
   buttonReturn.textContent = 'Regresar';
@@ -68,7 +91,7 @@ function login(navigateTo) {
   });
 
   form.append(inputEmail, inputPass, buttonLogin, buttonLogInWithGoogle);
-  section.append(title, form, buttonReturn, textRegister, linkRegister);
+  section.append(title, form, buttonReturn, textRegister, linkRegister, linkResetEmail);
 
   return section;
 }
