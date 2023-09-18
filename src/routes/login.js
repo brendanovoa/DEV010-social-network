@@ -1,6 +1,5 @@
-import { getRedirectResult } from 'firebase/auth';
 import {
-  signIn, auth, resetEmail, signinGoogle, pruebaGoogle,
+  signIn, resetEmail, googleCount,
 } from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
@@ -50,9 +49,10 @@ function login(navigateTo) {
   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    pruebaGoogle().then((res) => {
-      navigateTo('/feed');
-    });
+    googleCount()
+      .then((res) => {
+        navigateTo('/feed');
+      });
   });
 
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';

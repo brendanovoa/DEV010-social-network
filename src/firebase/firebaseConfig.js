@@ -44,7 +44,7 @@ export const signinGoogle = () => {
   return signInWithRedirect(auth, provider);
 };
 
-export function pruebaGoogle() {
+export function googleCount() {
   const provider = new GoogleAuthProvider();
   return signInWithPopup(auth, provider);
 }
