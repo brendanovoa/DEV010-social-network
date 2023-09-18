@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
+  signInWithRedirect,
 } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -35,3 +36,5 @@ export const signIn = (email, password) => signInWithEmailAndPassword(auth, emai
 export const resetEmail = (email) => sendPasswordResetEmail(auth, email);
 
 export const emailVerification = () => sendEmailVerification(auth.currentUser);
+
+export const signinGoogle = (provider) => signInWithRedirect(auth, provider);

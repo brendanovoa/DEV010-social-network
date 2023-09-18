@@ -2,7 +2,7 @@ import {
   GoogleAuthProvider, signInWithRedirect,
 } from 'firebase/auth';
 import {
-  signIn, auth, resetEmail,
+  signIn, auth, resetEmail,signinGoogle,
 } from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
@@ -50,9 +50,10 @@ function login(navigateTo) {
   });
 
   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
-  buttonLogInWithGoogle.addEventListener('click', () => {
+  buttonLogInWithGoogle.addEventListener('click', (e) => {
+    e.preventDefault();
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    signinGoogle(provider);
     console.log('funciono');
     navigateTo('/feed');
   });
@@ -72,7 +73,7 @@ function login(navigateTo) {
 
     resetEmail(email)
       .then(() => {
-      // Password reset email sent!
+      // Password reset email sent
         console.log('Password reset email sent');
         alert('Password reset email sent');
       })
