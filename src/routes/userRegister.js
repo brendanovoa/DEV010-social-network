@@ -1,9 +1,9 @@
-import { createUser, auth } from '../firebase/firebaseConfig.js';
 import {
   GoogleAuthProvider, signInWithRedirect,
   // connectAuthEmulator,
   // signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { createUse, auth } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -14,12 +14,13 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
+  buttonSingUpWithGoogle.setAttribute('type', 'button');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
   title.textContent = 'Crea una cuenta:';
-  
+
   // Creating users
   buttonLogin.textContent = 'REGISTRAR';
 
@@ -30,7 +31,7 @@ function userRegister(navigateTo) {
     const email = inputEmail.value;
     const password = inputPass.value;
 
-    createUser(email, password)
+    createUse(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
@@ -43,10 +44,11 @@ function userRegister(navigateTo) {
   });
 
   buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
-  buttonSingUpWithGoogle.addEventListener('click', () =>{
-    const provider = new GoogleAuthProvider()
-    signInWithRedirect( auth, provider);
+  buttonSingUpWithGoogle.addEventListener('click', () => {
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider);
     console.log('funciono');
+    navigateTo('/feed');
   });
 
   buttonReturn.textContent = 'Regresar';

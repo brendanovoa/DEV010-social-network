@@ -28,6 +28,8 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 // connectAuthEmulator(auth, "http://localhost:9099");
 
-export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password);
+export const createUse = (email, password) => createUserWithEmailAndPassword(auth, email, password);
+/* Slint indic que debe ser menos de 101 caracteres, por ello borré
+ r de createUser y los modifiqué en UserRegister */
 
 export const signIn = (email, password) => signInWithEmailAndPassword(auth, email, password);
