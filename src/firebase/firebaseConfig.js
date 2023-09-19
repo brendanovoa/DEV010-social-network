@@ -5,6 +5,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+  signInWithRedirect,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -24,12 +29,22 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 // Initialize services
-
 export const auth = getAuth(app);
-// connectAuthEmulator(auth, "http://localhost:9099");
 
 export const createUse = (email, password) => createUserWithEmailAndPassword(auth, email, password);
-/* Slint indic que debe ser menos de 101 caracteres, por ello borré
- r de createUser y los modifiqué en UserRegister */
 
 export const signIn = (email, password) => signInWithEmailAndPassword(auth, email, password);
+
+export const resetEmail = (email) => sendPasswordResetEmail(auth, email);
+
+export const emailVerification = () => sendEmailVerification(auth.currentUser);
+
+export const signinGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithRedirect(auth, provider);
+};
+
+export function googleCount() {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
+}

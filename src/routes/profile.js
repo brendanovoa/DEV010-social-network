@@ -37,7 +37,7 @@ function profile(navigateTo) {
 
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
-    navigateTo('/');
+    navigateTo('/feed');
   });
 
   buttonLikes.textContent = 'Likes';

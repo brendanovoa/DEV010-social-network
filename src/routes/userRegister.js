@@ -1,9 +1,4 @@
-import {
-  GoogleAuthProvider, signInWithRedirect,
-  // connectAuthEmulator,
-  // signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { createUse, auth } from '../firebase/firebaseConfig.js';
+import { createUse, googleCount, emailVerification } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -14,8 +9,7 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
-  buttonSingUpWithGoogle.setAttribute('type', 'button');
-
+  buttonSingUpWithGoogle.setAttribute('type', 'submit');
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
@@ -35,7 +29,9 @@ function userRegister(navigateTo) {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        alert('Registro exitoso');
+        emailVerification().then(() => {
+          console.log('Verificando email');
+        });
         // form.requestFullscreen();
       })
       .catch((error) => {
@@ -44,11 +40,12 @@ function userRegister(navigateTo) {
   });
 
   buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
-  buttonSingUpWithGoogle.addEventListener('click', () => {
-    const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
-    console.log('funciono');
-    navigateTo('/feed');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    googleCount()
+      .then((res) => {
+        navigateTo('/feed');
+      });
   });
 
   buttonReturn.textContent = 'Regresar';

@@ -39,7 +39,7 @@ function likes(navigateTo) {
 
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
-    navigateTo('/');
+    navigateTo('/feed');
   });
 
   buttonLikes.textContent = 'Likes';

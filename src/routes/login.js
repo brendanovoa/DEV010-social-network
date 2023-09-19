@@ -1,9 +1,6 @@
 import {
-  GoogleAuthProvider, signInWithRedirect,
-  // connectAuthEmulator,
-  // signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { signIn, auth } from '../firebase/firebaseConfig.js';
+  signIn, resetEmail, googleCount,
+} from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
   const section = document.createElement('section');
@@ -15,8 +12,9 @@ function login(navigateTo) {
   const buttonLogin = document.createElement('button');
   const textRegister = document.createElement('span');
   const linkRegister = document.createElement('span');
+  const linkResetEmail = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
-  buttonLogInWithGoogle.setAttribute('type', 'button');
+  buttonLogInWithGoogle.setAttribute('type', 'submit');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
@@ -33,7 +31,7 @@ function login(navigateTo) {
 
     signIn(email, password)
       .then((userCredential) => {
-      // Signed in
+        // Signed in
         const user = userCredential.user;
         console.log(user);
         alert('Acceso exitoso');
@@ -49,11 +47,12 @@ function login(navigateTo) {
   });
 
   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
-  buttonLogInWithGoogle.addEventListener('click', () => {
-    const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
-    console.log('funciono');
-    navigateTo('/feed');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    googleCount()
+      .then((res) => {
+        navigateTo('/feed');
+      });
   });
 
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
@@ -62,13 +61,34 @@ function login(navigateTo) {
     navigateTo('/userRegister');
   });
 
+  // Recuperar contraseña
+  linkResetEmail.textContent = '¿Olvidaste tu contraseña?';
+  linkResetEmail.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const email = inputEmail.value;
+
+    resetEmail(email)
+      .then(() => {
+      // Password reset email sent
+        console.log('Password reset email sent');
+        alert('Password reset email sent');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert(errorCode);
+      });
+  });
+
   buttonReturn.textContent = 'Regresar';
   buttonReturn.addEventListener('click', () => {
     navigateTo('/');
   });
 
   form.append(inputEmail, inputPass, buttonLogin, buttonLogInWithGoogle);
-  section.append(title, form, buttonReturn, textRegister, linkRegister);
+  section.append(title, form, buttonReturn, textRegister, linkRegister, linkResetEmail);
 
   return section;
 }
