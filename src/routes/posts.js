@@ -38,6 +38,8 @@ function posts(navigateTo) {
 
   main.appendChild(boxContainer);
 
+
+
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
     navigateTo('/feed');
@@ -63,6 +65,7 @@ function posts(navigateTo) {
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
 
   nav.appendChild(menuContainer);
+
 
   section.append(userName, profileName, pictureUser, textPost, main, nav);
   return section;

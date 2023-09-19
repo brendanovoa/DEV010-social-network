@@ -1,4 +1,7 @@
-import { createUse, googleCount, emailVerification } from '../firebase/firebaseConfig.js';
+import {
+  GoogleAuthProvider, signInWithRedirect,
+} from 'firebase/auth';
+import { createUse, auth, emailVerification } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -9,7 +12,7 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonLogin = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
-  buttonSingUpWithGoogle.setAttribute('type', 'submit');
+  buttonSingUpWithGoogle.setAttribute('type', 'button');
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
@@ -40,12 +43,11 @@ function userRegister(navigateTo) {
   });
 
   buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    googleCount()
-      .then((res) => {
-        navigateTo('/feed');
-      });
+  buttonSingUpWithGoogle.addEventListener('click', () => {
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider);
+    console.log('funciono');
+    navigateTo('/feed');
   });
 
   buttonReturn.textContent = 'Regresar';

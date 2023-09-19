@@ -1,5 +1,8 @@
 import {
-  signIn, resetEmail, googleCount,
+  GoogleAuthProvider, signInWithRedirect,
+} from 'firebase/auth';
+import {
+  signIn, auth, resetEmail,signinGoogle,
 } from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
@@ -14,7 +17,7 @@ function login(navigateTo) {
   const linkRegister = document.createElement('span');
   const linkResetEmail = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
-  buttonLogInWithGoogle.setAttribute('type', 'submit');
+  buttonLogInWithGoogle.setAttribute('type', 'button');
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
@@ -47,12 +50,12 @@ function login(navigateTo) {
   });
 
   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
-  form.addEventListener('submit', (e) => {
+  buttonLogInWithGoogle.addEventListener('click', (e) => {
     e.preventDefault();
-    googleCount()
-      .then((res) => {
-        navigateTo('/feed');
-      });
+    const provider = new GoogleAuthProvider();
+    signinGoogle(provider);
+    console.log('funciono');
+    navigateTo('/feed');
   });
 
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
