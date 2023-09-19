@@ -2,7 +2,7 @@ function home(navigateTo) {
   const section = document.createElement('section');
   const title = document.createElement('h2');
   const button = document.createElement('button');
-
+  button.id = btnEntrada;
   button.textContent = 'ENTRAR';
   button.addEventListener('click', () => {
     navigateTo('/login');

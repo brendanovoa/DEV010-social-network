@@ -7,7 +7,8 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
-  signInWithRedirect,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -37,4 +38,7 @@ export const resetEmail = (email) => sendPasswordResetEmail(auth, email);
 
 export const emailVerification = () => sendEmailVerification(auth.currentUser);
 
-export const signinGoogle = (provider) => signInWithRedirect(auth, provider);
+export const signinGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider);
+};

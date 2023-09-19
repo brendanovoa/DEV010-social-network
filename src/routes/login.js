@@ -1,8 +1,5 @@
 import {
-  GoogleAuthProvider, signInWithRedirect,
-} from 'firebase/auth';
-import {
-  signIn, auth, resetEmail,signinGoogle,
+  signIn, resetEmail, signinGoogle,
 } from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
@@ -49,15 +46,20 @@ function login(navigateTo) {
       });
   });
 
-  buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
-  buttonLogInWithGoogle.addEventListener('click', (e) => {
-    e.preventDefault();
-    const provider = new GoogleAuthProvider();
-    signinGoogle(provider);
-    console.log('funciono');
-    navigateTo('/feed');
+  // Signin con Google
+  buttonLogInWithGoogle.textContent = 'ENTRAR CON GOOGLE';
+  buttonLogInWithGoogle.addEventListener('click', () => {
+    then(result => {
+      console.log('hola')
+    })
+    .catch(err => {
+      console.log(error)
+    })
+    //signinGoogle();
+    //navigateTo('/feed');
   });
 
+  // Link para registrarse
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
   linkRegister.textContent = 'AQUÍ';
   linkRegister.addEventListener('click', () => {
@@ -74,8 +76,8 @@ function login(navigateTo) {
     resetEmail(email)
       .then(() => {
       // Password reset email sent
-        console.log('Password reset email sent');
-        alert('Password reset email sent');
+        console.log('Email enviado');
+        alert('Email enviado');
       })
       .catch((error) => {
         const errorCode = error.code;
