@@ -1,10 +1,6 @@
-import {
-  GoogleAuthProvider, signInWithRedirect,
-} from 'firebase/auth';
-
 import icono from '../assets/icono.png';
 
-import { createUse, googleCount, emailVerification } from '../firebase/firebaseConfig.js';
+import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -15,7 +11,9 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonRegister = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
-  buttonSingUpWithGoogle.setAttribute('type', 'button');
+  inputPass.setAttribute('type', 'password');
+
+  buttonSingUpWithGoogle.setAttribute('type', 'submit');
   const textLogin = document.createElement('span');
   const linkLogin = document.createElement('span');
 
@@ -30,6 +28,7 @@ function userRegister(navigateTo) {
   buttonRegister.id = 'btnLogin';
   textLogin.classList.add('text');
   linkLogin.classList.add('link');
+  buttonSingUpWithGoogle.classList.add('googleButton');
 
   title.textContent = 'CREA TU CUENTA:';
   buttonRegister.textContent = 'REGISTRARSE';
@@ -59,7 +58,6 @@ function userRegister(navigateTo) {
       });
   });
 
-  buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     googleCount()
