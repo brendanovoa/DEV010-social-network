@@ -8,7 +8,6 @@ describe('home', () => {
 
   it('returns `La función devuelve un elemento HTML`', () => {
     const result = home(() => {});
-    /* deseo pasar una función vacía como argumento para verificar el comportamiento de home */
     expect(result instanceof HTMLElement).toBe(true);
     /* Al ejecutar la función home se crea un elemento HTML */
   });
