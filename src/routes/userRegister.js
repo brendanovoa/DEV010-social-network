@@ -11,6 +11,7 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonRegister = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
+  inputPass.setAttribute('type', 'password');
 
   buttonSingUpWithGoogle.setAttribute('type', 'submit');
   const textLogin = document.createElement('span');
