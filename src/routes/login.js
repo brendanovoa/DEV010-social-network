@@ -17,6 +17,7 @@ function login(navigateTo) {
   const linkRegister = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
   buttonLogInWithGoogle.setAttribute('type', 'submit');
+  inputPass.setAttribute('type', 'password');
 
   const buttonReturn = document.createElement('button');
 

@@ -1,4 +1,3 @@
-// importamos la funcion que vamos a testear
 import home from '../src/routes/home';
 
 describe('home', () => {
@@ -10,8 +9,15 @@ describe('home', () => {
     const result = home(() => {});
     /* deseo pasar una función vacía como argumento para verificar el comportamiento de home */
     expect(result instanceof HTMLElement).toBe(true);
-    /* La expresión instanceof en JavaScript se utiliza para comprobar si un objeto es una
-    instancia de una clase o constructor específico. */
+    /* Al ejecutar la función home se crea un elemento HTML */
+  });
+
+  it('returns `Se crea el botón`', () => {
+    const resultado = home(() => {});
+    const button = resultado.querySelector('button');
+    /* Busca el elemento botón dentro del elemento resultado */
+    expect(button).toBeTruthy(); // Verifica que el botón exista
+    expect(button.textContent).toBe('EMPEZAR'); // Verifica el texto del botón
   });
 });
 

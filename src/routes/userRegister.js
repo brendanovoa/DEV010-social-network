@@ -1,11 +1,6 @@
-
-import {
-  GoogleAuthProvider, signInWithRedirect,
-} from 'firebase/auth';
-
 import icono from '../assets/icono.png';
 
-import { createUse, auth, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
+import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -16,6 +11,7 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonRegister = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
+  inputPass.setAttribute('type', 'password');
 
   buttonSingUpWithGoogle.setAttribute('type', 'submit');
   const textLogin = document.createElement('span');
