@@ -36,7 +36,7 @@
     color: rgb(60, 14, 115);
 }
 
-.imgHome{
+.imgHome {
     height: 80vh;
     padding: 5rem;
 }
@@ -107,7 +107,7 @@
     font-size: large;
 }
 
-.googleButton{
+.googleButton {
     background-image: url(./assets/google_assets/btn_google_signin_light_normal_web.png);
     width: 191px;
     height: 46px;
@@ -115,19 +115,19 @@
     align-items: center;
     justify-content: center;
     border-radius: 20px;
-    border-color: rgb(60, 14, 115);
-   /* border: 2px solid transparent; /* Establece un borde transparente para que se aplique el gradiente */
-   /* border-image: linear-gradient(to right, rgb(250, 33, 175), rgb(60, 14, 115)); /* Define el gradiente como la imagen de fondo del borde */
-    /*border-image-slice: 1; /* Slice de 1 para que el gradiente se aplique al borde completo */
+    /* border-color: rgb(60, 14, 115); */
+    /* border: 2px solid transparent; /* Establece un borde transparente para que se aplique el gradiente */
+    /* border-image: linear-gradient(to right, rgb(250, 33, 175), rgb(60, 14, 115)); /* Define el gradiente como la imagen de fondo del borde */
+    /* border-image-slice: 1; /* Slice de 1 para que el gradiente se aplique al borde completo */
 }
 
-
-.googleButton:hover{
+.googleButton:hover {
     background-image: url(./assets/google_assets/btn_google_signin_light_pressed_web.png);
     width: 191px;
     height: 46px;
-    border-color: rgb(60, 14, 115);
+    /* border-color: rgb(60, 14, 115); */
 }
+
 /* Login */
 
 #registerSection {
