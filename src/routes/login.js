@@ -1,11 +1,13 @@
+import icono from '../assets/icono.png';
+
 import {
-  signIn, resetEmail, signinGoogle,
+  signIn, resetEmail, googleCount,
 } from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
   const section = document.createElement('section');
+  const imgLogin = document.createElement('img');
   const title = document.createElement('h2');
-  const buttonReturn = document.createElement('button');
   const form = document.createElement('form');
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
@@ -14,13 +16,29 @@ function login(navigateTo) {
   const linkRegister = document.createElement('span');
   const linkResetEmail = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
-  buttonLogInWithGoogle.setAttribute('type', 'button');
+  buttonLogInWithGoogle.setAttribute('type', 'submit');
+  const buttonReturn = document.createElement('button');
+
+  section.id = 'loginSection';
+  imgLogin.src = icono;
+  imgLogin.alt = 'New Wave Icon';
+  imgLogin.classList.add('imgLogin');
+  title.classList.add('titles');
+  form.id = 'loginForm';
+  inputEmail.classList.add('input');
+  inputPass.classList.add('input');
+  buttonLogin.id = 'btnLogin';
+  // textRegister
+  // linkRegister
+  // linkResetEmail
+  // buttonLogInWithGoogle
+  // buttonReturn
+
+  title.textContent = 'INGRESA A TU CUENTA:';
+  buttonLogin.textContent = 'ENTRAR';
 
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
-
-  title.textContent = 'Ingresa a tu cuenta:';
-  buttonLogin.textContent = 'ENTRAR';
 
   // Login users
   buttonLogin.addEventListener('click', (e) => {
@@ -46,20 +64,17 @@ function login(navigateTo) {
       });
   });
 
-  // Signin con Google
-  buttonLogInWithGoogle.textContent = 'ENTRAR CON GOOGLE';
-  buttonLogInWithGoogle.addEventListener('click', () => {
-    then(result => {
-      console.log('hola')
-    })
-    .catch(err => {
-      console.log(error)
-    })
-    //signinGoogle();
-    //navigateTo('/feed');
+  // Botón acceso con Google
+  buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    googleCount()
+      .then((res) => {
+        navigateTo('/feed');
+      });
   });
 
-  // Link para registrarse
+  // Link a registro
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
   linkRegister.textContent = 'AQUÍ';
   linkRegister.addEventListener('click', () => {
@@ -75,9 +90,8 @@ function login(navigateTo) {
 
     resetEmail(email)
       .then(() => {
-      // Password reset email sent
-        console.log('Email enviado');
-        alert('Email enviado');
+        console.log('Password reset email sent');
+        alert('Password reset email sent');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -87,6 +101,7 @@ function login(navigateTo) {
       });
   });
 
+  // Botón regresar
   buttonReturn.textContent = 'Regresar';
   buttonReturn.addEventListener('click', () => {
     navigateTo('/');

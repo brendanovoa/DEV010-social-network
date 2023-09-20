@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
+  signInWithRedirect,
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
@@ -40,5 +41,10 @@ export const emailVerification = () => sendEmailVerification(auth.currentUser);
 
 export const signinGoogle = () => {
   const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider);
+  return signInWithRedirect(auth, provider);
 };
+
+export function googleCount() {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
+}
