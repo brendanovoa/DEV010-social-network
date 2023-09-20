@@ -4,7 +4,7 @@ import {
 
 import icono from '../assets/icono.png';
 
-import { createUse, auth, emailVerification } from '../firebase/firebaseConfig.js';
+import { createUse, googleCount, emailVerification } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -60,11 +60,12 @@ function userRegister(navigateTo) {
   });
 
   buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
-  buttonSingUpWithGoogle.addEventListener('click', () => {
-    const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
-    console.log('funciono');
-    navigateTo('/feed');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    googleCount()
+      .then((res) => {
+        navigateTo('/feed');
+      });
   });
 
   // Link a Login
