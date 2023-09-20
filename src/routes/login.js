@@ -6,30 +6,30 @@ import {
 
 function login(navigateTo) {
   const section = document.createElement('section');
-  const imgLogin = document.createElement('img');
+  const icon = document.createElement('img');
   const title = document.createElement('h2');
   const form = document.createElement('form');
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
+  const linkResetEmail = document.createElement('span');
   const buttonLogin = document.createElement('button');
   const textRegister = document.createElement('span');
   const linkRegister = document.createElement('span');
-  const linkResetEmail = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
   buttonLogInWithGoogle.setAttribute('type', 'submit');
   const buttonReturn = document.createElement('button');
 
   section.id = 'loginSection';
-  imgLogin.src = icono;
-  imgLogin.alt = 'New Wave Icon';
-  imgLogin.classList.add('imgLogin');
+  icon.src = icono;
+  icon.alt = 'New Wave Icon';
+  icon.classList.add('icon');
   title.classList.add('titles');
   form.id = 'loginForm';
   inputEmail.classList.add('input');
   inputPass.classList.add('input');
   buttonLogin.id = 'btnLogin';
-  // textRegister
-  // linkRegister
+  textRegister.classList.add('text');
+  linkRegister.classList.add('link');
   // linkResetEmail
   // buttonLogInWithGoogle
   // buttonReturn
@@ -107,8 +107,8 @@ function login(navigateTo) {
     navigateTo('/');
   });
 
-  form.append(inputEmail, inputPass, buttonLogin, buttonLogInWithGoogle);
-  section.append(title, form, buttonReturn, textRegister, linkRegister, linkResetEmail);
+  form.append(inputEmail, inputPass, linkResetEmail, buttonLogin, buttonLogInWithGoogle);
+  section.append(icon, title, form, textRegister, linkRegister, buttonReturn);
 
   return section;
 }
