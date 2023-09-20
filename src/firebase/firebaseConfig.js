@@ -41,6 +41,4 @@ export const emailVerification = () => sendEmailVerification(auth.currentUser);
 export function googleCount() {
   const provider = new GoogleAuthProvider();
   return signInWithPopup(auth, provider);
-
 }
-
