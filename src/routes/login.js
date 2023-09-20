@@ -17,6 +17,7 @@ function login(navigateTo) {
   const linkRegister = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
   buttonLogInWithGoogle.setAttribute('type', 'submit');
+  inputPass.setAttribute('type', 'password');
 
   const buttonReturn = document.createElement('button');
 
@@ -31,6 +32,7 @@ function login(navigateTo) {
   buttonLogin.id = 'btnLogin';
   textRegister.classList.add('text');
   linkRegister.classList.add('link');
+  buttonLogInWithGoogle.classList.add('googleButton');
   // linkResetEmail
   // buttonLogInWithGoogle
   // buttonReturn
@@ -66,7 +68,7 @@ function login(navigateTo) {
   });
 
   // Botón acceso con Google
-  buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
+  // buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     googleCount()
