@@ -1,10 +1,11 @@
+
 import {
   GoogleAuthProvider, signInWithRedirect,
 } from 'firebase/auth';
 
 import icono from '../assets/icono.png';
 
-import { createUse, auth, emailVerification } from '../firebase/firebaseConfig.js';
+import { createUse, auth, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -15,7 +16,8 @@ function userRegister(navigateTo) {
   const inputPass = document.createElement('input');
   const buttonRegister = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
-  buttonSingUpWithGoogle.setAttribute('type', 'button');
+
+  buttonSingUpWithGoogle.setAttribute('type', 'submit');
   const textLogin = document.createElement('span');
   const linkLogin = document.createElement('span');
 
@@ -60,11 +62,12 @@ function userRegister(navigateTo) {
   });
 
   buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
-  buttonSingUpWithGoogle.addEventListener('click', () => {
-    const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
-    console.log('funciono');
-    navigateTo('/feed');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    googleCount()
+      .then((res) => {
+        navigateTo('/feed');
+      });
   });
 
   // Link a Login
