@@ -28,6 +28,7 @@ function userRegister(navigateTo) {
   buttonRegister.id = 'btnLogin';
   textLogin.classList.add('text');
   linkLogin.classList.add('link');
+  buttonSingUpWithGoogle.classList.add('googleButton');
 
   title.textContent = 'CREA TU CUENTA:';
   buttonRegister.textContent = 'REGISTRARSE';
@@ -57,7 +58,6 @@ function userRegister(navigateTo) {
       });
   });
 
-  buttonSingUpWithGoogle.textContent = 'REGISTRARSE CON GOOGLE';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     googleCount()
