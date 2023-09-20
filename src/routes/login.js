@@ -1,26 +1,45 @@
+import icono from '../assets/icono.png';
+
 import {
   signIn, resetEmail, googleCount,
 } from '../firebase/firebaseConfig.js';
 
 function login(navigateTo) {
   const section = document.createElement('section');
+  const icon = document.createElement('img');
   const title = document.createElement('h2');
-  const buttonReturn = document.createElement('button');
   const form = document.createElement('form');
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
+  const linkResetEmail = document.createElement('span');
   const buttonLogin = document.createElement('button');
   const textRegister = document.createElement('span');
   const linkRegister = document.createElement('span');
-  const linkResetEmail = document.createElement('span');
   const buttonLogInWithGoogle = document.createElement('button');
   buttonLogInWithGoogle.setAttribute('type', 'submit');
 
+  const buttonReturn = document.createElement('button');
+
+  section.id = 'loginSection';
+  icon.src = icono;
+  icon.alt = 'New Wave Icon';
+  icon.classList.add('icon');
+  title.classList.add('titles');
+  form.id = 'loginForm';
+  inputEmail.classList.add('input');
+  inputPass.classList.add('input');
+  buttonLogin.id = 'btnLogin';
+  textRegister.classList.add('text');
+  linkRegister.classList.add('link');
+  // linkResetEmail
+  // buttonLogInWithGoogle
+  // buttonReturn
+
+  title.textContent = 'INGRESA A TU CUENTA:';
+  buttonLogin.textContent = 'ENTRAR';
+
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
-
-  title.textContent = 'Ingresa a tu cuenta:';
-  buttonLogin.textContent = 'ENTRAR';
 
   // Login users
   buttonLogin.addEventListener('click', (e) => {
@@ -46,6 +65,7 @@ function login(navigateTo) {
       });
   });
 
+  // Botón acceso con Google
   buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -55,6 +75,7 @@ function login(navigateTo) {
       });
   });
 
+  // Link a registro
   textRegister.textContent = 'Si aún no tienes cuenta regístrate ';
   linkRegister.textContent = 'AQUÍ';
   linkRegister.addEventListener('click', () => {
@@ -70,7 +91,6 @@ function login(navigateTo) {
 
     resetEmail(email)
       .then(() => {
-      // Password reset email sent
         console.log('Password reset email sent');
         alert('Password reset email sent');
       })
@@ -82,13 +102,14 @@ function login(navigateTo) {
       });
   });
 
+  // Botón regresar
   buttonReturn.textContent = 'Regresar';
   buttonReturn.addEventListener('click', () => {
     navigateTo('/');
   });
 
-  form.append(inputEmail, inputPass, buttonLogin, buttonLogInWithGoogle);
-  section.append(title, form, buttonReturn, textRegister, linkRegister, linkResetEmail);
+  form.append(inputEmail, inputPass, linkResetEmail, buttonLogin, buttonLogInWithGoogle);
+  section.append(icon, title, form, textRegister, linkRegister, buttonReturn);
 
   return section;
 }

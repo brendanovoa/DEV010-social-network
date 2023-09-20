@@ -1,25 +1,46 @@
-import { createUse, googleCount, emailVerification } from '../firebase/firebaseConfig.js';
+
+import {
+  GoogleAuthProvider, signInWithRedirect,
+} from 'firebase/auth';
+
+import icono from '../assets/icono.png';
+
+import { createUse, auth, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
+  const icon = document.createElement('img');
   const title = document.createElement('h2');
-  const buttonReturn = document.createElement('button');
   const form = document.createElement('form');
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
-  const buttonLogin = document.createElement('button');
+  const buttonRegister = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
+
   buttonSingUpWithGoogle.setAttribute('type', 'submit');
+  const textLogin = document.createElement('span');
+  const linkLogin = document.createElement('span');
+
+  section.id = 'registerSection';
+  icon.src = icono;
+  icon.alt = 'New Wave Icon';
+  icon.classList.add('icon');
+  title.classList.add('titles');
+  form.id = 'registerForm';
+  inputEmail.classList.add('input');
+  inputPass.classList.add('input');
+  buttonRegister.id = 'btnLogin';
+  textLogin.classList.add('text');
+  linkLogin.classList.add('link');
+
+  title.textContent = 'CREA TU CUENTA:';
+  buttonRegister.textContent = 'REGISTRARSE';
+
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
-  title.textContent = 'Crea una cuenta:';
-
-  // Creating users
-  buttonLogin.textContent = 'REGISTRAR';
-
   // Signing users
-  buttonLogin.addEventListener('click', (e) => {
+  buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();
 
     const email = inputEmail.value;
@@ -31,6 +52,7 @@ function userRegister(navigateTo) {
         console.log(user);
         emailVerification().then(() => {
           console.log('Verificando email');
+          alert('Correo de verificación enviado');
         });
         // form.requestFullscreen();
       })
@@ -48,13 +70,15 @@ function userRegister(navigateTo) {
       });
   });
 
-  buttonReturn.textContent = 'Regresar';
-  buttonReturn.addEventListener('click', () => {
+  // Link a Login
+  textLogin.textContent = 'Si ya tienes una cuenta ';
+  linkLogin.textContent = 'INGRESA AQUÍ';
+  linkLogin.addEventListener('click', () => {
     navigateTo('/login');
   });
 
-  form.append(inputEmail, inputPass, buttonLogin, buttonSingUpWithGoogle);
-  section.append(title, form, buttonReturn);
+  form.append(inputEmail, inputPass, buttonRegister, buttonSingUpWithGoogle);
+  section.append(icon, title, form, textLogin, linkLogin);
 
   return section;
 }
