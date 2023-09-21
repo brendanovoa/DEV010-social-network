@@ -1,4 +1,4 @@
-import icono from '../assets/icono.png';
+// import icono from '../assets/icono.png';
 
 import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
@@ -18,7 +18,7 @@ function userRegister(navigateTo) {
   const linkLogin = document.createElement('span');
 
   section.id = 'registerSection';
-  icon.src = icono;
+  // icon.src = icono;
   icon.alt = 'New Wave Icon';
   icon.classList.add('icon');
   title.classList.add('titles');
