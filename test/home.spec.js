@@ -21,6 +21,14 @@ describe('home', () => {
   });
 });
 
+/* it('debería navegar a login al hacer click', () => {
+  // home.mockResolvedValue({});
+  // Crea los elemntos necesarios para el test
+  const component = home();
+  component.querySelector('#btnHome').click();
+  expect().toBe('/login');
+}); */
+
 // const url = 'https://github.com/mrdulin';
 //     jest.spyOn(document, 'createElement').mockReturnValueOnce(new Link('mock link'));
 //     const link = createLink(url);
