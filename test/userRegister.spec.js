@@ -7,6 +7,7 @@ jest.mock('../src/firebase/firebaseConfig', () => ({
 }));
 // Test de funcion para crear cuenta
 describe('buttonLogin', () => {
+
   it('debería llamar a ingresar UserRegister al hacer click', () => {
     createUse.mockResolvedValue({});
     // Crea los elementos necesarios para el test
