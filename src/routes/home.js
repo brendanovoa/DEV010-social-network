@@ -1,4 +1,4 @@
-// import logoVerticalBlanco from '../assets/logoVerticalBlanco.png';
+import logoVerticalBlanco from '../assets/logoVerticalBlanco.png';
 
 function home(navigateTo) {
   const section = document.createElement('section');
@@ -8,7 +8,7 @@ function home(navigateTo) {
 
   section.id = 'homeSection';
   button.id = 'btnHome';
-  // imgHome.src = logoVerticalBlanco;
+  imgHome.src = logoVerticalBlanco;
   imgHome.alt = 'New Wave Logo';
   imgHome.classList.add('imgHome');
 

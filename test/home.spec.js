@@ -15,31 +15,24 @@ describe('home', () => {
   it('returns `Se crea el botón`', () => {
     const resultado = home(() => {});
     const button = resultado.querySelector('button');
-    /* Busca el elemento botón dentro del elemento resultado */
+    const imgHome = resultado.querySelector('img');
+    /* Busca el elemento botón, img dentro del elemento resultado */
+
     expect(button).toBeTruthy(); // Verifica que el botón exista
+    expect(resultado.tagName).toBe('SECTION'); // La sección  se comprueba así, porque es el contenedor
+    expect(imgHome).toBeTruthy();
     expect(button.textContent).toBe('EMPEZAR'); // Verifica el texto del botón
+    expect(imgHome.alt).toBe('New Wave Logo');
   });
 
   it('click en botón dirige a /login', () => {
-    const component = home();
+    let dirige = '';
+    function navigateTo(ruta) {
+      // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
+      dirige = ruta;
+    }
+    const component = home(navigateTo);
     component.querySelector('#btnHome').click();
-    const dirigir = '/login';
-    expect(dirigir).toBe('/login');
-
-    //   const x= evaluando;
-    //   const result = home();
-    //   const button = result.querySelector('button');
-
-    //   // Simula un clic en el botón
-    //   button.click();
-
-  //   // Verifica que la función navigateTo haya sido llamada con la ruta correcta
-  //   expect(x).toBe('/login');
+    expect(dirige).toBe('/login');
   });
 });
-
-// const url = 'https://github.com/mrdulin';
-//     jest.spyOn(document, 'createElement').mockReturnValueOnce(new Link('mock link'));
-//     const link = createLink(url);
-//     expect(link).toBeInstanceOf(Link);
-//     expect(link.href).toBe(url);
