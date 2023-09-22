@@ -72,7 +72,7 @@ function login(navigateTo) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     googleCount()
-      .then((res) => {
+      .then(() => {
         navigateTo('/feed');
       });
   });
