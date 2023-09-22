@@ -114,8 +114,9 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
-    border-color: rgb(60, 14, 115);
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(230, 223, 238);
    /* border: 2px solid transparent; /* Establece un borde transparente para que se aplique el gradiente */
    /* border-image: linear-gradient(to right, rgb(250, 33, 175), rgb(60, 14, 115)); /* Define el gradiente como la imagen de fondo del borde */
     /*border-image-slice: 1; /* Slice de 1 para que el gradiente se aplique al borde completo */
@@ -126,7 +127,6 @@
     background-image: url(./assets/google_assets/btn_google_signin_light_pressed_web.png);
     width: 191px;
     height: 46px;
-    border-color: rgb(60, 14, 115);
 }
 /* Login */
 
