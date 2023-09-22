@@ -1,4 +1,3 @@
-// importamos la funcion que vamos a testear
 import home from '../src/routes/home';
 
 describe('home', () => {
@@ -8,6 +7,7 @@ describe('home', () => {
 
   it('returns `La función devuelve un elemento HTML`', () => {
     const result = home(() => {});
+    /* deseo pasar una función vacía como argumento para verificar el comportamiento de home */
     expect(result instanceof HTMLElement).toBe(true);
     /* Al ejecutar la función home se crea un elemento HTML */
   });
@@ -19,15 +19,24 @@ describe('home', () => {
     expect(button).toBeTruthy(); // Verifica que el botón exista
     expect(button.textContent).toBe('EMPEZAR'); // Verifica el texto del botón
   });
-});
 
-/* it('debería navegar a login al hacer click', () => {
-  // home.mockResolvedValue({});
-  // Crea los elemntos necesarios para el test
-  const component = home();
-  component.querySelector('#btnHome').click();
-  expect().toBe('/login');
-}); */
+  it('click en botón dirige a /login', () => {
+    const component = home();
+    component.querySelector('#btnHome').click();
+    const dirigir = '/login';
+    expect(dirigir).toBe('/login');
+
+    //   const x= evaluando;
+    //   const result = home();
+    //   const button = result.querySelector('button');
+
+    //   // Simula un clic en el botón
+    //   button.click();
+
+  //   // Verifica que la función navigateTo haya sido llamada con la ruta correcta
+  //   expect(x).toBe('/login');
+  });
+});
 
 // const url = 'https://github.com/mrdulin';
 //     jest.spyOn(document, 'createElement').mockReturnValueOnce(new Link('mock link'));

@@ -7,9 +7,10 @@ jest.mock('../src/firebase/firebaseConfig', () => ({
 }));
 // Test de funcion para crear cuenta
 describe('buttonLogin', () => {
-  it('debería llamar a ingresarConcorreoContraseña al hacer click', () => {
+
+  it('debería llamar a ingresar UserRegister al hacer click', () => {
     createUse.mockResolvedValue({});
-    // Crea los elemntos necesarios para el test
+    // Crea los elementos necesarios para el test
     const component = UserRegister();
     component.querySelector('#btnLogin').click();
     expect(createUse).toHaveBeenCalled();
