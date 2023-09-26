@@ -12,6 +12,7 @@ function userRegister(navigateTo) {
   const buttonRegister = document.createElement('button');
   const buttonSingUpWithGoogle = document.createElement('button');
   inputPass.setAttribute('type', 'password');
+  inputEmail.setAttribute('type', 'email');
 
   buttonSingUpWithGoogle.setAttribute('type', 'submit');
   const textLogin = document.createElement('span');
@@ -47,9 +48,9 @@ function userRegister(navigateTo) {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        emailVerification().then(() => {
+        emailVerification(user).then(() => {
           console.log('Verificando email');
-          alert('Correo de verificación enviado');
+          // alert('Correo de verificación enviado');
         });
         // form.requestFullscreen();
       })
