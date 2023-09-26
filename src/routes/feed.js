@@ -1,3 +1,5 @@
+import { googleCount } from '../firebase/firebaseConfig';
+
 function feed(navigateTo) {
   const section = document.createElement('section');
   const userName = document.createElement('h3');
@@ -24,10 +26,20 @@ function feed(navigateTo) {
     navigateTo('/login');
   });
 
+  // Asignar la imagen de perfil desde la cuenta de Google
+  // const googleUser = googleCount.currentUser;
+  // if (googleUser) {
+  //   const photoURL = googleUser.photoURL;
+  //   if (photoURL) {
+  //     pictureUser.src = photoURL;
+  //   }
+  // }
+
   userName.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
   textSignoff.textContent = 'Cierra sesión';
-  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+  pictureUser.src = '"+result.user.photoURL+"';
+  // pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
   postBoxOne.textContent = 'Nombre usuario';
   postBoxTwo.textContent = 'Nombre usuario';
   postBoxThree.textContent = 'Nombre usuario';
@@ -62,7 +74,15 @@ function feed(navigateTo) {
 
   nav.appendChild(menuContainer);
 
-  section.append(userName, profileName, pictureUser, textSignoff, buttonSignoff, main, nav);
+  section.append(
+    userName,
+    profileName,
+    pictureUser,
+    textSignoff,
+    buttonSignoff,
+    main,
+    nav,
+    googleCount);
   return section;
 }
 

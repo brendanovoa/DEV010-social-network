@@ -46,7 +46,9 @@ export const emailVerification = (user) => sendEmailVerification(user);
 
 export function googleCount() {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider);
+  return signInWithPopup(auth, provider).then((result) => {
+    console.log(result.user);
+  });
 }
 
 // En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
