@@ -11,6 +11,8 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 
+import { getFirestore } from 'firebase/firestore';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,6 +29,10 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
+// export const db = firebase.firestore();
+
+export const db = getFirestore(app); // db es de base de datos
+
 // Initialize services
 export const auth = getAuth(app);
 
@@ -42,3 +48,18 @@ export function googleCount() {
   const provider = new GoogleAuthProvider();
   return signInWithPopup(auth, provider);
 }
+
+// En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
+// una propiedad que se llama uid (unit ID) que implica que tiene un identificador unico para ese
+// usuario, también que lo podemos extrar de firebase y que lo podemos usar ejemplo user.uid
+
+// export addDevit =({avatar, content, userID, userName}) => { return db.collection('posts').add({
+// avatar,
+// content,
+// userID,
+// UserName,
+// createAt: firebase.firestore.Timestamp.fromDate(new Date()),
+// likesCount: 0,
+// sharedCount: 0,
+// })
+// }
