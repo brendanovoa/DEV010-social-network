@@ -1,6 +1,8 @@
 import userRegister from '../src/routes/userRegister';
 import {
+
   createUse, emailVerification, googleCount,
+
 } from '../src/firebase/firebaseConfig';
 
 // Creas el mock de todas las funciones
@@ -56,7 +58,7 @@ describe('userRegister', () => {
     // Verifica que la función navigateTo se haya llamado con la ruta correcta
     expect(mockNavigateTo).toHaveBeenCalledWith('/login');
   });
-
+  
   // Verifica el registro con Google
   it('debería redirigir a /feed después de hacer clic en el botón de registro con Google', async () => {
     // Preparamos el mock
@@ -82,6 +84,7 @@ describe('userRegister', () => {
   });
 
   // Registro y verificación de email
+
   it('debería registrar un usuario con correo y contraseña válidos', async () => {
     // Preparamos el mock
     createUse.mockResolvedValueOnce({ user: { email: 'correo@example.com' } });
@@ -130,3 +133,4 @@ describe('buttonLogin', () => {
 // component.querySelector('#registerForm').dispatchEvent(new Event('submit'));
 // Verificamos visualmente que la aplicación redija a `/feed`.
 // return Promise.resolve().then(() => expect(mockNavigateTo).toHaveBeenCalledWith('/feed'));
+

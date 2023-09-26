@@ -55,15 +55,16 @@ function login(navigateTo) {
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        alert('Acceso exitoso');
+        // alert('Acceso exitoso');
         navigateTo('/feed');
       // ...
       })
+    // COMENTARIO PARA VER SI YA PASABA EL TEST
       .catch((error) => {
-        const errorCode = error.code;
+      // const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
-        alert(errorCode);
+      // alert(errorCode);
       });
   });
 
@@ -97,10 +98,10 @@ function login(navigateTo) {
         alert('Password reset email sent');
       })
       .catch((error) => {
-        const errorCode = error.code;
+        // const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
-        alert(errorCode);
+        // alert(errorCode);
       });
   });
 
