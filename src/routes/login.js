@@ -72,7 +72,7 @@ function login(navigateTo) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     googleCount()
-      .then((res) => {
+      .then(() => {
         navigateTo('/feed');
       });
   });
@@ -105,10 +105,10 @@ function login(navigateTo) {
   });
 
   // Botón regresar
-  buttonReturn.textContent = 'Regresar';
-  buttonReturn.addEventListener('click', () => {
-    navigateTo('/');
-  });
+  // buttonReturn.textContent = 'Regresar';
+  // buttonReturn.addEventListener('click', () => {
+  // navigateTo('/');
+  // });
 
   form.append(inputEmail, inputPass, linkResetEmail, buttonLogin, buttonLogInWithGoogle);
   section.append(icon, title, form, textRegister, linkRegister, buttonReturn);
