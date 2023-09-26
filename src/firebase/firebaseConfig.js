@@ -42,7 +42,7 @@ export const signIn = (email, password) => signInWithEmailAndPassword(auth, emai
 
 export const resetEmail = (email) => sendPasswordResetEmail(auth, email);
 
-export const emailVerification = () => sendEmailVerification(auth.currentUser);
+export const emailVerification = (user) => sendEmailVerification(user);
 
 export function googleCount() {
   const provider = new GoogleAuthProvider();

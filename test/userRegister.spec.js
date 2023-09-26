@@ -1,6 +1,8 @@
 import userRegister from '../src/routes/userRegister';
 import {
-  createUse, emailVerification,
+
+  createUse, emailVerification, googleCount,
+
 } from '../src/firebase/firebaseConfig';
 
 // Creas el mock de todas las funciones
@@ -56,6 +58,32 @@ describe('userRegister', () => {
     // Verifica que la función navigateTo se haya llamado con la ruta correcta
     expect(mockNavigateTo).toHaveBeenCalledWith('/login');
   });
+  
+  // Verifica el registro con Google
+  it('debería redirigir a /feed después de hacer clic en el botón de registro con Google', async () => {
+    // Preparamos el mock
+    googleCount.mockResolvedValue({});
+
+    // Crear un spy para la función navigateTo
+    const navigateTo = jest.fn();
+
+    // Crear un componente de registro de usuario pasando navigateTo
+    const component = userRegister(navigateTo);
+
+    // Simular un clic en el botón de registro
+    component.querySelector('.googleButton').click();
+
+    // Esperar a que las promesas se resuelvan (puedes usar await o .then)
+    await Promise.resolve();
+
+    // Verificar que la función googleCount se haya llamado
+    expect(googleCount).toHaveBeenCalled();
+
+    // Verificar que navigateTo se haya llamado con la URL /feed
+    expect(navigateTo).toHaveBeenCalledWith('/feed');
+  });
+
+  // Registro y verificación de email
 
   it('debería registrar un usuario con correo y contraseña válidos', async () => {
     // Preparamos el mock
@@ -105,3 +133,4 @@ describe('buttonLogin', () => {
 // component.querySelector('#registerForm').dispatchEvent(new Event('submit'));
 // Verificamos visualmente que la aplicación redija a `/feed`.
 // return Promise.resolve().then(() => expect(mockNavigateTo).toHaveBeenCalledWith('/feed'));
+
