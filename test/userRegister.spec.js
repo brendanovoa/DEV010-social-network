@@ -50,7 +50,7 @@ describe('userRegister', () => {
     // Crea un mock para la función navigateTo
     const mockNavigateTo = jest.fn();
     // Crea el componente de registro de usuario pasando la función mockNavigateTo
-    const component = userRegister(mockNavigateTo);
+    component = userRegister(mockNavigateTo);
     // Encuentra el elemento linkLogin dentro del componente
     const linkLogin = component.querySelector('.link');
     // Simula un clic en linkLogin
@@ -58,37 +58,31 @@ describe('userRegister', () => {
     // Verifica que la función navigateTo se haya llamado con la ruta correcta
     expect(mockNavigateTo).toHaveBeenCalledWith('/login');
   });
-  
+
   // Verifica el registro con Google
-  it('debería redirigir a /feed después de hacer clic en el botón de registro con Google', async () => {
+  it('debería redirigir a /feed después de hacer clic en el botón de registro con Google y verifica que se llame la función googleCount', async () => {
+    // Crea un mock para la función navigateTo
+    const mockNavigateTo = jest.fn();
     // Preparamos el mock
-    googleCount.mockResolvedValue({});
-
-    // Crear un spy para la función navigateTo
-    const navigateTo = jest.fn();
-
+    googleCount.mockResolvedValue({ user: {} });
     // Crear un componente de registro de usuario pasando navigateTo
-    const component = userRegister(navigateTo);
-
+    component = userRegister(mockNavigateTo);
+    // Se asegura que el elemento este en el DOM
+    document.body.appendChild(component);
     // Simular un clic en el botón de registro
-    component.querySelector('.googleButton').click();
-
+    component.querySelector('#btnGoogle').click();
     // Esperar a que las promesas se resuelvan (puedes usar await o .then)
     await Promise.resolve();
-
     // Verificar que la función googleCount se haya llamado
     expect(googleCount).toHaveBeenCalled();
-
     // Verificar que navigateTo se haya llamado con la URL /feed
-    expect(navigateTo).toHaveBeenCalledWith('/feed');
+    expect(mockNavigateTo).toHaveBeenCalledWith('/feed');
   });
 
   // Registro y verificación de email
-
   it('debería registrar un usuario con correo y contraseña válidos', async () => {
     // Preparamos el mock
     createUse.mockResolvedValueOnce({ user: { email: 'correo@example.com' } });
-
     emailVerification.mockResolvedValue();
 
     // Simular valores en los campos de correo electrónico y contraseña
@@ -99,23 +93,27 @@ describe('userRegister', () => {
     component.querySelector('#btnLogin').click();
 
     // Esperar a que las promesas se resuelvan (puedes usar await o .then)
-    console.log(createUse);
-    // const user = await createUse();
-    // console.log(user);
-    // createUse().then((user) => {
-    //   console.log('Verificando email');
-    //   expect(emailVerification).toHaveBeenCalled();
-    //   // Verificar que la función emailVerification se haya llamado con el usuario simulado
-    //   expect(emailVerification(user)).toHaveBeenCalledWith({
-    //     user: { email: 'correo@example.com' },
-    //   });
-    // });
-    return Promise.resolve().then(() => expect(emailVerification).toHaveBeenCalledWith({ user: { email: 'correo@example.com' } }));
+    await createUse();
+
+    // Verificar que la función emailVerification se haya llamado
+    expect(emailVerification).toHaveBeenCalled();
+
+    /* Quitar doble promesa y llamado a createUse
+      createUse().then((user) => {
+      expect(emailVerification).toHaveBeenCalled(); */
+
+    // Verificar que la función emailVerification se haya llamado con el usuario simulado
+    // No colocar un objeto dentro de otro objeto {user} //
+    expect(emailVerification).toHaveBeenCalledWith({ email: 'correo@example.com' });
   });
+  /* Quitar estas líneas pues ya se usó await para esperar la resolución de la promesa createUse
+  y ya se verificó la llamada emailVerification con expect(emailVerification).toHaveBeenCalledWith
+  return Promise.resolve().then(() => expect(emailVerification).toHaveBeenCalledWith
+  ({user: { email: 'correo@example.com' } })); */
 });
 
 // Verifica que se crear una cuenta
-describe('buttonLogin', () => {
+describe('buttonLogin llama a la función createUse', () => {
   it('debería llamar a ingresar userRegister al hacer click', () => {
     createUse.mockResolvedValue({});
     // Crea los elementos necesarios para el test
@@ -133,4 +131,3 @@ describe('buttonLogin', () => {
 // component.querySelector('#registerForm').dispatchEvent(new Event('submit'));
 // Verificamos visualmente que la aplicación redija a `/feed`.
 // return Promise.resolve().then(() => expect(mockNavigateTo).toHaveBeenCalledWith('/feed'));
-
