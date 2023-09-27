@@ -63,15 +63,23 @@ describe('login', () => {
     await expect(signIn).toHaveBeenCalled();
   });
 
-  // it('Dando click al botón debe dirigirse a /feed', () => {
-  //   function navigateTo(ruta) {
-  //     // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
-  //     dirige = ruta;
-  //   }
-  //   const component = login(navigateTo);
-  //   component.querySelector('#btnLogin').click();
-  //   expect(dirige).toBe('/feed');
-  // });
+  it('Dando click al botón ENTRAR debe dirigirse a /feed', async () => {
+    // Crea un mock para la función navigateTo
+    const mockNavigateTo = jest.fn();
+    signIn.mockResolvedValue({ user: {/* Cuenta simulación */} });
+    // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
+    const component = login(mockNavigateTo);
+
+    // Encuentra el elemento btnlogin dentro del componente
+    const btnlogin = component.querySelector('#btnLogin');
+
+    btnlogin.click();
+
+    // Espera a que se resuelva la promesa de signIn
+    await Promise.resolve();
+
+    expect(mockNavigateTo).toHaveBeenCalledWith('/feed');
+  });
 
   // it('Dando click en el botón ENTRAR debe dirigirse a /feed', async () => {
   //   function navigateTo(ruta) {
@@ -95,19 +103,19 @@ describe('login', () => {
   //   expect(dirige).toBe('/feed');
   // });
 
-  // describe('buttonGoogle', () => {
-  //   it('debería llamar a googleCount al hacer click', async () => {
-  //     // Configura el mock para que devuelva una promesa resuelta
-  //     googleCount.mockResolvedValue({ user: { /* Usuario simulado */ } });
+  describe('buttonGoogle', () => {
+    it('debería llamar a googleCount al hacer click', async () => {
+      // Configura el mock para que devuelva una promesa resuelta
+      googleCount.mockResolvedValue({ user: { /* Usuario simulado */ } });
 
-  //     // Crea los elementos necesarios para el test
-  //     const component = login();
-  //     component.querySelector('.googleButton').click();
+      // Crea los elementos necesarios para el test
+      const component = login();
+      component.querySelector('.googleButton').click();
 
-  //     // Espera a que se resuelva la promesa y verifica si se llamó a la función googleCount
-  //     await expect(googleCount).toHaveBeenCalled();
-  //   });
-  // });
+      // Espera a que se resuelva la promesa y verifica si se llamó a la función googleCount
+      await expect(googleCount).toHaveBeenCalled();
+    });
+  });
 
   it('Dando click al botón debe dirigirse a /userRegister', () => {
     function navigateTo(ruta) {
