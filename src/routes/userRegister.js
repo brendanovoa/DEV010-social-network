@@ -32,6 +32,7 @@ function userRegister(navigateTo) {
   textLogin.classList.add('text');
   linkLogin.classList.add('link');
   buttonSingUpWithGoogle.classList.add('googleButton');
+  buttonSingUpWithGoogle.id = 'btnGoogle';
 
   title.textContent = 'CREA TU CUENTA:';
   buttonRegister.textContent = 'REGISTRARSE';

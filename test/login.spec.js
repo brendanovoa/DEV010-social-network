@@ -1,10 +1,10 @@
 import login from '../src/routes/login';
 // import navigateTo from '../src/main';
-import { signIn /* , googleCount,  auth */ } from '../src/firebase/firebaseConfig';
+import { googleCount, signIn } from '../src/firebase/firebaseConfig';
 
 jest.mock('../src/firebase/firebaseConfig', () => ({
   signIn: jest.fn(),
-// googleCount: jest.fn(),
+  googleCount: jest.fn(),
 }));
 
 describe('login', () => {
@@ -26,88 +26,43 @@ describe('login', () => {
     expect(buttonLogin.textContent).toBe('ENTRAR');
   });
 
-  // describe('buttonLogin', () => {
-  //   beforeEach(() => {
-  //     auth.signIn = jest.fn();
-  //     auth.googleCount = jest.fn();
-  //   });
+  it('Dando click al botón ENTRAR debe dirigirse a /feed', async () => {
+    // Crea un mock para la función navigateTo
+    const mockNavigateTo = jest.fn();
+    signIn.mockResolvedValue({ user: {/* Cuenta simulación */} });
+    // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
+    const component = login(mockNavigateTo);
 
-  //   it('Autenticación con correo electrónico y contraseña correcta, debería redireccionar a
-  // feed', () => {
-  //     // preparamos el mock
-  //     signIn.mockResolvedValueOnce({ user: { email: 'correo@example.com' } });
+    // Encuentra el elemento btnlogin dentro del componente
+    const btnlogin = component.querySelector('#btnLogin');
 
-  //     // Paso 1: Visualizar el formulario de login.
-  //     const loginSection = login();
+    btnlogin.click();
 
-  //     // Paso 2: Completamos el formulario con un correo electrónico y contraseña correctos.
-  //     loginSection.querySelector('.input[type="email"]').value = 'correo@example.com';
-  //     loginSection.querySelector('.input[type="password"]').value = 'contraseñaSegura123';
+    // Espera a que se resuelva la promesa de signIn
+    await Promise.resolve();
 
-  //     // Paso 3: Enviamos el formulario dando clic en el botón `Login`.
-  //     loginSection.querySelector('#loginForm').dispatchEvent(new Event('submit'));
-
-  //     // Paso 4: Verificamos visualmente que la aplicación redija a `/home`.
-  //     return Promise.resolve().then(() => expect(navigateTo).toHaveBeenCalledWith('/feed'));
-  //   });
-  // });
-  it('debería llamar a signIn al hacer click', async () => {
-  // Configura el mock para que devuelva una promesa resuelta
-    signIn.mockResolvedValue({ user: { /* Usuario simulado */ } });
-
-    // Crea los elementos necesarios para el test
-    const component = login();
-    component.querySelector('#btnLogin').click();
-
-    // Espera a que se resuelva la promesa y verifica si se llamó a la función signIn
-    await expect(signIn).toHaveBeenCalled();
+    expect(mockNavigateTo).toHaveBeenCalledWith('/feed');
   });
 
-  // it('Dando click al botón debe dirigirse a /feed', () => {
-  //   function navigateTo(ruta) {
-  //     // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
-  //     dirige = ruta;
-  //   }
-  //   const component = login(navigateTo);
-  //   component.querySelector('#btnLogin').click();
-  //   expect(dirige).toBe('/feed');
-  // });
-
-  // it('Dando click en el botón ENTRAR debe dirigirse a /feed', async () => {
-  //   function navigateTo(ruta) {
-  //     dirige = ruta;
-  //   }
-  //   const component = login(navigateTo);
-
-  //   // Simular valores en los campos de correo electrónico y contraseña
-  //   const emailInput = component.querySelector('.input[type="email"]');
-  //   const passwordInput = component.querySelector('.input[type="password"]');
-  //   emailInput.value = 'correo@example.com';
-  //   passwordInput.value = 'contraseñaSegura123';
-
-  //   // Mock la función signIn para que devuelva un usuario simulado
-  //   signIn.mockResolvedValueOnce({ user: { email: 'correo@example.com' } });
-
-  //   const submitButton = component.querySelector('#btnLogin');
-  //   submitButton.click();
-
-  //   // Espera un breve momento para que la
-  //   expect(dirige).toBe('/feed');
-  // });
-
-  // describe('buttonGoogle', () => {
-  //   it('debería llamar a googleCount al hacer click', async () => {
-  //     // Configura el mock para que devuelva una promesa resuelta
-  //     googleCount.mockResolvedValue({ user: { /* Usuario simulado */ } });
-
-  //     // Crea los elementos necesarios para el test
-  //     const component = login();
-  //     component.querySelector('.googleButton').click();
-
-  //     // Espera a que se resuelva la promesa y verifica si se llamó a la función googleCount
-  //     await expect(googleCount).toHaveBeenCalled();
-  //   });
-  // });
+  // Verifica el registro con Google
+  it('debería redirigir a /feed después de hacer clic en el botón de registro con Google y verifica que se llame la función googleCount', async () => {
+    // Crea un mock para la función navigateTo
+    const mockNavigateTo = jest.fn();
+    // Preparamos el mock
+    googleCount.mockResolvedValue({ user: {} });
+    // Crear un componente de registro de usuario pasando navigateTo
+    const component = login(mockNavigateTo);
+    // Se asegura que el elemento este en el DOM
+    document.body.appendChild(component);
+    // Simular un clic en el botón de registro
+    component.querySelector('#btnGoogle').click();
+    // Esperar a que las promesas se resuelvan (puedes usar await o .then)
+    await Promise.resolve();
+    // Verificar que la función googleCount se haya llamado
+    expect(googleCount).toHaveBeenCalled();
+    // Verificar que navigateTo se haya llamado con la URL /feed
+    expect(mockNavigateTo).toHaveBeenCalledWith('/feed');
+  });
 
   it('Dando click al botón debe dirigirse a /userRegister', () => {
     function navigateTo(ruta) {
