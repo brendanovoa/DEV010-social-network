@@ -3,12 +3,14 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
+import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
 // Crear una card que contenga cada post
 function createPostCard(content) {
   const card = document.createElement('div');
   card.classList.add('post-card');
   const contentElement = document.createElement('p');
+  contentElement.classList.add('post');
   contentElement.textContent = content;
   card.appendChild(contentElement);
   return card;
@@ -100,12 +102,15 @@ function posts(navigateTo) {
   postTitle.classList.add('titles');
   postInput.classList.add('inputPost');
   buttonPost.id = 'btnPost';
+
+  myPostsContainer.id = 'myPostsContainer';
   myPostsTitle.classList.add('titles');
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('btnNav');
+  buttonHome.classList.add('material-symbols-outlined');
   buttonLikes.classList.add('btnNav');
   buttonPosts.classList.add('btnNav');
   buttonProfile.classList.add('btnNav');
+  buttonProfile.src = iconoProfile;
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
@@ -128,12 +133,13 @@ function posts(navigateTo) {
       // Crea la tarjeta del post y agrega al contenedor de tus posts
       createPostCard(content, myPosts);
       // myPostsContainer.appendChild(postCard);
+      console.log(auth.currentUser);
 
       addPost({
         avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c',
         content,
-        userID: auth.currentUser.uid,
-        userName: auth.currentUser.displayName,
+        userID: 'ID_DEL_USUARIO',
+        userName: 'Nombre de usuario',
       })
         .then((postId) => {
           console.log('Publicación agregada con ID: ', postId);
