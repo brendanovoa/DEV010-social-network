@@ -1,6 +1,6 @@
 import login from '../src/routes/login';
 // import navigateTo from '../src/main';
-import { googleCount, signIn, auth } from '../src/firebase/firebaseConfig';
+import { signIn /* , googleCount,  auth */ } from '../src/firebase/firebaseConfig';
 
 jest.mock('../src/firebase/firebaseConfig', () => ({
   signIn: jest.fn(),

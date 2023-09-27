@@ -1,4 +1,4 @@
-import { googleCount } from '../firebase/firebaseConfig';
+import { auth, googleCount } from '../firebase/firebaseConfig';
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -38,7 +38,7 @@ function feed(navigateTo) {
   userName.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
   textSignoff.textContent = 'Cierra sesión';
-  pictureUser.src = '"+result.user.photoURL+"';
+  auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c';
   // pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
   postBoxOne.textContent = 'Nombre usuario';
   postBoxTwo.textContent = 'Nombre usuario';
@@ -82,7 +82,8 @@ function feed(navigateTo) {
     buttonSignoff,
     main,
     nav,
-    googleCount);
+    googleCount,
+  );
   return section;
 }
 
