@@ -33,6 +33,7 @@ function login(navigateTo) {
   textRegister.classList.add('text');
   linkRegister.classList.add('link');
   buttonLogInWithGoogle.classList.add('googleButton');
+  buttonLogInWithGoogle.id = 'btnGoogle';
   // linkResetEmail
   // buttonLogInWithGoogle
   // buttonReturn
