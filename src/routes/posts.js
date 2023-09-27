@@ -1,14 +1,16 @@
 import {
   collection, getDocs, addDoc, serverTimestamp,
 } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
+import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
+import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
 // Crear una card que contenga cada post
 function createPostCard(content) {
   const card = document.createElement('div');
   card.classList.add('post-card');
   const contentElement = document.createElement('p');
+  contentElement.classList.add('post');
   contentElement.textContent = content;
   card.appendChild(contentElement);
   return card;
@@ -100,12 +102,15 @@ function posts(navigateTo) {
   postTitle.classList.add('titles');
   postInput.classList.add('inputPost');
   buttonPost.id = 'btnPost';
+
+  myPostsContainer.id = 'myPostsContainer';
   myPostsTitle.classList.add('titles');
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('btnNav');
+  buttonHome.classList.add('material-symbols-outlined');
   buttonLikes.classList.add('btnNav');
   buttonPosts.classList.add('btnNav');
   buttonProfile.classList.add('btnNav');
+  buttonProfile.src = iconoProfile;
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
@@ -128,12 +133,13 @@ function posts(navigateTo) {
       // Crea la tarjeta del post y agrega al contenedor de tus posts
       createPostCard(content, myPosts);
       // myPostsContainer.appendChild(postCard);
+      console.log(auth.currentUser);
 
       addPost({
-        avatar: 'URL_DEL_AVATAR',
+        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
         content,
-        userID: 'ID_DEL_USUARIO',
-        userName: 'Nombre de usuario',
+        userID: auth.currentUser.uid,
+        userName: auth.currentUser.displayName,
       })
         .then((postId) => {
           console.log('Publicación agregada con ID: ', postId);

@@ -60,18 +60,23 @@
     margin: 1rem;
 }
 
+.btnNav {
+    background-color: none;
+}
+
 /* Posts */
 
 #main {
     display: flex;
     flex-direction: column;
+    background-color: rgb(230, 223, 238);
+    height: 100vh;
     width: 100vw;
 }
 
 #postsSection {
-    background-color: rgb(230, 223, 238);
     width: auto;
-    height: 100vh;
+    height: auto;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -90,7 +95,6 @@
     font-family: 'Archivo', sans-serif;
     font-weight: 800;
     font-size: large;
-    align-self: flex-end;
 }
 
 .inputPost {
@@ -106,6 +110,23 @@
     display: flex;
     flex-direction: column;
     padding: 2rem;
+    align-items: center;
+}
+
+#myPostsContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    align-items: center;
+}
+
+.post {
+    background-color: white;
+    border-radius: 1.5rem;
+    width: 18rem;
+    height: 2rem;
+    margin: 1rem;
+    padding: 0.5rem;
 }
 
 /* Login */
