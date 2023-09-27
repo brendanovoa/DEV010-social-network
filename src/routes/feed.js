@@ -1,3 +1,5 @@
+// import posts, { fechLatestPots } from './posts';
+
 function feed(navigateTo) {
   const section = document.createElement('section');
   const userName = document.createElement('h3');
@@ -65,5 +67,29 @@ function feed(navigateTo) {
   section.append(userName, profileName, pictureUser, textSignoff, buttonSignoff, main, nav);
   return section;
 }
+
+// useEffect(() => {
+//   user && fechLatestPots().then(setTimeline)
+//     });
+// }, [user];
+
+// return (
+//   <>
+//   <AppLayout>
+//     <section>
+//       {timeline.map(({ id, username, avatar, content }) => (
+//         <posts
+//         avatar={avatar}
+//         createAt={createdAt}
+//         id={id}
+//         key={id}
+//         content={content}
+//         userName={username}
+//         userID={userId}
+//         />
+//       ))}
+//       </section>
+
+//       </AppLayout>
 
 export default feed;

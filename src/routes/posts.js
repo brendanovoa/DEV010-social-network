@@ -162,7 +162,7 @@ export default posts;
 // setStatus(COMPOSE_STATES.ERROR)
 // })
 
-// const isButtonDisabled = !message.length && status = COMPOSE_STATES.LOADING
+// const isButtonDisabled = !message.length || status = COMPOSE_STATES.LOADING
 // return (
 // <>
 // <AppLayout>
@@ -176,3 +176,19 @@ export default posts;
 //     </div>
 //   </form>
 // </AppLayout>)};
+
+// export const fechLatestPots = () => {
+//   return db.collection("posts")
+//   .get()
+//   .then((snapshot) => {
+//     return snapshot.docs.map(doc => {
+//       const data= doc.data()
+//       const id = doc.id
+
+//       return {
+//         ... data,
+//         id,
+//       }
+//     })
+//   })
+// }
