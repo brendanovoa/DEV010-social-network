@@ -1,7 +1,42 @@
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
+import {
+  collection, getDocs, addDoc, serverTimestamp,
+} from 'firebase/firestore';
+import { db, auth } from '../firebase/firebaseConfig';
+import iconoNav from '../assets/iconoBlanco.png';
+import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
-// vamos añadir un post
+// Crear una card que contenga cada post
+function createPostCard(content) {
+  const card = document.createElement('div');
+  card.classList.add('post-card');
+  const contentElement = document.createElement('p');
+  contentElement.classList.add('post');
+  contentElement.textContent = content;
+  card.appendChild(contentElement);
+  return card;
+}
+
+// Cargar posts de Firestore
+function loadPosts(myPosts) {
+  // Obtener una referencia a la colección de posts
+  const postsCollection = collection(db, 'posts');
+
+  // Realizar una consulta para obtener todos los documentos en la colección
+  getDocs(postsCollection)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // Para cada documento, crear una tarjeta de post y agregarla al DOM
+        const postCard = createPostCard(doc.data().content);
+        myPosts.appendChild(postCard);
+      });
+    })
+    .catch((error) => {
+      console.error('Error al cargar los posts: ', error);
+    });
+  return myPosts;
+}
+
+// Añadir un post a Firestore
 function addPost({
   avatar, content, userID, userName,
 }) {
@@ -34,16 +69,22 @@ function addPost({
 
 function posts(navigateTo) {
   const section = document.createElement('section');
+
+  const header = document.createElement('div');
   const userName = document.createElement('h3');
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
+
   const main = document.createElement('main');
-  const textPost = document.createElement('p');
-  const boxContainer = document.createElement('div');
+
+  const postContainer = document.createElement('div');
+  const postTitle = document.createElement('p');
   const postInput = document.createElement('input');
   const buttonPost = document.createElement('button');
-  const postBoxOne = document.createElement('div');
-  const postBoxTwo = document.createElement('div');
+
+  const myPostsContainer = document.createElement('div');
+  const myPostsTitle = document.createElement('p');
+  const myPosts = document.createElement('div');
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
@@ -53,23 +94,57 @@ function posts(navigateTo) {
   const buttonPosts = document.createElement('button');
   const buttonProfile = document.createElement('button');
 
+  section.id = 'postsSection';
+  header.id = 'header';
+  userName.classList.add('userName');
+  main.id = 'main';
+  postContainer.id = 'postContainer';
+  postTitle.classList.add('titles');
+  postInput.classList.add('inputPost');
+  buttonPost.id = 'btnPost';
+
+  myPostsContainer.id = 'myPostsContainer';
+  myPostsTitle.classList.add('titles');
+  menuContainer.id = 'navbar';
+  buttonHome.classList.add('material-symbols-outlined');
+  buttonLikes.classList.add('btnNav');
+  buttonPosts.classList.add('btnNav');
+  buttonProfile.classList.add('btnNav');
+  buttonProfile.src = iconoProfile;
+  iconElement.src = iconoNav;
+  iconElement.alt = 'New Wave Icon';
+  iconElement.classList.add('iconNav');
+
+  userName.textContent = 'NOMBRE USUARIA';
+  profileName.textContent = '@nombreperfil';
+  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+
+  postTitle.textContent = 'CREAR UN POST:';
+  postInput.placeholder = 'Escribe tu publicación aquí';
   buttonPost.textContent = 'POST';
+
+  myPostsTitle.textContent = 'TUS POSTS:';
+  // Llama a la función loadPosts y pásale myPosts como argumento
+  loadPosts(myPosts);
 
   buttonPost.addEventListener('click', () => {
     const content = postInput.value;
     if (content) {
+      // Crea la tarjeta del post y agrega al contenedor de tus posts
+      createPostCard(content, myPosts);
+      // myPostsContainer.appendChild(postCard);
+      console.log(auth.currentUser);
+
       addPost({
-        avatar: 'URL_DEL_AVATAR',
+        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
         content,
-        userID: 'ID_DEL_USUARIO',
-        userName: 'Nombre de usuario',
+        userID: auth.currentUser.uid,
+        userName: auth.currentUser.displayName,
       })
         .then((postId) => {
           console.log('Publicación agregada con ID: ', postId);
           // Borra el contenido del input después de publicar
           postInput.value = '';
-          const post = document.createElement('div');
-          post.textContent = postInput.value;
         })
         .catch((error) => {
           console.error('Error al agregar la publicación: ', error);
@@ -77,20 +152,7 @@ function posts(navigateTo) {
     }
   });
 
-  userName.textContent = 'NOMBRE USUARIA';
-  profileName.textContent = '@nombreperfil';
-  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
-  postBoxOne.textContent = 'Nombre usuario';
-  textPost.textContent = 'CREAR UN POST:';
-  postInput.placeholder = 'Escribe tu publicación aquí';
-
-  postBoxOne.textContent = 'Nombre usuario';
-  postBoxTwo.textContent = 'Nombre usuario';
-
-  boxContainer.append(postInput, buttonPost, postBoxOne, postBoxTwo);
-
-  main.appendChild(boxContainer);
-
+  // NAV BAR
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
     navigateTo('/feed');
@@ -100,8 +162,6 @@ function posts(navigateTo) {
   buttonLikes.addEventListener('click', () => {
     navigateTo('/likes');
   });
-
-  iconElement.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaIPll5loKV42Ittli3src1E0pZ3MBFig_XA&usqp=CAU';
 
   buttonPosts.textContent = 'Post';
   buttonPosts.addEventListener('click', () => {
@@ -113,11 +173,15 @@ function posts(navigateTo) {
     navigateTo('/profile');
   });
 
+  // ORGANIZAR CONTENIDOS
+  header.appendChild(userName, profileName, pictureUser);
+  main.append(postContainer, myPostsContainer);
+  postContainer.append(postTitle, postInput, buttonPost);
+  myPostsContainer.append(myPostsTitle, myPosts);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
-
   nav.appendChild(menuContainer);
 
-  section.append(userName, profileName, pictureUser, textPost, main, nav);
+  section.append(header, main, menuContainer);
   return section;
 }
 
