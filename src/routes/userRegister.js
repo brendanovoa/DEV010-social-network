@@ -51,9 +51,9 @@ function userRegister(navigateTo) {
   function createProfile(userId, name, email) {
     const userRef = doc(collection(db, 'users'), userId);
     const userData = {
+      userId,
       name,
       email,
-      userId,
     };
     return setDoc(userRef, userData);
   }
