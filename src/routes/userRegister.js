@@ -1,5 +1,5 @@
 import icono from '../assets/icono.png';
-import firebase from '../firebase/firebaseConfig';
+import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -44,11 +44,11 @@ function userRegister(navigateTo) {
     const email = inputEmail.value;
     const password = inputPass.value;
 
-    firebase.createUse(email, password)
+    createUse(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        firebase.emailVerification(user).then(() => {
+        emailVerification(user).then(() => {
           console.log('Verificando email');
           // alert('Correo de verificación enviado');
         });
@@ -61,7 +61,7 @@ function userRegister(navigateTo) {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    firebase.googleCount()
+    googleCount()
       .then(() => {
         navigateTo('/feed');
       });

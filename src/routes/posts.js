@@ -1,18 +1,29 @@
 import {
-  collection, getDocs, addDoc, serverTimestamp,
+  collection, addDoc, serverTimestamp, onSnapshot,
 } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
+// const userLogin = localStorage.getItem('user');
+// console.log(userLogin);
+
 // Crear una card que contenga cada post
-function createPostCard(content) {
+function createPostCard(data) { /* cambio de content por data */
+console.log({ data });
   const card = document.createElement('div');
   card.classList.add('post-card');
+  const userNameElement = document.createElement('h3');
+  userNameElement.classList.add('user-name');
+  userNameElement.textContent = data.userName;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
-  contentElement.textContent = content;
-  card.appendChild(contentElement);
+  contentElement.textContent = data.content;
+  const hour = data.createdAt.toDate();
+  console.log('hora', hour);
+  // card.appendChild(userNameElement);
+  card.append(userNameElement, contentElement);
+  console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
 
@@ -22,23 +33,27 @@ function loadPosts(myPosts) {
   const postsCollection = collection(db, 'posts');
 
   // Realizar una consulta para obtener todos los documentos en la colección
-  getDocs(postsCollection)
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // Para cada documento, crear una tarjeta de post y agregarla al DOM
-        const postCard = createPostCard(doc.data().content);
-        myPosts.appendChild(postCard);
-      });
-    })
-    .catch((error) => {
-      console.error('Error al cargar los posts: ', error);
+  onSnapshot(postsCollection, (querySnapshot) => {
+    myPosts.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const postCard = createPostCard({ ...data, id: doc.id });
+      console.log(doc.id);
+      // Para cada documento, crear una tarjeta de post y agregarla al DOM
+      // const postCard = createPostCard(doc.data().content);
+      myPosts.appendChild(postCard);
     });
-  return myPosts;
+  });
+  //   .catch((error) => {
+  //     console.error('Error al cargar los posts: ', error);
+  //   });
+  // /* console.log(myPosts); crea un div */
+  // return myPosts;
 }
 
 // Añadir un post a Firestore
 function addPost({
-  avatar, content, userID, userName,
+  content,
 }) {
   return new Promise((resolve, reject) => {
   // al resolver la promesa resolve indica que la promesa se resuelve correctamente,
@@ -48,10 +63,10 @@ function addPost({
     // Añade un documento a la colección posts en la base de datos en firestore
     // El primer arg es la ref a post a partir de la bd y el segundo arg es un objeto
     // que contiene los datos del doc que agregaremos
-      avatar,
+      avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
       content,
-      userID,
-      userName,
+      userID: auth.currentUser.uid,
+      userName: auth.currentUser.displayName,
       createdAt: serverTimestamp(), // Fecha y hora de creación del post
       likesCount: 0, // likes en el post
       sharedCount: 0, // cuántas veces se compartió
@@ -142,6 +157,7 @@ function posts(navigateTo) {
         userName: auth.currentUser.displayName,
       })
         .then((postId) => {
+          // myPosts.innerHTML = '';
           console.log('Publicación agregada con ID: ', postId);
           // Borra el contenido del input después de publicar
           postInput.value = '';

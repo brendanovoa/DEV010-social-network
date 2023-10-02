@@ -11,7 +11,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, onSnapshot, collection } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -48,6 +48,8 @@ export function googleCount() {
   const provider = new GoogleAuthProvider();
   return signInWithPopup(auth, provider);
 }
+
+export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), callback);
 
 // En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
 // una propiedad que se llama uid (unit ID) que implica que tiene un identificador unico para ese
