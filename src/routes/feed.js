@@ -1,3 +1,5 @@
+import { auth, googleCount } from '../firebase/firebaseConfig';
+
 function feed(navigateTo) {
   const section = document.createElement('section');
   const userName = document.createElement('h3');
@@ -24,10 +26,20 @@ function feed(navigateTo) {
     navigateTo('/login');
   });
 
+  // Asignar la imagen de perfil desde la cuenta de Google
+  // const googleUser = googleCount.currentUser;
+  // if (googleUser) {
+  //   const photoURL = googleUser.photoURL;
+  //   if (photoURL) {
+  //     pictureUser.src = photoURL;
+  //   }
+  // }
+
   userName.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
   textSignoff.textContent = 'Cierra sesión';
-  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+  auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c';
+  // pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
   postBoxOne.textContent = 'Nombre usuario';
   postBoxTwo.textContent = 'Nombre usuario';
   postBoxThree.textContent = 'Nombre usuario';
@@ -62,8 +74,41 @@ function feed(navigateTo) {
 
   nav.appendChild(menuContainer);
 
-  section.append(userName, profileName, pictureUser, textSignoff, buttonSignoff, main, nav);
+  section.append(
+    userName,
+    profileName,
+    pictureUser,
+    textSignoff,
+    buttonSignoff,
+    main,
+    nav,
+    googleCount,
+  );
   return section;
 }
+
+// useEffect(() => {
+//   user && fechLatestPots().then(setTimeline)
+//     });
+// }, [user];
+
+// return (
+//   <>
+//   <AppLayout>
+//     <section>
+//       {timeline.map(({ id, username, avatar, content }) => (
+//         <posts
+//         avatar={avatar}
+//         createAt={createdAt}
+//         id={id}
+//         key={id}
+//         content={content}
+//         userName={username}
+//         userID={userId}
+//         />
+//       ))}
+//       </section>
+
+//       </AppLayout>
 
 export default feed;

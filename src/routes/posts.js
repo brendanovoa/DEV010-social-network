@@ -1,12 +1,17 @@
 import {
-  collection, addDoc, serverTimestamp, getDocs, onSnapshot,
+  collection, addDoc, serverTimestamp, onSnapshot,
 } from 'firebase/firestore';
-import { db, auth } from '../firebase/firebaseConfig';
+import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
+// const userLogin = localStorage.getItem('user');
+// console.log(userLogin);
+
 // Crear una card que contenga cada post
 function createPostCard(data) { /* cambio de content por data */
+console.log({ data });
+
   const card = document.createElement('div');
   card.classList.add('post-card');
   const userNameElement = document.createElement('h3');
@@ -15,8 +20,11 @@ function createPostCard(data) { /* cambio de content por data */
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
-  card.appendChild(userNameElement);
-  card.appendChild(contentElement);
+  const hour = data.createdAt.toDate();
+  console.log('hora', hour);
+  // card.appendChild(userNameElement);
+  card.append(userNameElement, contentElement);
+  console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
 
@@ -87,31 +95,29 @@ function loadPosts(myPosts) {
   // Obtener una referencia a la colección de posts
   const postsCollection = collection(db, 'posts');
   // Realizar una consulta para obtener todos los documentos en la colección
-  getDocs(postsCollection)
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // Para cada documento, crear una tarjeta de post y agregarla al DOM
-        const postData = doc.data(); // Transforma objeto de Firebase a objeto de JS
-        // doc.data().content);
-        const postCard = createPostCard(
-          postData.content,
-          postData.userName,
-          postData.avatar,
-          // Convierte fecha a una cadena legible
-          postData.createdAt.toDate().toLocaleDateString(),
-        );
-        myPosts.appendChild(postCard);
-        console.log(postCard);
-      });
-    })
-    .catch((error) => {
-      console.error('Error al cargar los posts: ', error);
+
+  onSnapshot(postsCollection, (querySnapshot) => {
+    myPosts.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const postCard = createPostCard({ ...data, id: doc.id });
+      console.log(doc.id);
+      // Para cada documento, crear una tarjeta de post y agregarla al DOM
+      // const postCard = createPostCard(doc.data().content);
+      myPosts.appendChild(postCard);
     });
-  return myPosts;
+  });
+  //   .catch((error) => {
+  //     console.error('Error al cargar los posts: ', error);
+  //   });
+  // /* console.log(myPosts); crea un div */
+  // return myPosts;
 }
 
 // Añadir un post a Firestore
-function addPost({ content }) {
+function addPost({
+  content,
+}) {
   return new Promise((resolve, reject) => {
   // al resolver la promesa resolve indica que la promesa se resuelve correctamente,
   // reject  indica que la promesa ha sido rechazada
@@ -230,13 +236,13 @@ function posts(navigateTo) {
       // myPostsContainer.appendChild(postCard);
 
       addPost({
-        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
+        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c',
         content,
-        userID: auth.currentUser.uid,
-        userName: auth.currentUser.displayName,
+        userID: 'ID_DEL_USUARIO',
+        userName: 'Nombre de usuario',
       })
         .then((postId) => {
-          myPosts.innerHTML = '';
+          // myPosts.innerHTML = '';
           console.log('Publicación agregada con ID: ', postId);
           // Borra el contenido del input después de publicar
           postInput.value = '';
@@ -339,7 +345,7 @@ export default posts;
 // setStatus(COMPOSE_STATES.ERROR)
 // })
 
-// const isButtonDisabled = !message.length && status = COMPOSE_STATES.LOADING
+// const isButtonDisabled = !message.length || status = COMPOSE_STATES.LOADING
 // return (
 // <>
 // <AppLayout>
@@ -353,3 +359,19 @@ export default posts;
 //     </div>
 //   </form>
 // </AppLayout>)};
+
+// export const fechLatestPots = () => {
+//   return db.collection("posts")
+//   .get()
+//   .then((snapshot) => {
+//     return snapshot.docs.map(doc => {
+//       const data= doc.data()
+//       const id = doc.id
+
+//       return {
+//         ... data,
+//         id,
+//       }
+//     })
+//   })
+// }

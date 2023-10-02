@@ -1,14 +1,16 @@
 import login from '../src/routes/login';
 // import navigateTo from '../src/main';
-import { googleCount, signIn } from '../src/firebase/firebaseConfig';
+import { googleCount, resetEmail, signIn } from '../src/firebase/firebaseConfig';
 
 jest.mock('../src/firebase/firebaseConfig', () => ({
   signIn: jest.fn(),
   googleCount: jest.fn(),
+  resetEmail: jest.fn(),
 }));
 
 describe('login', () => {
   let dirige = '';
+  let component;
 
   it('debería ser una función', () => {
     expect(typeof login).toBe('function');
@@ -31,7 +33,7 @@ describe('login', () => {
     const mockNavigateTo = jest.fn();
     signIn.mockResolvedValue({ user: {/* Cuenta simulación */} });
     // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
-    const component = login(mockNavigateTo);
+    component = login(mockNavigateTo);
 
     // Encuentra el elemento btnlogin dentro del componente
     const btnlogin = component.querySelector('#btnLogin');
@@ -51,7 +53,7 @@ describe('login', () => {
     // Preparamos el mock
     googleCount.mockResolvedValue({ user: {} });
     // Crear un componente de registro de usuario pasando navigateTo
-    const component = login(mockNavigateTo);
+    component = login(mockNavigateTo);
     // Se asegura que el elemento este en el DOM
     document.body.appendChild(component);
     // Simular un clic en el botón de registro
@@ -69,8 +71,37 @@ describe('login', () => {
       // Define una función simulada para navigateTo que almacene la ruta a la que se dirigió.
       dirige = ruta;
     }
-    const component = login(navigateTo);
+    component = login(navigateTo);
     component.querySelector('.link').click();
     expect(dirige).toBe('/userRegister');
+  });
+
+  // it('Dando click al link "¿Olvidaste tu contraseña?"
+  // de mandar un correo de para reestablecerla', async () => {
+  //   // Mock de resetEmail para que devuelva un elemento HTML válido
+  //   resetEmail.mockResolvedValueOnce({ user: { email: 'correo@example.com' } });
+
+  //   component.querySelector('.input[type="email"]').value = 'correo@example.com';
+  //   // Crea el componente
+  //   // component = resetEmail();
+  //   // Simula el click en el componente
+  //   component.querySelector('.linkResetEmail').click();
+
+  //   // Esperar a que las promesas se resuelvan (puedes usar await o .then)
+  //   await Promise.resolve();
+
+  //   // Verifica que la función resetEmail haya sido llamada
+  //   expect(resetEmail).toHaveBeenCalled();
+  //   expect(resetEmail).toHaveBeenCalledWith({ email: 'correo@example.com' });
+  // });
+
+  it('Dando click al link "¿Olvidaste tu contraseña?" debe llamar a resetEmail', async () => {
+    resetEmail.mockResolvedValue({});
+    // Crea los elementos necesarios para el test
+    // component = resetEmail();
+    console.log(component);
+    // document.body.appendChild(component);
+    component.querySelector('.linkResetEmail').click();
+    expect(resetEmail).toHaveBeenCalled();
   });
 });

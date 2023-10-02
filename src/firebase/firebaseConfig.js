@@ -11,7 +11,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 
-import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
+import { getFirestore, onSnapshot, collection } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -45,7 +45,9 @@ export const emailVerification = (user) => sendEmailVerification(user);
 
 export function googleCount() {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider);
+  return signInWithPopup(auth, provider).then((result) => {
+    console.log(result.user);
+  });
 }
 
 export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), callback);

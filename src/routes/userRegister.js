@@ -1,11 +1,5 @@
-import {
-  collection, doc, setDoc, getDocs, addDoc,
-} from 'firebase/firestore';
-import {
-  db, auth, createUse, emailVerification, googleCount,
-} from '../firebase/firebaseConfig';
-
 import icono from '../assets/icono.png';
+import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -31,6 +25,7 @@ function userRegister(navigateTo) {
   icon.classList.add('icon');
   title.classList.add('titles');
   form.id = 'registerForm';
+  inputName.classList.add('input');
   inputEmail.classList.add('input');
   inputPass.classList.add('input');
   inputName.classList.add('input');
@@ -43,6 +38,7 @@ function userRegister(navigateTo) {
   title.textContent = 'CREA TU CUENTA:';
   buttonRegister.textContent = 'REGISTRARSE';
 
+  inputName.placeholder = 'Tu nombre';
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
   inputName.placeholder = 'Nombre de usuario';
@@ -62,6 +58,7 @@ function userRegister(navigateTo) {
   buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();
 
+    // const userName = inputName.value;
     const email = inputEmail.value;
     const password = inputPass.value;
     const name = inputName.value;
@@ -135,7 +132,8 @@ function userRegister(navigateTo) {
     navigateTo('/login');
   });
 
-  form.append(inputEmail, inputPass, inputName, buttonRegister, buttonSingUpWithGoogle);
+
+  form.append(inputName, inputEmail, inputPass, buttonRegister, buttonSingUpWithGoogle);
   section.append(icon, title, form, textLogin, linkLogin);
 
   return section;
