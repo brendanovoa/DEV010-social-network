@@ -1,7 +1,7 @@
 import {
   collection, addDoc, serverTimestamp, onSnapshot,
 } from 'firebase/firestore';
-import { db, auth } from '../firebase/firebaseConfig';
+import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
@@ -151,10 +151,10 @@ function posts(navigateTo) {
       console.log(auth.currentUser);
 
       addPost({
-        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
+        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c',
         content,
-        userID: auth.currentUser.uid,
-        userName: auth.currentUser.displayName,
+        userID: 'ID_DEL_USUARIO',
+        userName: 'Nombre de usuario',
       })
         .then((postId) => {
           // myPosts.innerHTML = '';

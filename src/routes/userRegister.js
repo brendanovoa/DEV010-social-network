@@ -6,6 +6,7 @@ function userRegister(navigateTo) {
   const icon = document.createElement('img');
   const title = document.createElement('h2');
   const form = document.createElement('form');
+  const inputName = document.createElement('input');
   const inputEmail = document.createElement('input');
   const inputPass = document.createElement('input');
   const buttonRegister = document.createElement('button');
@@ -23,6 +24,7 @@ function userRegister(navigateTo) {
   icon.classList.add('icon');
   title.classList.add('titles');
   form.id = 'registerForm';
+  inputName.classList.add('input');
   inputEmail.classList.add('input');
   inputPass.classList.add('input');
   buttonRegister.id = 'btnLogin';
@@ -34,6 +36,7 @@ function userRegister(navigateTo) {
   title.textContent = 'CREA TU CUENTA:';
   buttonRegister.textContent = 'REGISTRARSE';
 
+  inputName.placeholder = 'Tu nombre';
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
 
@@ -41,6 +44,7 @@ function userRegister(navigateTo) {
   buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();
 
+    // const userName = inputName.value;
     const email = inputEmail.value;
     const password = inputPass.value;
 
@@ -74,7 +78,7 @@ function userRegister(navigateTo) {
     navigateTo('/login');
   });
 
-  form.append(inputEmail, inputPass, buttonRegister, buttonSingUpWithGoogle);
+  form.append(inputName, inputEmail, inputPass, buttonRegister, buttonSingUpWithGoogle);
   section.append(icon, title, form, textLogin, linkLogin);
 
   return section;
