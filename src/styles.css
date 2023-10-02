@@ -124,7 +124,7 @@
     background-color: white;
     border-radius: 1.5rem;
     width: 18rem;
-    height: 2rem;
+    height: auto;
     margin: 1rem;
     padding: 0.5rem;
 }
