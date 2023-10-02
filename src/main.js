@@ -1,6 +1,7 @@
 // Este es el punto de entrada de tu aplicacion
 
-import { myFunction } from './lib/index.js';
+// import { myFunction } from './lib/index.js';
+// myFunction();
 
 // Importamos los archivos js que permitirán la visualización
 import home from './routes/home.js';
@@ -11,8 +12,6 @@ import feed from './routes/feed.js';
 import likes from './routes/likes.js';
 import posts from './routes/posts.js';
 import profile from './routes/profile.js';
-
-myFunction();
 
 // Crear una variable con arreglo de objetos para tener ruta e identificar a qué elemento pertenece
 const routes = [

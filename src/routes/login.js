@@ -19,8 +19,6 @@ function login(navigateTo) {
   buttonLogInWithGoogle.setAttribute('type', 'submit');
   inputPass.setAttribute('type', 'password');
 
-  const buttonReturn = document.createElement('button');
-
   section.id = 'loginSection';
   icon.src = icono;
   icon.alt = 'New Wave Icon';
@@ -34,9 +32,6 @@ function login(navigateTo) {
   linkRegister.classList.add('link');
   buttonLogInWithGoogle.classList.add('googleButton');
   buttonLogInWithGoogle.id = 'btnGoogle';
-  // linkResetEmail
-  // buttonLogInWithGoogle
-  // buttonReturn
 
   title.textContent = 'INGRESA A TU CUENTA:';
   buttonLogin.textContent = 'ENTRAR';
@@ -56,21 +51,18 @@ function login(navigateTo) {
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        // alert('Acceso exitoso');
+        alert('Acceso exitoso');
         navigateTo('/feed');
-      // ...
       })
-    // COMENTARIO PARA VER SI YA PASABA EL TEST
       .catch((error) => {
-      // const errorCode = error.code;
+        const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
-      // alert(errorCode);
+        alert(errorCode);
       });
   });
 
   // Botón acceso con Google
-  // buttonLogInWithGoogle.textContent = 'ENTRA CON GOOGLE';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     googleCount()
@@ -99,21 +91,15 @@ function login(navigateTo) {
         alert('Password reset email sent');
       })
       .catch((error) => {
-        // const errorCode = error.code;
+        const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
-        // alert(errorCode);
+        alert(errorCode);
       });
   });
 
-  // Botón regresar
-  // buttonReturn.textContent = 'Regresar';
-  // buttonReturn.addEventListener('click', () => {
-  // navigateTo('/');
-  // });
-
   form.append(inputEmail, inputPass, linkResetEmail, buttonLogin, buttonLogInWithGoogle);
-  section.append(icon, title, form, textRegister, linkRegister, buttonReturn);
+  section.append(icon, title, form, textRegister, linkRegister);
 
   return section;
 }

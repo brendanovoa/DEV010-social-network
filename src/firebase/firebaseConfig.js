@@ -30,7 +30,6 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 // export const db = firebase.firestore();
-
 export const db = getFirestore(app); // db es de base de datos
 
 // Initialize services
