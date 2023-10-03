@@ -44,6 +44,12 @@ function userRegister(navigateTo) {
     const email = inputEmail.value;
     const password = inputPass.value;
 
+    /* verifica si el campo del correo electrónico no está vacío */
+    if (email.trim() === '') {
+      window.alert('Ingrese un correo electrónico');
+      return; // <-- Corrección: Cambiar "return;" a "return;"
+    }
+
     createUse(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
