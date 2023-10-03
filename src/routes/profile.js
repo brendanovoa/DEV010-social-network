@@ -3,7 +3,7 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
-import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
+// import iconoEditar from '../assets/iconos/icono-editar.png';
 
 function profile(navigateTo) {
   const section = document.createElement('section');
@@ -40,13 +40,13 @@ function profile(navigateTo) {
   buttonLikes.classList.add('btnNav');
   buttonPosts.classList.add('btnNav');
   buttonProfile.classList.add('btnNav');
-  buttonProfile.src = iconoProfile;
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
   userName.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
+  // buttonEdit.src = iconoEditar;
 
   profileTitle.textContent = 'PERFIL DE USUARIA:';
 

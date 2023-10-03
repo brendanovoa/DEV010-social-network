@@ -1,17 +1,56 @@
-import { auth, googleCount } from '../firebase/firebaseConfig';
+import {
+  collection, addDoc, serverTimestamp, onSnapshot,
+} from 'firebase/firestore';
+import { auth, db } from '../firebase/firebaseConfig';
+import iconoNav from '../assets/iconoBlanco.png';
+import iconoCerrar from '../assets/iconos/icono-cerrar.png';
+
+// Crear una card que contenga cada post
+function createPostCard(data) {
+  const card = document.createElement('div');
+  card.classList.add('post-card');
+  const userNameElement = document.createElement('h3');
+  userNameElement.classList.add('user-name');
+  userNameElement.textContent = data.userName;
+  const contentElement = document.createElement('p');
+  contentElement.classList.add('post');
+  contentElement.textContent = data.content;
+  const dateElement = document.createElement('p');
+  dateElement.classList.add('date');
+  const date = data.createdAt.toDate();
+  dateElement.textContent = `${date.toLocaleDateString()}`;
+  card.append(userNameElement, dateElement, contentElement);
+  return card;
+}
+
+// Cargar posts de Firestore
+function loadPosts(muro) {
+  const postsCollection = collection(db, 'posts');
+  onSnapshot(postsCollection, (querySnapshot) => {
+    muro.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
+      const postCard = createPostCard({ ...data, id: doc.id });
+      muro.appendChild(postCard);
+    });
+  });
+}
 
 function feed(navigateTo) {
   const section = document.createElement('section');
-  const userName = document.createElement('h3');
+
+  const header = document.createElement('div');
+  const name = document.createElement('h3');
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
   const textSignoff = document.createElement('span');
   const buttonSignoff = document.createElement('img');
+
   const main = document.createElement('main');
-  const boxContainer = document.createElement('div');
-  const postBoxOne = document.createElement('div');
-  const postBoxTwo = document.createElement('div');
-  const postBoxThree = document.createElement('div');
+
+  const postContainer = document.createElement('div');
+  const postTitle = document.createElement('p');
+  const muro = document.createElement('div');
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
@@ -21,33 +60,41 @@ function feed(navigateTo) {
   const buttonPosts = document.createElement('button');
   const buttonProfile = document.createElement('button');
 
-  buttonSignoff.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQucwe8M3NSHXcUXEtHXegs51MylpBjmPdgrg&usqp=CAU';
+  section.id = 'feedSection';
+  header.id = 'header';
+  name.classList.add('userName');
+  profileName.classList.add('profileName');
+  pictureUser.classList.add('pictureUser');
+  main.id = 'main';
+  postContainer.id = 'postContainer';
+  postTitle.classList.add('titles');
+
+  menuContainer.id = 'navbar';
+  buttonHome.classList.add('btnNav');
+  buttonLikes.classList.add('btnNav');
+  buttonPosts.classList.add('btnNav');
+  buttonProfile.classList.add('btnNav');
+  iconElement.src = iconoNav;
+  iconElement.alt = 'New Wave Icon';
+  iconElement.classList.add('iconNav');
+
+  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` */
+  profileName.textContent = '@nombreperfil';
+  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+
+  postTitle.textContent = 'LO QUE SE DICE EN NEW WAVE:';
+
+  textSignoff.textContent = 'Cerrar sesión';
+  textSignoff.classList.add('specialText');
+  buttonSignoff.src = iconoCerrar;
+  buttonSignoff.classList.add('buttonSignoff');
   buttonSignoff.addEventListener('click', () => {
     navigateTo('/login');
   });
 
-  // Asignar la imagen de perfil desde la cuenta de Google
-  // const googleUser = googleCount.currentUser;
-  // if (googleUser) {
-  //   const photoURL = googleUser.photoURL;
-  //   if (photoURL) {
-  //     pictureUser.src = photoURL;
-  //   }
-  // }
+  loadPosts(muro);
 
-  userName.textContent = 'NOMBRE USUARIA';
-  profileName.textContent = '@nombreperfil';
-  textSignoff.textContent = 'Cierra sesión';
-  auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c';
-  // pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
-  postBoxOne.textContent = 'Nombre usuario';
-  postBoxTwo.textContent = 'Nombre usuario';
-  postBoxThree.textContent = 'Nombre usuario';
-
-  boxContainer.append(postBoxOne, postBoxTwo, postBoxThree);
-
-  main.appendChild(boxContainer);
-
+  // NAV BAR
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
     navigateTo('/feed');
@@ -57,8 +104,6 @@ function feed(navigateTo) {
   buttonLikes.addEventListener('click', () => {
     navigateTo('/likes');
   });
-
-  iconElement.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaIPll5loKV42Ittli3src1E0pZ3MBFig_XA&usqp=CAU';
 
   buttonPosts.textContent = 'Post';
   buttonPosts.addEventListener('click', () => {
@@ -70,45 +115,15 @@ function feed(navigateTo) {
     navigateTo('/profile');
   });
 
+  // ORGANIZAR CONTENIDOS
+  header.append(name, pictureUser, profileName, textSignoff, buttonSignoff);
+  main.append(postContainer);
+  postContainer.append(postTitle, muro);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
-
   nav.appendChild(menuContainer);
 
-  section.append(
-    userName,
-    profileName,
-    pictureUser,
-    textSignoff,
-    buttonSignoff,
-    main,
-    nav,
-    googleCount,
-  );
+  section.append(header, main, menuContainer);
   return section;
 }
-
-// useEffect(() => {
-//   user && fechLatestPots().then(setTimeline)
-//     });
-// }, [user];
-
-// return (
-//   <>
-//   <AppLayout>
-//     <section>
-//       {timeline.map(({ id, username, avatar, content }) => (
-//         <posts
-//         avatar={avatar}
-//         createAt={createdAt}
-//         id={id}
-//         key={id}
-//         content={content}
-//         userName={username}
-//         userID={userId}
-//         />
-//       ))}
-//       </section>
-
-//       </AppLayout>
 
 export default feed;
