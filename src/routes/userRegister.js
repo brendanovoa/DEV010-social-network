@@ -1,5 +1,4 @@
 import icono from '../assets/icono.png';
-
 import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
@@ -14,6 +13,7 @@ function userRegister(navigateTo) {
   const buttonSingUpWithGoogle = document.createElement('button');
   inputPass.setAttribute('type', 'password');
   inputEmail.setAttribute('type', 'email');
+  inputName.setAttribute('type', 'text');
 
   buttonSingUpWithGoogle.setAttribute('type', 'submit');
   const textLogin = document.createElement('span');
@@ -28,6 +28,7 @@ function userRegister(navigateTo) {
   inputName.classList.add('input');
   inputEmail.classList.add('input');
   inputPass.classList.add('input');
+  inputName.classList.add('input');
   buttonRegister.id = 'btnLogin';
   textLogin.classList.add('text');
   linkLogin.classList.add('link');
@@ -40,6 +41,18 @@ function userRegister(navigateTo) {
   inputName.placeholder = 'Tu nombre';
   inputEmail.placeholder = 'Correo electrónico';
   inputPass.placeholder = 'Contraseña';
+  inputName.placeholder = 'Nombre de usuario';
+
+  // Función para crear un perfil de usuario en Firestore
+  function createProfile(userId, name, email) {
+    const userRef = doc(collection(db, 'users'), userId);
+    const userData = {
+      userId,
+      name,
+      email,
+    };
+    return setDoc(userRef, userData);
+  }
 
   // Signing users
   buttonRegister.addEventListener('click', (e) => {
@@ -48,16 +61,25 @@ function userRegister(navigateTo) {
     // const userName = inputName.value;
     const email = inputEmail.value;
     const password = inputPass.value;
+    const name = inputName.value;
 
     createUse(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        emailVerification(user).then(() => {
-          console.log('Verificando email');
-          // alert('Correo de verificación enviado');
-        });
-        // form.requestFullscreen();
+
+        createProfile(user.uid, name, email)
+          .then(() => {
+            console.log('Perfil de usuario creado con éxito');
+          })
+          .catch((error) => {
+            console.error('Error al crear el perfil de usuario: ', error);
+          });
+
+        emailVerification(user)
+          .then(() => {
+            console.log('Verificando email');
+            alert('Correo de verificación enviado');
+          });
       })
       .catch((error) => {
         console.log(error.message);
@@ -72,12 +94,44 @@ function userRegister(navigateTo) {
       });
   });
 
+  /*
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    googleCount()
+      .then((googleUser) => {
+      // Una vez autenticado con Google obtener información del usuario
+        const name = googleUser.displayName;
+        const email = googleUser.email;
+        // const avatar = googleUser.photoURL;
+
+        // Obtén el UID del usuario actual o null si no está autenticado
+        const userId = auth.currentUser ? auth.currentUser.uid : null;
+        if (userId) {
+        // Luego, crea el perfil en Firestore
+        createProfile(name, email)
+          .then(() => {
+            console.log('Perfil de usuario creado con éxito');
+            navigateTo('/feed');
+          })
+          .catch((error) => {
+            console.error('Error al crear el perfil: ', error);
+          });
+        } else {
+          console.error('No se pudo obtener el UID del usuario');
+        }
+      })
+      .catch((error) => {
+        console.error('Error al autenticarse con Google: ', error);
+      });
+  }); */
+
   // Link a Login
   textLogin.textContent = 'Si ya tienes una cuenta ';
   linkLogin.textContent = 'INGRESA AQUÍ';
   linkLogin.addEventListener('click', () => {
     navigateTo('/login');
   });
+
 
   form.append(inputName, inputEmail, inputPass, buttonRegister, buttonSingUpWithGoogle);
   section.append(icon, title, form, textLogin, linkLogin);

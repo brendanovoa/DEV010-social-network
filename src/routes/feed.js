@@ -87,4 +87,28 @@ function feed(navigateTo) {
   return section;
 }
 
+// useEffect(() => {
+//   user && fechLatestPots().then(setTimeline)
+//     });
+// }, [user];
+
+// return (
+//   <>
+//   <AppLayout>
+//     <section>
+//       {timeline.map(({ id, username, avatar, content }) => (
+//         <posts
+//         avatar={avatar}
+//         createAt={createdAt}
+//         id={id}
+//         key={id}
+//         content={content}
+//         userName={username}
+//         userID={userId}
+//         />
+//       ))}
+//       </section>
+
+//       </AppLayout>
+
 export default feed;

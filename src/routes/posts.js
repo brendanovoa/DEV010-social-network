@@ -1,57 +1,141 @@
 import {
-  collection, getDocs, addDoc, serverTimestamp,
+  collection, addDoc, serverTimestamp, onSnapshot,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 
+// const userLogin = localStorage.getItem('user');
+// console.log(userLogin);
+
 // Crear una card que contenga cada post
-function createPostCard(content) {
+function createPostCard(data) { /* cambio de content por data */
+console.log({ data });
+
   const card = document.createElement('div');
   card.classList.add('post-card');
+  const userNameElement = document.createElement('h3');
+  userNameElement.classList.add('user-name');
+  userNameElement.textContent = data.userName;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
-  contentElement.textContent = content;
-  card.appendChild(contentElement);
+  contentElement.textContent = data.content;
+  const hour = data.createdAt.toDate();
+  console.log('hora', hour);
+  // card.appendChild(userNameElement);
+  card.append(userNameElement, contentElement);
+  console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
 
+/* Funcion anterior BN
+function createPostCard(data) {
+  const card = document.createElement('div');
+  card.classList.add('post-card');
+  const userNameElement = document.createElement('h3');
+  const contentElement = document.createElement('p');
+  const postUser = document.createElement('p');
+  const dateElement = document.createElement('p');
+  const photo = document.createElement('img');
+  contentElement.classList.add('post');
+  contentElement.textContent = content;
+  userNameElement.classList.add('user-name');
+  userNameElement.textContent = data.userName;
+  // Aquí agregar los campos de usuario y fecha
+  postUser.textContent = `Usuario: ${userName}`;
+  dateElement.textContent = `Fecha de creación: ${date}`;
+  photo.src = avatar;
+  card.appendChild(userNameElement);
+  card.appendChild(contentElement, dateElement, postUser, photo);
+  return card;
+} */
+
 // Cargar posts de Firestore
+// Forma Erika con onSnapshot aqui
+/* function loadPosts(myPosts) {
+  // Obtener una referencia a la colección de posts
+  const postsCollection = collection(db, 'posts');
+  // Realizar una consulta para obtener todos los documentos en la colección
+  onSnapshot(postsCollection, (querySnapshot) => {
+    // myPosts.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const postCard = createPostCard(data);
+      // Para cada documento, crear una tarjeta de post y agregarla al DOM
+      // const postCard = createPostCard(doc.data().content);
+      myPosts.appendChild(postCard);
+    });
+  });
+  //   .catch((error) => {
+  //     console.error('Error al cargar los posts: ', error);
+  //   });
+  // /* console.log(myPosts); crea un div */
+// return myPosts;
+// }
+
+/* Forma con función onGetPosts desde firebaseConfig
+onGetPosts((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const postData = doc.data(); // Transforma objeto de Firebase a objeto de JS
+      const postCard = createPostCard(
+        postData.content,
+        postData.userName,
+        postData.avatar,
+        // postData.createdAt.toDate().toLocaleDateString(), // Convierte fecha a una cadena legible
+      );
+      myPosts.appendChild(postCard);
+      console.log(postData);
+    });
+  });
+  // return myPosts;
+} */
+
+// Forma anterior de cargar posts sin sincronizacion automática
 function loadPosts(myPosts) {
   // Obtener una referencia a la colección de posts
   const postsCollection = collection(db, 'posts');
-
   // Realizar una consulta para obtener todos los documentos en la colección
-  getDocs(postsCollection)
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // Para cada documento, crear una tarjeta de post y agregarla al DOM
-        const postCard = createPostCard(doc.data().content);
-        myPosts.appendChild(postCard);
-      });
-    })
-    .catch((error) => {
-      console.error('Error al cargar los posts: ', error);
+
+  onSnapshot(postsCollection, (querySnapshot) => {
+    myPosts.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const postCard = createPostCard({ ...data, id: doc.id });
+      console.log(doc.id);
+      // Para cada documento, crear una tarjeta de post y agregarla al DOM
+      // const postCard = createPostCard(doc.data().content);
+      myPosts.appendChild(postCard);
     });
-  return myPosts;
+  });
+  //   .catch((error) => {
+  //     console.error('Error al cargar los posts: ', error);
+  //   });
+  // /* console.log(myPosts); crea un div */
+  // return myPosts;
 }
 
 // Añadir un post a Firestore
 function addPost({
-  avatar, content, userID, userName,
+  content,
 }) {
   return new Promise((resolve, reject) => {
   // al resolver la promesa resolve indica que la promesa se resuelve correctamente,
   // reject  indica que la promesa ha sido rechazada
 
+    /* const currentUser = auth.currentUser;
+    if (!currentUser) {
+      reject(new Error('El usuario no está autenticado.'));
+      return;
+    } */
+
     addDoc(collection(db, 'posts'), {
     // Añade un documento a la colección posts en la base de datos en firestore
     // El primer arg es la ref a post a partir de la bd y el segundo arg es un objeto
     // que contiene los datos del doc que agregaremos
-      avatar,
+      avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
       content,
-      userID,
-      userName,
+      userID: auth.currentUser.uid,
+      userName: auth.currentUser.displayName,
       createdAt: serverTimestamp(), // Fecha y hora de creación del post
       likesCount: 0, // likes en el post
       sharedCount: 0, // cuántas veces se compartió
@@ -71,7 +155,7 @@ function posts(navigateTo) {
   const section = document.createElement('section');
 
   const header = document.createElement('div');
-  const userName = document.createElement('h3');
+  const name = document.createElement('h3');
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
 
@@ -96,7 +180,7 @@ function posts(navigateTo) {
 
   section.id = 'postsSection';
   header.id = 'header';
-  userName.classList.add('userName');
+  name.classList.add('userName');
   main.id = 'main';
   postContainer.id = 'postContainer';
   postTitle.classList.add('titles');
@@ -115,7 +199,7 @@ function posts(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  userName.textContent = 'NOMBRE USUARIA';
+  name.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
   pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
 
@@ -124,6 +208,7 @@ function posts(navigateTo) {
   buttonPost.textContent = 'POST';
 
   myPostsTitle.textContent = 'TUS POSTS:';
+
   // Llama a la función loadPosts y pásale myPosts como argumento
   loadPosts(myPosts);
 
@@ -135,6 +220,21 @@ function posts(navigateTo) {
       // myPostsContainer.appendChild(postCard);
       console.log(auth.currentUser);
 
+      // Obtener datos del usuario actual
+      // const currentUser = auth.currentUser;
+
+      // Verificar si el usuario está autenticado y tiene los datos necesarios
+      /* if (currentUser && currentUser.displayName && currentUser.photoURL) {
+        const userName = currentUser.displayName;
+        const avatar = currentUser.photoURL; */
+
+      // Obtener la fecha actual
+      // const currentDate = new Date();
+
+      // Crea la tarjeta del post y agrega al contenedor de tus posts
+      // createPostCard(content, userName, avatar, myPosts);
+      // myPostsContainer.appendChild(postCard);
+
       addPost({
         avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c',
         content,
@@ -142,6 +242,7 @@ function posts(navigateTo) {
         userName: 'Nombre de usuario',
       })
         .then((postId) => {
+          // myPosts.innerHTML = '';
           console.log('Publicación agregada con ID: ', postId);
           // Borra el contenido del input después de publicar
           postInput.value = '';
@@ -151,6 +252,24 @@ function posts(navigateTo) {
         });
     }
   });
+
+  /* addPost(content, userName, avatar)
+          .then((postId) => {
+            console.log('Publicación agregada con ID: ', postId);
+            // Borra el contenido del input después de publicar
+            postInput.value = '';
+
+            // Una vez que se ha agregado la publicación, carga nuevamente las publicaciones
+            // loadPosts(myPosts);
+          })
+          .catch((error) => {
+            console.error('Error al agregar la publicación: ', error);
+          });
+      } else {
+        console.error('El usuario no está autenticado o falta información necesaria.');
+      }
+    }
+  }); */
 
   // NAV BAR
   buttonHome.textContent = 'Home';
@@ -174,7 +293,7 @@ function posts(navigateTo) {
   });
 
   // ORGANIZAR CONTENIDOS
-  header.appendChild(userName, profileName, pictureUser);
+  header.appendChild(name, profileName, pictureUser);
   main.append(postContainer, myPostsContainer);
   postContainer.append(postTitle, postInput, buttonPost);
   myPostsContainer.append(myPostsTitle, myPosts);
@@ -226,7 +345,7 @@ export default posts;
 // setStatus(COMPOSE_STATES.ERROR)
 // })
 
-// const isButtonDisabled = !message.length && status = COMPOSE_STATES.LOADING
+// const isButtonDisabled = !message.length || status = COMPOSE_STATES.LOADING
 // return (
 // <>
 // <AppLayout>
@@ -240,3 +359,19 @@ export default posts;
 //     </div>
 //   </form>
 // </AppLayout>)};
+
+// export const fechLatestPots = () => {
+//   return db.collection("posts")
+//   .get()
+//   .then((snapshot) => {
+//     return snapshot.docs.map(doc => {
+//       const data= doc.data()
+//       const id = doc.id
+
+//       return {
+//         ... data,
+//         id,
+//       }
+//     })
+//   })
+// }
