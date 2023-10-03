@@ -51,7 +51,7 @@ function login(navigateTo) {
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        alert('Acceso exitoso');
+        // alert('Acceso exitoso');
         navigateTo('/feed');
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 import {
-  collection, addDoc, serverTimestamp, onSnapshot,
+  collection, addDoc, onSnapshot,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
@@ -9,7 +9,7 @@ import iconoNav from '../assets/iconoBlanco.png';
 
 // Crear una card que contenga cada post
 function createPostCard(data) { /* cambio de content por data */
-// console.log({ data });
+  // console.log({ data });
   const card = document.createElement('div');
   card.classList.add('post-card');
   const userNameElement = document.createElement('h3');
@@ -22,7 +22,7 @@ function createPostCard(data) { /* cambio de content por data */
   dateElement.classList.add('date');
   const date = data.createdAt.toDate();
   // Convierte fecha a una cadena legible
-  console.log('fecha de creación: ', date);
+  // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
   card.append(userNameElement, dateElement, contentElement);
   // console.log(card); /* muestra el contenido escrito en el posts */
@@ -45,7 +45,7 @@ function loadPosts(myPosts) {
       const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
       const postCard = createPostCard({ ...data, id: doc.id });
       // De esta forma pasas el objeto data completo y agregas el doc.id
-      console.log(doc.id);
+      // console.log(doc.id);
       // Para cada documento, crear una tarjeta de post y agregarla al DOM
       // const postCard = createPostCard(doc.data().content);
       myPosts.appendChild(postCard);
@@ -80,7 +80,7 @@ function addPost({
       content,
       userID: auth.currentUser.uid,
       userName: auth.currentUser.displayName,
-      createdAt: serverTimestamp(), // Fecha y hora de creación del post
+      createdAt: new Date(), // Fecha y hora de creación del post
       likesCount: 0, // likes en el post
       sharedCount: 0, // cuántas veces se compartió
     })
@@ -162,11 +162,6 @@ function posts(navigateTo) {
   buttonPost.addEventListener('click', () => {
     const content = postInput.value;
     if (content) {
-      // Crea la tarjeta del post y agrega al contenedor de tus posts
-      createPostCard(content, myPosts);
-      // myPostsContainer.appendChild(postCard);
-      console.log(auth.currentUser);
-
       // Obtener datos del usuario actual
       // const currentUser = auth.currentUser;
 
@@ -194,6 +189,10 @@ function posts(navigateTo) {
         .catch((error) => {
           console.error('Error al agregar la publicación: ', error);
         });
+      // Crea la tarjeta del post y agrega al contenedor de tus posts
+      // createPostCard(content, myPosts);
+      // myPostsContainer.appendChild(postCard);
+      console.log(auth.currentUser);
     }
   });
 

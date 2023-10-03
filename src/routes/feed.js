@@ -3,6 +3,38 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
+import iconoCerrar from '../assets/iconos/icono-cerrar.png';
+
+// Crear una card que contenga cada post
+function createPostCard(data) {
+  const card = document.createElement('div');
+  card.classList.add('post-card');
+  const userNameElement = document.createElement('h3');
+  userNameElement.classList.add('user-name');
+  userNameElement.textContent = data.userName;
+  const contentElement = document.createElement('p');
+  contentElement.classList.add('post');
+  contentElement.textContent = data.content;
+  const dateElement = document.createElement('p');
+  dateElement.classList.add('date');
+  const date = data.createdAt.toDate();
+  dateElement.textContent = `${date.toLocaleDateString()}`;
+  card.append(userNameElement, dateElement, contentElement);
+  return card;
+}
+
+// Cargar posts de Firestore
+function loadPosts(muro) {
+  const postsCollection = collection(db, 'posts');
+  onSnapshot(postsCollection, (querySnapshot) => {
+    muro.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
+      const postCard = createPostCard({ ...data, id: doc.id });
+      muro.appendChild(postCard);
+    });
+  });
+}
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -18,6 +50,7 @@ function feed(navigateTo) {
 
   const postContainer = document.createElement('div');
   const postTitle = document.createElement('p');
+  const muro = document.createElement('div');
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
@@ -53,23 +86,13 @@ function feed(navigateTo) {
 
   textSignoff.textContent = 'Cerrar sesión';
   textSignoff.classList.add('specialText');
-  buttonSignoff.src = 'https://www.figma.com/file/K4Ic5apfeJUPRqoDzLCWua/PROTOTIPOS-RED-SOCIAL?type=design&node-id=147-3576&mode=design&t=OxymJJpKjP2TEVtV-4';
+  buttonSignoff.src = iconoCerrar;
   buttonSignoff.classList.add('buttonSignoff');
   buttonSignoff.addEventListener('click', () => {
     navigateTo('/login');
   });
 
-  // Asignar la imagen de perfil desde la cuenta de Google
-  // const googleUser = googleCount.currentUser;
-  // if (googleUser) {
-  //   const photoURL = googleUser.photoURL;
-  //   if (photoURL) {
-  //     pictureUser.src = photoURL;
-  //   }
-  // }
-
-  // auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c';
-  // pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+  loadPosts(muro);
 
   // NAV BAR
   buttonHome.textContent = 'Home';
@@ -95,36 +118,12 @@ function feed(navigateTo) {
   // ORGANIZAR CONTENIDOS
   header.append(name, pictureUser, profileName, textSignoff, buttonSignoff);
   main.append(postContainer);
-  postContainer.append(postTitle);
+  postContainer.append(postTitle, muro);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
   nav.appendChild(menuContainer);
 
   section.append(header, main, menuContainer);
   return section;
 }
-
-// useEffect(() => {
-//   user && fechLatestPots().then(setTimeline)
-//     });
-// }, [user];
-
-// return (
-//   <>
-//   <AppLayout>
-//     <section>
-//       {timeline.map(({ id, username, avatar, content }) => (
-//         <posts
-//         avatar={avatar}
-//         createAt={createdAt}
-//         id={id}
-//         key={id}
-//         content={content}
-//         userName={username}
-//         userID={userId}
-//         />
-//       ))}
-//       </section>
-
-//       </AppLayout>
 
 export default feed;

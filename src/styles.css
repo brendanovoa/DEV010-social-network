@@ -65,7 +65,8 @@
     justify-content: space-evenly;
     width: 100vw;
     height: 10vh;
-    position: absolute;
+    position: fixed;
+    z-index: 3;
     top: 90vh;
 }
 
