@@ -1,40 +1,56 @@
+import {
+  collection, getDocs, addDoc, serverTimestamp,
+} from 'firebase/firestore';
+import { db, auth } from '../firebase/firebaseConfig';
+import iconoNav from '../assets/iconoBlanco.png';
+import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
+
 function profile(navigateTo) {
   const section = document.createElement('section');
+
+  const header = document.createElement('div');
   const userName = document.createElement('h3');
   const profileName = document.createElement('h4');
+  const pictureUser = document.createElement('img');
+
   const main = document.createElement('main');
-  const textPost = document.createElement('p');
-  const boxContainer = document.createElement('div');
-  const postInput = document.createElement('input');
-  const buttonPost = document.createElement('button');
-  const postBoxOne = document.createElement('div');
-  const postBoxTwo = document.createElement('div');
+
+  const profileContainer = document.createElement('div');
+  const profileTitle = document.createElement('p');
+  // const nameTitle = document.createElement('div');
+  // const name = document.createElement('div');
+  // const nameInput = document.createElement('input');
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
   const buttonHome = document.createElement('button');
   const buttonLikes = document.createElement('button');
-  const iconElement = document.createElement('icon');
+  const iconElement = document.createElement('img');
   const buttonPosts = document.createElement('button');
   const buttonProfile = document.createElement('button');
 
-  buttonPost.textContent = 'POST';
-  // buttonPost.addEventListener('click', () => { /* Guardar y mostrar publicación */
-  //   navigateTo('/login');
-  // });
+  section.id = 'profileSection';
+  header.id = 'header';
+  userName.classList.add('userName');
+  main.id = 'main';
+  profileContainer.id = 'postContainer';
+  profileTitle.classList.add('titles');
+  menuContainer.id = 'navbar';
+  buttonHome.classList.add('material-symbols-outlined');
+  buttonLikes.classList.add('btnNav');
+  buttonPosts.classList.add('btnNav');
+  buttonProfile.classList.add('btnNav');
+  buttonProfile.src = iconoProfile;
+  iconElement.src = iconoNav;
+  iconElement.alt = 'New Wave Icon';
+  iconElement.classList.add('iconNav');
 
   userName.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
-  textPost.textContent = 'CREAR UN POST:';
-  postInput.textContent = '';
 
-  postBoxOne.textContent = 'Nombre usuario';
-  postBoxTwo.textContent = 'Nombre usuario';
+  profileTitle.textContent = 'PERFIL DE USUARIA:';
 
-  boxContainer.append(postInput, buttonPost, postBoxOne, postBoxTwo);
-
-  main.appendChild(boxContainer);
-
+  // NAV BAR
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
     navigateTo('/feed');
@@ -57,11 +73,14 @@ function profile(navigateTo) {
     navigateTo('/profile');
   });
 
+  // ORGANIZAR CONTENIDOS
+  header.appendChild(userName, profileName, pictureUser);
+  main.append(profileContainer);
+  profileContainer.append(profileTitle);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
-
   nav.appendChild(menuContainer);
 
-  section.append(userName, profileName, textPost, main, nav);
+  section.append(header, main, menuContainer);
   return section;
 }
 
