@@ -1,5 +1,5 @@
 import {
-  collection, addDoc, serverTimestamp, onSnapshot,
+  collection, addDoc, onSnapshot,
 } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
@@ -9,6 +9,8 @@ import picUser from '../assets/icono.png';
 // console.log(userLogin);
 // Crear una card que contenga cada post
 function createPostCard(data) { /* cambio de content por data */
+  // console.log({ data });
+
   const card = document.createElement('div');
   card.classList.add('post-card');
   const userNameElement = document.createElement('h3');
@@ -22,22 +24,36 @@ function createPostCard(data) { /* cambio de content por data */
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
-  card.appendChild(pictureUser);
-  card.appendChild(userNameElement);
-  card.appendChild(contentElement);
-  /* console.log(card);  muestra el contenido escrito en el posts */
+
+  const dateElement = document.createElement('p');
+  dateElement.classList.add('date');
+  const date = data.createdAt.toDate();
+  // Convierte fecha a una cadena legible
+  // console.log('fecha de creación: ', date);
+  dateElement.textContent = `${date.toLocaleDateString()}`;
+  card.append(pictureUser, userNameElement, dateElement, contentElement);
+  // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
+
+/*
+  const photo = document.createElement('img');
+  photo.src = avatar;
+*/
+
 // Cargar posts de Firestore
 function loadPosts(myPosts) {
   // Obtener una referencia a la colección de posts
   const postsCollection = collection(db, 'posts');
   // Realizar una consulta para obtener todos los documentos en la colección
   onSnapshot(postsCollection, (querySnapshot) => {
-    // myPosts.innerHTML = '';
+    myPosts.innerHTML = '';
     querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const postCard = createPostCard(data);
+      const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
+      const postCard = createPostCard({ ...data, id: doc.id });
+      // De esta forma pasas el objeto data completo y agregas el doc.id
+      // console.log(doc.id);
+
       // Para cada documento, crear una tarjeta de post y agregarla al DOM
       // const postCard = createPostCard(doc.data().content);
       myPosts.appendChild(postCard);
@@ -64,7 +80,7 @@ function addPost({
       content,
       userID: auth.currentUser.uid,
       userName: auth.currentUser.displayName,
-      createdAt: serverTimestamp(), // Fecha y hora de creación del post
+      createdAt: new Date(), // Fecha y hora de creación del post
       likesCount: 0, // likes en el post
       sharedCount: 0, // cuántas veces se compartió
     })
@@ -101,7 +117,10 @@ function posts(navigateTo) {
   const buttonProfile = document.createElement('button');
   section.id = 'postsSection';
   header.id = 'header';
-  userName.classList.add('userName');
+
+  name.classList.add('userName');
+  profileName.classList.add('profileName');
+  pictureUser.classList.add('pictureUser');
   main.id = 'main';
   postContainer.id = 'postContainer';
   postTitle.classList.add('titles');
@@ -109,16 +128,19 @@ function posts(navigateTo) {
   buttonPost.id = 'btnPost';
   myPostsContainer.id = 'myPostsContainer';
   myPostsTitle.classList.add('titles');
+
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('material-symbols-outlined');
+  buttonHome.classList.add('btnNav');
   buttonLikes.classList.add('btnNav');
   buttonPosts.classList.add('btnNav');
   buttonProfile.classList.add('btnNav');
-  buttonProfile.src = iconoProfile;
+  // buttonProfile.src = iconoProfile;
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
-  userName.textContent = 'NOMBRE USUARIA';
+
+  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` */
+
   profileName.textContent = '@nombreperfil';
   pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
   postTitle.textContent = 'CREAR UN POST:';
@@ -130,10 +152,18 @@ function posts(navigateTo) {
   buttonPost.addEventListener('click', () => {
     const content = postInput.value;
     if (content) {
+
+      // Obtener datos del usuario actual
+      // const currentUser = auth.currentUser;
+
+      // Verificar si el usuario está autenticado y tiene los datos necesarios
+      /* if (currentUser && currentUser.displayName && currentUser.photoURL) {
+        const userName = currentUser.displayName;
+        const avatar = currentUser.photoURL; */
+
       // Crea la tarjeta del post y agrega al contenedor de tus posts
-      createPostCard(content, myPosts);
+      // createPostCard(content, userName, avatar, myPosts);
       // myPostsContainer.appendChild(postCard);
-      console.log(auth.currentUser);
       addPost({
         avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : picUser,
         content,
@@ -149,8 +179,14 @@ function posts(navigateTo) {
         .catch((error) => {
           console.error('Error al agregar la publicación: ', error);
         });
+      // Crea la tarjeta del post y agrega al contenedor de tus posts
+      // createPostCard(content, myPosts);
+      // myPostsContainer.appendChild(postCard);
+      console.log(auth.currentUser);
     }
   });
+
+
   // NAV BAR
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
@@ -169,7 +205,9 @@ function posts(navigateTo) {
     navigateTo('/profile');
   });
   // ORGANIZAR CONTENIDOS
-  header.appendChild(userName, profileName, pictureUser);
+
+  header.append(name, pictureUser, profileName);
+
   main.append(postContainer, myPostsContainer);
   postContainer.append(postTitle, postInput, buttonPost);
   myPostsContainer.append(myPostsTitle, myPosts);
