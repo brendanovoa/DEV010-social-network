@@ -1,10 +1,10 @@
 import {
-  collection, addDoc, serverTimestamp, onSnapshot,
+  collection, onSnapshot,
 } from 'firebase/firestore';
-import { auth, db } from '../firebase/firebaseConfig';
+import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
-import picUser from '../assets/icono.png';
+import generalUser from '../assets/general-user.png';
 
 // Crear una card que contenga cada post
 function createPostCard(data) {
@@ -36,6 +36,7 @@ function loadPosts(muro) {
     muro.innerHTML = '';
     querySnapshot.forEach((doc) => {
       const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
+      console.log(data.userID);
       const postCard = createPostCard({ ...data, id: doc.id });
       muro.appendChild(postCard);
     });
@@ -84,9 +85,11 @@ function feed(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` */
+  // const usuaria = auth.currentUser;
+  // console.log(usuaria);
+  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+  pictureUser.src = generalUser;
 
   postTitle.textContent = 'LO QUE SE DICE EN NEW WAVE:';
 

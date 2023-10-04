@@ -3,13 +3,29 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
+import generalUser from '../assets/general-user.png';
 // import iconoEditar from '../assets/iconos/icono-editar.png';
+
+const user = auth.currentUser;
+console.log(user);
+if (user !== null) {
+  // The user object has basic properties such as display name, email, etc.
+  const displayName = user.displayName;
+  const email = user.email;
+  const photoURL = user.photoURL;
+  const emailVerified = user.emailVerified;
+
+  // The user's ID, unique to the Firebase project. Do NOT use
+  // this value to authenticate with your backend server, if
+  // you have one. Use User.getToken() instead.
+  const uid = user.uid;
+}
 
 function profile(navigateTo) {
   const section = document.createElement('section');
 
   const header = document.createElement('div');
-  const userName = document.createElement('h3');
+  const name = document.createElement('h3');
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
 
@@ -31,12 +47,15 @@ function profile(navigateTo) {
 
   section.id = 'profileSection';
   header.id = 'header';
-  userName.classList.add('userName');
+  name.classList.add('userName');
+  profileName.classList.add('profileName');
+  pictureUser.classList.add('pictureUser');
   main.id = 'main';
   profileContainer.id = 'postContainer';
   profileTitle.classList.add('titles');
+
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('material-symbols-outlined');
+  buttonHome.classList.add('btnNav');
   buttonLikes.classList.add('btnNav');
   buttonPosts.classList.add('btnNav');
   buttonProfile.classList.add('btnNav');
@@ -44,8 +63,9 @@ function profile(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  userName.textContent = 'NOMBRE USUARIA';
+  name.textContent = 'NOMBRE USUARIA';
   profileName.textContent = '@nombreperfil';
+  pictureUser.src = generalUser;
   // buttonEdit.src = iconoEditar;
 
   profileTitle.textContent = 'PERFIL DE USUARIA:';
@@ -74,7 +94,7 @@ function profile(navigateTo) {
   });
 
   // ORGANIZAR CONTENIDOS
-  header.appendChild(userName, profileName, pictureUser);
+  header.append(name, pictureUser, profileName);
   main.append(profileContainer);
   profileContainer.append(profileTitle);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);

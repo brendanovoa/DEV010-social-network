@@ -94,6 +94,33 @@
 #feedSection {
     width: auto;
     height: auto;
+    padding-bottom: 10vh;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Archivo', sans-serif;
+}
+
+/* Likes */
+
+#likesSection {
+    width: auto;
+    height: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Archivo', sans-serif;
+}
+
+/* Profile */
+
+#profileSection {
+    width: auto;
+    height: auto;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -163,7 +190,7 @@
 .post-card {
     background-color: white;
     width: 18rem;
-    height: 8rem;/*6rem;*/
+    height: 8rem;/*6.5rem;*/
     border-radius: 1.5rem;
     border-color: rgb(60, 14, 115);
     border-style: solid;
@@ -172,17 +199,22 @@
     font-family: 'Archivo', sans-serif;
     font-weight: 400;
     display: grid;
-    grid-template-columns: 1fr 3fr; /*2fr 1fr;*/
-    grid-template-rows: 6fr 2fr;/*1fr 2fr;*/
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas: 
+    "foto name name date"
+    "post post post post"
+    "post post post post";
 }
 
 .user-img{
+    grid-area: foto;
     border-radius: 5rem;
     width: 1.5rem;
     height: 1.5rem;
-}
 
 .user-name {
+    grid-area: name;
     color: rgb(250, 33, 175);
     font-size: 1rem;
     font-weight: 400;
@@ -191,15 +223,18 @@
 }
 
 .date {
+    grid-area: date;
     color:  rgb(60, 14, 115);
     font-size: 0.8rem;
     justify-self: flex-end;
 }
 
 .post {
+    grid-area: post;
     font-size: 1rem;
-    margin-top: -1.5rem;/*cambio*/
     text-align: center;/*cambio*/
+    margin-top: 0.5rem;
+    overflow: scroll;
 }
 
 /* Login */
