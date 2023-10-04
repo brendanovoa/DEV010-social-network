@@ -24,7 +24,7 @@
 .userName {
     grid-area: userName;
     font-size: 2rem;
-    margin-left: 2rem;
+    margin-left: 0.2rem;
 }
 
 .profileName {
@@ -149,6 +149,7 @@
     justify-content: center;
     align-items: center;
     font-family: 'Archivo', sans-serif;
+    align-items: center;/*cambio*/
 }
 
 #btnPost {
@@ -189,22 +190,28 @@
 .post-card {
     background-color: white;
     width: 18rem;
-    height: 6.5rem;
+    height: 8rem;/*6.5rem;*/
     border-radius: 1.5rem;
     border-color: rgb(60, 14, 115);
     border-style: solid;
     padding: 1rem;
-    margin: 1rem;
+    margin: 1.5rem;
     font-family: 'Archivo', sans-serif;
     font-weight: 400;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 2fr;
     grid-template-areas: 
-    "name name date"
-    "post post post"
-    "post post post";
+    "foto name name date"
+    "post post post post"
+    "post post post post";
 }
+
+.user-img{
+    grid-area: foto;
+    border-radius: 5rem;
+    width: 1.5rem;
+    height: 1.5rem;
 
 .user-name {
     grid-area: name;
@@ -212,6 +219,7 @@
     font-size: 1rem;
     font-weight: 400;
     justify-self: flex-start;
+    margin-left: -1.6rem;/*cambio*/
 }
 
 .date {
@@ -224,6 +232,7 @@
 .post {
     grid-area: post;
     font-size: 1rem;
+    text-align: center;/*cambio*/
     margin-top: 0.5rem;
     overflow: scroll;
 }

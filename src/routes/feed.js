@@ -13,6 +13,11 @@ function createPostCard(data) {
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
+  const pictureUser = document.createElement('img');
+  pictureUser.classList.add('user-img');
+  // pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL :
+  // '../src/assets/person_FILL1_wght400_GRAD0_opsz24.png';
+  pictureUser.src = data.avatar || picUser;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
@@ -20,7 +25,7 @@ function createPostCard(data) {
   dateElement.classList.add('date');
   const date = data.createdAt.toDate();
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(userNameElement, dateElement, contentElement);
+  card.append(pictureUser, userNameElement, dateElement, contentElement);
   return card;
 }
 

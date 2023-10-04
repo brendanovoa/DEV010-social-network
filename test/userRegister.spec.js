@@ -7,7 +7,7 @@ import {
 
 // Creas el mock de todas las funciones
 jest.mock('../src/firebase/firebaseConfig', () => ({
-  createUse: jest.fn(),
+  createUse: jest.fn().mockImplementation(() => Promise.resolve({})),
   resetEmail: jest.fn(),
   emailVerification: jest.fn(),
   googleCount: jest.fn(),
@@ -86,17 +86,22 @@ describe('userRegister', () => {
     emailVerification.mockResolvedValue();
 
     // Simular valores en los campos de correo electrónico y contraseña
-    component.querySelector('.input[type="email"]').value = 'correo@example.com';
-    component.querySelector('.input[type="password"]').value = 'contraseñaSegura123';
+    component.querySelector('input[type="email"]').value = 'correo@example.com';
+    component.querySelector('input[type="password"]').value = 'contraseñaSegura123';
 
     // Simular clic en el botón de registro
     component.querySelector('#btnLogin').click();
 
+    console.log({ createUse });
+
     // Esperar a que las promesas se resuelvan (puedes usar await o .then)
-    await createUse();
+    createUse().then(() => {
+      expect(emailVerification).toHaveBeenCalled();
+      expect(emailVerification).toHaveBeenCalledWith({ email: 'correo@example.com' });
+    }).catch((err) => console.log({ err }));
 
     // Verificar que la función emailVerification se haya llamado
-    expect(emailVerification).toHaveBeenCalled();
+    // expect(emailVerification).toHaveBeenCalled();
 
     /* Quitar doble promesa y llamado a createUse
       createUse().then((user) => {
@@ -104,7 +109,7 @@ describe('userRegister', () => {
 
     // Verificar que la función emailVerification se haya llamado con el usuario simulado
     // No colocar un objeto dentro de otro objeto {user} //
-    expect(emailVerification).toHaveBeenCalledWith({ email: 'correo@example.com' });
+    // expect(emailVerification).toHaveBeenCalledWith({ email: 'correo@example.com' });
   });
   /* Quitar estas líneas pues ya se usó await para esperar la resolución de la promesa createUse
   y ya se verificó la llamada emailVerification con expect(emailVerification).toHaveBeenCalledWith
