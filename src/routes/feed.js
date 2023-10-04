@@ -1,5 +1,5 @@
 import {
-  collection, addDoc, serverTimestamp, onSnapshot,
+  collection, onSnapshot,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';

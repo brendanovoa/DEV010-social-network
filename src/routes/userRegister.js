@@ -138,7 +138,6 @@ function userRegister(navigateTo) {
     navigateTo('/login');
   });
 
-
   form.append(inputName, inputEmail, inputPass, buttonRegister, buttonSingUpWithGoogle);
   section.append(icon, title, form, textLogin, linkLogin);
 
