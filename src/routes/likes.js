@@ -1,15 +1,19 @@
+import iconoNav from '../assets/iconoBlanco.png';
+import generalUser from '../assets/general-user.png';
+
 function likes(navigateTo) {
   const section = document.createElement('section');
-  const userName = document.createElement('h3');
+
+  const header = document.createElement('div');
+  const name = document.createElement('h3');
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
+
   const main = document.createElement('main');
-  const textPost = document.createElement('p');
-  const boxContainer = document.createElement('div');
-  const postInput = document.createElement('input');
-  const buttonPost = document.createElement('button');
-  const postBoxOne = document.createElement('div');
-  const postBoxTwo = document.createElement('div');
+
+  const likesContainer = document.createElement('div');
+  const likesTitle = document.createElement('p');
+  const likesFeed = document.createElement('div');
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
@@ -19,24 +23,31 @@ function likes(navigateTo) {
   const buttonPosts = document.createElement('button');
   const buttonProfile = document.createElement('button');
 
-  buttonPost.textContent = 'POST';
-  // buttonPost.addEventListener('click', () => { /* Guardar y mostrar publicación */
-  //   navigateTo('/login');
-  // });
+  section.id = 'likesSection';
+  header.id = 'header';
+  name.classList.add('userName');
+  profileName.classList.add('profileName');
+  pictureUser.classList.add('pictureUser');
+  main.id = 'main';
+  likesContainer.id = 'postContainer';
+  likesTitle.classList.add('titles');
 
-  userName.textContent = 'NOMBRE USUARIA';
+  menuContainer.id = 'navbar';
+  buttonHome.classList.add('btnNav');
+  buttonLikes.classList.add('btnNav');
+  buttonPosts.classList.add('btnNav');
+  buttonProfile.classList.add('btnNav');
+  iconElement.src = iconoNav;
+  iconElement.alt = 'New Wave Icon';
+  iconElement.classList.add('iconNav');
+
+  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
-  textPost.textContent = 'CREAR UN POST:';
-  postInput.textContent = '';
+  pictureUser.src = generalUser;
 
-  postBoxOne.textContent = 'Nombre usuario';
-  postBoxTwo.textContent = 'Nombre usuario';
+  likesTitle.textContent = 'TUS POSTS MAS POPULARES:';
 
-  boxContainer.append(postInput, buttonPost, postBoxOne, postBoxTwo);
-
-  main.appendChild(boxContainer);
-
+  // NAV BAR
   buttonHome.textContent = 'Home';
   buttonHome.addEventListener('click', () => {
     navigateTo('/feed');
@@ -46,8 +57,6 @@ function likes(navigateTo) {
   buttonLikes.addEventListener('click', () => {
     navigateTo('/likes');
   });
-
-  iconElement.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaIPll5loKV42Ittli3src1E0pZ3MBFig_XA&usqp=CAU';
 
   buttonPosts.textContent = 'Post';
   buttonPosts.addEventListener('click', () => {
@@ -59,11 +68,14 @@ function likes(navigateTo) {
     navigateTo('/profile');
   });
 
+  // ORGANIZAR CONTENIDOS
+  header.append(name, pictureUser, profileName);
+  main.append(likesContainer);
+  likesContainer.append(likesTitle, likesFeed);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
-
   nav.appendChild(menuContainer);
 
-  section.append(userName, profileName, pictureUser, textPost, main, nav);
+  section.append(header, main, menuContainer);
   return section;
 }
 

@@ -4,6 +4,8 @@ import {
   signIn, resetEmail, googleCount,
 } from '../firebase/firebaseConfig.js';
 
+// import { loadUserPosts } from './posts.js';
+
 function login(navigateTo) {
   const section = document.createElement('section');
   const icon = document.createElement('img');
@@ -51,7 +53,11 @@ function login(navigateTo) {
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        // alert('Acceso exitoso');
+        alert('Acceso exitoso');
+
+        // Después de iniciar sesión con éxito, carga los posts del usuario
+        // loadUserPosts(myPosts);
+
         navigateTo('/feed');
       })
       .catch((error) => {

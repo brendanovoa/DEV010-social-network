@@ -1,9 +1,10 @@
 import {
   collection, onSnapshot,
 } from 'firebase/firestore';
-import { auth, db } from '../firebase/firebaseConfig';
+import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
+import generalUser from '../assets/general-user.png';
 
 // Crear una card que contenga cada post
 function createPostCard(data) {
@@ -12,6 +13,11 @@ function createPostCard(data) {
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
+  const pictureUser = document.createElement('img');
+  pictureUser.classList.add('user-img');
+  // pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL :
+  // '../src/assets/person_FILL1_wght400_GRAD0_opsz24.png';
+  pictureUser.src = data.avatar || picUser;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
@@ -19,7 +25,7 @@ function createPostCard(data) {
   dateElement.classList.add('date');
   const date = data.createdAt.toDate();
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(userNameElement, dateElement, contentElement);
+  card.append(pictureUser, userNameElement, dateElement, contentElement);
   return card;
 }
 
@@ -30,6 +36,7 @@ function loadPosts(muro) {
     muro.innerHTML = '';
     querySnapshot.forEach((doc) => {
       const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
+      console.log(data.userID);
       const postCard = createPostCard({ ...data, id: doc.id });
       muro.appendChild(postCard);
     });
@@ -78,9 +85,11 @@ function feed(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` */
+  // const usuaria = auth.currentUser;
+  // console.log(usuaria);
+  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELckEfR2_SKEtp41AlfomUJHN8l3uqovbtAAFNqcjZQ&s';
+  pictureUser.src = generalUser;
 
   postTitle.textContent = 'LO QUE SE DICE EN NEW WAVE:';
 
