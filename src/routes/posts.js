@@ -12,6 +12,9 @@ import generalUser from '../assets/general-user.png';
 function createPostCard(data) { /* cambio de content por data */
   const card = document.createElement('div');
   card.classList.add('post-card');
+  const pictureUser = document.createElement('img');
+  pictureUser.classList.add('user-img');
+  pictureUser.src = data.avatar || generalUser;
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
@@ -24,7 +27,7 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(userNameElement, dateElement, contentElement);
+  card.append(userNameElement, dateElement, contentElement, pictureUser);
   // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
