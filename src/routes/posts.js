@@ -3,7 +3,6 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
-import iconoProfile from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 import picUser from '../assets/icono.png';
 // const userLogin = localStorage.getItem('user');
 // console.log(userLogin);
@@ -97,7 +96,7 @@ function addPost({
 function posts(navigateTo) {
   const section = document.createElement('section');
   const header = document.createElement('div');
-  const userName = document.createElement('h3');
+  const name = document.createElement('h3');
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
   const main = document.createElement('main');
@@ -152,7 +151,6 @@ function posts(navigateTo) {
   buttonPost.addEventListener('click', () => {
     const content = postInput.value;
     if (content) {
-
       // Obtener datos del usuario actual
       // const currentUser = auth.currentUser;
 
@@ -185,7 +183,6 @@ function posts(navigateTo) {
       console.log(auth.currentUser);
     }
   });
-
 
   // NAV BAR
   buttonHome.textContent = 'Home';
