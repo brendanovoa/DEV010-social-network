@@ -4,6 +4,8 @@ import {
 import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
+import btnEditar from '../assets/iconos/icono-editar.png';
+import btnBorrar from '../assets/iconos/icono-cerrar.png';
 
 // const userLogin = localStorage.getItem('user');
 // console.log(userLogin);
@@ -20,9 +22,6 @@ function createPostCard(data) { /* cambio de content por data */
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
-  const pictureUser = document.createElement('img');
-  pictureUser.classList.add('user-img');
-  pictureUser.src = data.avatar || generalUser;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
@@ -32,10 +31,17 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(pictureUser, userNameElement, dateElement, contentElement);
+  const buttonDelete = document.createElement('button');
+  const buttonEdit = document.createElement('button');
+
+  card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
+
+/* function deletePost() {
+  const
+} */
 
 /*
   const photo = document.createElement('img');
@@ -49,7 +55,7 @@ function loadUserPosts(myPosts) {
   onSnapshot(postsCollection, (querySnapshot) => {
     myPosts.innerHTML = '';
     querySnapshot.forEach((doc) => {
-      console.log(auth.currentUser.uid);
+      // console.log(auth.currentUser.uid);
       const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
       if (data.userID === auth.currentUser.uid) {
         const postCard = createPostCard({ ...data, id: doc.id });
@@ -83,8 +89,7 @@ function loadUserPosts(myPosts, userUid) {
       });
     });
   }
-}
-loadUserPosts(); */
+} */
 
 // Añadir un post a Firestore
 function addPost({
