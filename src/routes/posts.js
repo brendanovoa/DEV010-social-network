@@ -22,9 +22,6 @@ function createPostCard(data) { /* cambio de content por data */
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
-  const pictureUser = document.createElement('img');
-  pictureUser.classList.add('user-img');
-  pictureUser.src = data.avatar || generalUser;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
