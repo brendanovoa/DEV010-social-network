@@ -4,6 +4,8 @@
 // myFunction();
 
 // Importamos los archivos js que permitirán la visualización
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/firebaseConfig';
 import home from './routes/home.js';
 import login from './routes/login.js';
 import signin from './routes/userRegister.js';
@@ -59,3 +61,16 @@ window.onpopstate = () => {
 
 // Invocamos a la función con un argumento con la ruta o la ruta por defecto
 navigateTo(window.location.pathname || defaultRoute);
+
+// const user = auth.currentUser;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    console.log(uid);
+    // ...
+  } else {
+    navigateTo('/login');
+  }
+});

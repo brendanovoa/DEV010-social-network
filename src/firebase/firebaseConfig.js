@@ -9,6 +9,7 @@ import {
   sendEmailVerification,
   GoogleAuthProvider,
   signInWithPopup,
+  onAuthStateChanged,
 } from 'firebase/auth';
 
 import {
@@ -55,6 +56,8 @@ export function googleCount() {
 export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), callback);
 
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
+
+export const stateChanged = (user) => onAuthStateChanged(auth, (user));
 
 // En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
 // una propiedad que se llama uid (unit ID) que implica que tiene un identificador unico para ese
