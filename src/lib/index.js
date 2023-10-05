@@ -28,9 +28,7 @@ export function addProfile({
   });
 }
 
-      // Aquí puedes mostrar la foto del usuario en tu aplicación
-      const userProfilePhoto = document.createElement('img');
-      userProfilePhoto.src = photoURL;
-      userProfilePhoto.alt = 'Perfil de usuario';
-
-
+// Aquí puedes mostrar la foto del usuario en tu aplicación
+const userProfilePhoto = document.createElement('img');
+userProfilePhoto.src = photoURL;
+userProfilePhoto.alt = 'Perfil de usuario';

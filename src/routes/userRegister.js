@@ -1,4 +1,6 @@
+import { getAuth, updateProfile } from 'firebase/auth';
 import icono from '../assets/icono.png';
+import generalUser from '../assets/general-user.png';
 import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
 
 function userRegister(navigateTo) {
@@ -63,22 +65,40 @@ function userRegister(navigateTo) {
     const password = inputPass.value;
     const name = inputName.value;
 
+    /* verifica si el campo del correo electrónico no está vacío */
+    if (email.trim() === '') {
+      window.alert('Ingrese un correo electrónico');
+      return; // <-- Corrección: Cambiar "return;" a "return;"
+    }
+
     createUse(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
 
-        createProfile(user.uid, name, email)
+        updateProfile(user, {
+          displayName: name, photoURL: generalUser,
+        }).then(() => {
+          console.log(user.displayName);
+          // ...
+        }).catch((error) => {
+          // An error occurred
+          console.log(error);
+        });
+
+        // Aquí se creaba otra colección para usuarios
+        /* createProfile(user.uid, name, email)
           .then(() => {
             console.log('Perfil de usuario creado con éxito');
           })
           .catch((error) => {
             console.error('Error al crear el perfil de usuario: ', error);
-          });
+          }); */
 
         emailVerification(user)
           .then(() => {
             console.log('Verificando email');
             alert('Correo de verificación enviado');
+            navigateTo('/login');
           });
       })
       .catch((error) => {
