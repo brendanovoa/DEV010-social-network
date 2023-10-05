@@ -1,7 +1,7 @@
 import {
   collection, onSnapshot,
 } from 'firebase/firestore';
-import { db, auth } from '../firebase/firebaseConfig';
+import { db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
 import generalUser from '../assets/general-user.png';

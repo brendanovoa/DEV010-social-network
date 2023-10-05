@@ -7,6 +7,8 @@ import generalUser from '../assets/general-user.png';
 
 // const userLogin = localStorage.getItem('user');
 // console.log(userLogin);
+export const user = auth.currentUser;
+console.log(user);
 
 // Crear una card que contenga cada post
 function createPostCard(data) { /* cambio de content por data */
@@ -18,6 +20,9 @@ function createPostCard(data) { /* cambio de content por data */
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
+  const pictureUser = document.createElement('img');
+  pictureUser.classList.add('user-img');
+  pictureUser.src = data.avatar || generalUser;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
@@ -27,7 +32,7 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(userNameElement, dateElement, contentElement, pictureUser);
+  card.append(pictureUser, userNameElement, dateElement, contentElement);
   // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
@@ -38,15 +43,18 @@ function createPostCard(data) { /* cambio de content por data */
 */
 
 // Cargar posts de Firestore
-function loadPosts(myPosts) {
+function loadUserPosts(myPosts) {
+  // console.log(auth.currentUser.user.uid);
   const postsCollection = collection(db, 'posts');
   onSnapshot(postsCollection, (querySnapshot) => {
     myPosts.innerHTML = '';
     querySnapshot.forEach((doc) => {
+      console.log(auth.currentUser.uid);
       const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
-      console.log(data.userID);
-      const postCard = createPostCard({ ...data, id: doc.id });
-      myPosts.appendChild(postCard);
+      if (data.userID === auth.currentUser.uid) {
+        const postCard = createPostCard({ ...data, id: doc.id });
+        myPosts.appendChild(postCard);
+      }
     });
   });
 }
@@ -178,7 +186,7 @@ function posts(navigateTo) {
 
   // Llama a la función loadPosts y pásale myPosts como argumento
   // loadPosts(myPosts, auth.currentUser.uid);
-  loadPosts(myPosts);
+  loadUserPosts(myPosts);
 
   buttonPost.addEventListener('click', () => {
     const content = postInput.value;
