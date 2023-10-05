@@ -24,7 +24,15 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(userNameElement, dateElement, contentElement);
+  const buttonDelete = document.createElement('button');
+  const buttonEdit = document.createElement('button');
+
+  buttonDelete.textContent = 'Delete';
+  buttonDelete.addEventListener('click', () => {  
+   navigateTo('/feed');
+});
+
+  card.append(userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
