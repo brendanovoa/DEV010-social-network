@@ -46,7 +46,7 @@ function userRegister(navigateTo) {
   inputName.placeholder = 'Nombre de usuario';
 
   // Función para crear un perfil de usuario en Firestore
-  function createProfile(userId, name, email) {
+  /* function createProfile(userId, name, email) {
     const userRef = doc(collection(db, 'users'), userId);
     const userData = {
       userId,
@@ -54,7 +54,7 @@ function userRegister(navigateTo) {
       email,
     };
     return setDoc(userRef, userData);
-  }
+  } */
 
   // Signing users
   buttonRegister.addEventListener('click', (e) => {
