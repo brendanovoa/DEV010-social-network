@@ -1,6 +1,7 @@
 import {
   collection, onSnapshot,
 } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import { db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
@@ -15,7 +16,10 @@ function createPostCard(data) {
   userNameElement.textContent = data.userName;
   const pictureUser = document.createElement('img');
   pictureUser.classList.add('user-img');
-  pictureUser.src = data.avatar || generalUser;
+  // pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL :
+  // '../src/assets/person_FILL1_wght400_GRAD0_opsz24.png';
+  // console.log(auth.currentUser.displayName);
+  pictureUser.src = data.avatar.includes('example') ? generalUser : data.avatar;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
   contentElement.textContent = data.content;
@@ -34,7 +38,7 @@ function loadPosts(muro) {
     muro.innerHTML = '';
     querySnapshot.forEach((doc) => {
       const data = doc.data(); // Transforma objeto de Firebase a objeto de JS
-      console.log(data.userID);
+      // console.log(data.userID);
       const postCard = createPostCard({ ...data, id: doc.id });
       muro.appendChild(postCard);
     });
@@ -84,8 +88,9 @@ function feed(navigateTo) {
   iconElement.classList.add('iconNav');
 
   // const usuaria = auth.currentUser;
-  // console.log(usuaria);
-  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` auth.currentUser.displayName */
+  console.log(getAuth().currentUser);
+  name.textContent = 'ok';
+  /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
   pictureUser.src = generalUser;
 
