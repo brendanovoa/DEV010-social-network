@@ -1,4 +1,4 @@
-import { getAuth, updateProfile } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import icono from '../assets/icono.png';
 import generalUser from '../assets/general-user.png';
 import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';

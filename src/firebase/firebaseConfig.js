@@ -13,7 +13,7 @@ import {
 } from 'firebase/auth';
 
 import {
-  getFirestore, onSnapshot, collection, deleteDoc, doc,
+  getFirestore, onSnapshot, collection, deleteDoc, doc, getDoc,
 } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -56,6 +56,8 @@ export function googleCount() {
 export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), callback);
 
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
+
+export const editPost = (id) => getDoc(doc(db, 'post', id));
 
 export const stateChanged = (user) => onAuthStateChanged(auth, (user));
 

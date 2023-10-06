@@ -1,7 +1,9 @@
 import {
   collection, addDoc, onSnapshot, getDocs, query,
 } from 'firebase/firestore';
-import { auth, db } from '../firebase/firebaseConfig';
+import {
+  auth, db, deletePost, editPost,
+} from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 import btnEditar from '../assets/iconos/icono-editar.png';
@@ -32,7 +34,34 @@ function createPostCard(data) { /* cambio de content por data */
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
   const buttonDelete = document.createElement('button');
+  buttonDelete.classList.add('btn-delete');
   const buttonEdit = document.createElement('button');
+  buttonEdit.classList.add('btn-edit');
+
+  buttonDelete.textContent = 'Delete';
+  buttonDelete.addEventListener('click', () => {
+    deletePost(data.id);
+  });
+
+  buttonEdit.textContent = 'Edit';
+  buttonEdit.addEventListener('click', async (e) => {
+    editPost(data.id);
+  });
+
+  // INTENTO DE CAMBIOS
+  // buttonEdit.textContent = 'Edit';
+  // buttonEdit.addEventListener('click', async (e) => {
+  //   await editPost(data.id);
+  //   const inputEdit = document.createElement('input'),
+
+  //   postInput.value = ${}
+  //   ]
+
+  /* aquí debería ir Edit Problema 1: la card con el 'p'
+  del input se crea afuera (linea 178 aprox) ¿cómo habilitamos el input ya
+    estando publicado en card, problema 2: creando un input nuevo o un 
+    modal ¿cómo accedemos al contenido por el mismo punto anterior? */
+  /* se puede convertir una 'p' en un input */
 
   card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
