@@ -1,9 +1,7 @@
 import {
-  collection, addDoc, onSnapshot, getDocs, query,
+  collection, addDoc, onSnapshot, query,
 } from 'firebase/firestore';
-import {
-  auth, db, deletePost, editPost,
-} from '../firebase/firebaseConfig';
+import { auth, db, deletePost, editPost, } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 import btnEditar from '../assets/iconos/icono-editar.png';
@@ -33,6 +31,7 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
+
   const buttonDelete = document.createElement('button');
   buttonDelete.classList.add('btn-delete');
   const buttonEdit = document.createElement('button');
@@ -44,24 +43,19 @@ function createPostCard(data) { /* cambio de content por data */
   });
 
   buttonEdit.textContent = 'Edit';
-  buttonEdit.addEventListener('click', async (e) => {
-    editPost(data.id);
+
+  buttonEdit.addEventListener('click', async () => {
+    const postContent = await editPost(data.id);
+    console.log(postContent.data());
+    const textArea = document.createElement('textarea');
+    textArea.id = 'editText';
+    document.querySelector('.post').replaceWith(textArea);
+    document.querySelector('#editText').value = postContent.data().content;
   });
 
-  // INTENTO DE CAMBIOS
-  // buttonEdit.textContent = 'Edit';
-  // buttonEdit.addEventListener('click', async (e) => {
-  //   await editPost(data.id);
-  //   const inputEdit = document.createElement('input'),
-
-  //   postInput.value = ${}
-  //   ]
-
-  /* aquí debería ir Edit Problema 1: la card con el 'p'
-  del input se crea afuera (linea 178 aprox) ¿cómo habilitamos el input ya
-    estando publicado en card, problema 2: creando un input nuevo o un 
-    modal ¿cómo accedemos al contenido por el mismo punto anterior? */
-  /* se puede convertir una 'p' en un input */
+  //   postInput.classList.add('inputPost');
+  // buttonPost.id = 'btnPost';
+  // });
 
   card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
