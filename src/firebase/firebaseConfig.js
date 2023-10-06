@@ -13,7 +13,7 @@ import {
 } from 'firebase/auth';
 
 import {
-  getFirestore, onSnapshot, collection, deleteDoc, doc,
+  getFirestore, onSnapshot, collection, deleteDoc, doc, getDoc,
 } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -58,6 +58,8 @@ export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), call
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 
 export const stateChanged = (user) => onAuthStateChanged(auth, (user));
+
+export const editPost = (id) => getDoc(doc(db, 'posts', id));
 
 // En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
 // una propiedad que se llama uid (unit ID) que implica que tiene un identificador unico para ese

@@ -1,7 +1,7 @@
 import {
-  collection, addDoc, onSnapshot, getDocs, query,
+  collection, addDoc, onSnapshot, query,
 } from 'firebase/firestore';
-import { auth, db } from '../firebase/firebaseConfig';
+import { auth, db, deletePost, editPost, } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 import btnEditar from '../assets/iconos/icono-editar.png';
@@ -32,13 +32,28 @@ function createPostCard(data) { /* cambio de content por data */
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
   const buttonDelete = document.createElement('button');
+  buttonDelete.classList.add('btn-delete');
   const buttonEdit = document.createElement('button');
+  buttonEdit.classList.add('btn-edit');
 
   buttonDelete.textContent = 'Delete';
-  buttonDelete.addEventListener('click', () => {  
-   navigateTo('/feed');
-});
+  buttonDelete.addEventListener('click', () => {
+    deletePost(data.id);
+  });
 
+  buttonEdit.textContent = 'Edit';
+  buttonEdit.addEventListener('click', async () => {
+    const postContent = await editPost(data.id);
+    console.log(postContent.data());
+    const textArea = document.createElement('textarea');
+    textArea.id = 'editText';
+    document.querySelector('.post').replaceWith(textArea);
+    document.querySelector('#editText').value = postContent.data().content;
+  });
+
+  //   postInput.classList.add('inputPost');
+  // buttonPost.id = 'btnPost';
+  // });
 
   card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
