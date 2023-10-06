@@ -57,6 +57,8 @@ export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), call
 
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 
+export const editPost = (id) => getDoc(doc(db, 'post', id));
+
 export const stateChanged = (user) => onAuthStateChanged(auth, (user));
 
 export const editPost = (id) => getDoc(doc(db, 'posts', id));
