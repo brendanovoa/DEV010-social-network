@@ -31,6 +31,7 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
+
   const buttonDelete = document.createElement('button');
   buttonDelete.classList.add('btn-delete');
   const buttonEdit = document.createElement('button');
