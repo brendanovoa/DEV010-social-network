@@ -89,7 +89,7 @@ function feed(navigateTo) {
 
   // const usuaria = auth.currentUser;
   console.log(getAuth().currentUser);
-  name.textContent = 'ok';
+  name.textContent = getAuth().currentUser.displayName;
   /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
   pictureUser.src = generalUser;

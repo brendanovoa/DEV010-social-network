@@ -1,7 +1,7 @@
 import {
-  collection, addDoc, onSnapshot, getDocs, query,
+  collection, addDoc, onSnapshot, query,
 } from 'firebase/firestore';
-import { auth, db, deletePost } from '../firebase/firebaseConfig';
+import { auth, db, deletePost, editPost, } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 import btnEditar from '../assets/iconos/icono-editar.png';
@@ -42,10 +42,19 @@ function createPostCard(data) { /* cambio de content por data */
     deletePost(data.id);
   });
 
-  buttonEdit.textContent = 'Editar';
-  buttonEdit.addEventListener('click', () => {
-    console.log('para editar');
+  buttonEdit.textContent = 'Edit';
+  buttonEdit.addEventListener('click', async () => {
+    const postContent = await editPost(data.id);
+    console.log(postContent.data());
+    const textArea = document.createElement('textarea');
+    textArea.id = 'editText';
+    document.querySelector('.post').replaceWith(textArea);
+    document.querySelector('#editText').value = postContent.data().content;
   });
+
+  //   postInput.classList.add('inputPost');
+  // buttonPost.id = 'btnPost';
+  // });
 
   card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
