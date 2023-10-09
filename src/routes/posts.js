@@ -51,6 +51,7 @@ function createPostCard(data) { /* cambio de content por data */
   });
 
   buttonEdit.textContent = 'Edit';
+
   buttonEdit.addEventListener('click', async () => {
     const postContent = await editPost(data.id);
     console.log(postContent.data());
