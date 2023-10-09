@@ -61,8 +61,6 @@ export const editPost = (id) => getDoc(doc(db, 'post', id));
 
 export const stateChanged = (user) => onAuthStateChanged(auth, (user));
 
-export const editPost = (id) => getDoc(doc(db, 'posts', id));
-
 // En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
 // una propiedad que se llama uid (unit ID) que implica que tiene un identificador unico para ese
 // usuario, también que lo podemos extrar de firebase y que lo podemos usar ejemplo user.uid
