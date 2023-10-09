@@ -2,7 +2,7 @@ import {
   collection, addDoc, onSnapshot, // query,
 } from 'firebase/firestore';
 import {
-  auth, db, deletePost, editPost,
+  auth, db, deletePost, editPost, updatePost,
 } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
@@ -14,6 +14,9 @@ import generalUser from '../assets/general-user.png';
 // console.log(userLogin);
 export const user = auth.currentUser;
 console.log(user);
+
+let editStatus = false;
+let id = '';
 
 // Crear una card que contenga cada post
 function createPostCard(data) { /* cambio de content por data */
@@ -34,12 +37,15 @@ function createPostCard(data) { /* cambio de content por data */
   // Convierte fecha a una cadena legible
   // console.log('fecha de creación: ', date);
   dateElement.textContent = `${date.toLocaleDateString()}`;
+  const buttonEdit = document.createElement('button');
+  buttonEdit.classList.add('btn-edit');
+  const buttonEditSave = document.createElement('button');
+  buttonEditSave.classList.add('btn-editSave');
+  const buttonCancel = document.createElement('button');
+  buttonCancel.classList.add('btn-cancel');
 
   const buttonDelete = document.createElement('button');
   buttonDelete.classList.add('btn-delete');
-  const buttonEdit = document.createElement('button');
-  buttonEdit.classList.add('btn-edit');
-
   buttonDelete.textContent = 'Delete';
   buttonDelete.addEventListener('click', () => {
     deletePost(data.id);
@@ -55,41 +61,52 @@ function createPostCard(data) { /* cambio de content por data */
     textArea.id = 'editText';
     document.querySelector('.post').replaceWith(textArea);
     document.querySelector('#editText').value = postContent.data().content;
-    // Para cambiar el boton "Delete" por boton "Cancelar"
-    const buttonCancel = document.createElement('button');
-    buttonCancel.id = 'btnCancelEdit';
+
+    editStatus = true;
+    id = data.id;
+
+    buttonEditSave.textContent = 'Save';
+    buttonEditSave.addEventListener('click', () => {
+      const updateContent = textArea.value;
+      // buttonEditSave.remove();
+      // buttonDelete.remove();
+      updatePost(data.id, { content: updateContent }) /* revisar si es id, o data.i */
+
+        .then(() => {
+          console.log('Post actualizado');
+          const newContentElement = document.createElement('p');
+          newContentElement.classList.add('post');
+          document.querySelector('.post').textContent = textArea.value;
+          document.querySelector('#editText').replaceWith(newContentElement);
+          editStatus = false;
+        })
+
+        .catch((error) => {
+          console.error('Error al actualizar el post:', error);
+        });
+    });
+
     buttonCancel.textContent = 'Cancel';
-    document.querySelector('.btn-delete').replaceWith(buttonCancel);
     buttonCancel.addEventListener('click', () => {
-      // debería cancelar la acción de editar post
+      const originalContent = postContent.data().content;
+      const originalContentElement = document.createElement('p');
+      originalContentElement.classList.add('post');
+      originalContentElement.textContent = originalContent;
+      document.querySelector('#editText').replaceWith(originalContentElement);
+      // buttonEditSave.remove(); // debería eliminar el botón "Guardar"
+      editStatus = false; // Cancelar la edición
     });
 
-    const buttonSave = document.createElement('textarea');
-    buttonSave.id = 'btnSaveEdit';
-    buttonSave.textContent = 'Save';
-    document.querySelector('.btn-edit').replaceWith(buttonSave);
-    buttonSave.addEventListener('click', () => {
-      // debería guardar la actualización del post
-    });
+    const buttonContainer = document.createElement('div');
+    buttonContainer.appendChild(buttonEditSave);
+    buttonContainer.appendChild(buttonCancel);
+    document.querySelector('.post-card').appendChild(buttonContainer);
   });
-
-  //   postInput.classList.add('inputPost');
-  // buttonPost.id = 'btnPost';
-  // });
 
   card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
-
-/* function deletePost() {
-  const
-} */
-
-/*
-  const photo = document.createElement('img');
-  photo.src = avatar;
-*/
 
 // Cargar posts de Firestore
 function loadUserPosts(myPosts) {
