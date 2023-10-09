@@ -1,13 +1,14 @@
 import {
-  collection, addDoc, onSnapshot, query,
+  collection, addDoc, onSnapshot, // query,
 } from 'firebase/firestore';
 import {
   auth, db, deletePost, editPost, updatePost,
 } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
-import btnEditar from '../assets/iconos/icono-editar.png';
-import btnBorrar from '../assets/iconos/icono-cerrar.png';
+// import { async } from 'regenerator-runtime';
+// import btnEditar from '../assets/iconos/icono-editar.png';
+// import btnBorrar from '../assets/iconos/icono-cerrar.png';
 
 // const userLogin = localStorage.getItem('user');
 // console.log(userLogin);
@@ -55,6 +56,7 @@ function createPostCard(data) { /* cambio de content por data */
   buttonEdit.addEventListener('click', async () => {
     const postContent = await editPost(data.id);
     console.log(postContent.data());
+    // Para cambiar "p" a un textarea
     const textArea = document.createElement('textarea');
     textArea.id = 'editText';
     document.querySelector('.post').replaceWith(textArea);
@@ -167,7 +169,7 @@ function addPost({
     // Añade un documento a la colección posts en la base de datos en firestore
     // El primer arg es la ref a post a partir de la bd y el segundo arg es un objeto
     // que contiene los datos del doc que agregaremos
-      avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'urlimagengenerica',
+      avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser,
       content,
       userID: auth.currentUser.uid,
       userName: auth.currentUser.displayName,
@@ -237,9 +239,10 @@ function posts(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = 'NOMBRE USUARIA'; /* data.userName; auth.currentUser.displayName; `${data.userName}` */
+  name.textContent = auth.currentUser.displayName;
+  /* data.userName; auth.currentUser.displayName; `${data.userName}` */
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = generalUser;
+  pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
 
   postTitle.textContent = 'CREAR UN POST:';
   postInput.placeholder = 'Escribe tu publicación aquí';
@@ -267,9 +270,10 @@ function posts(navigateTo) {
       // myPostsContainer.appendChild(postCard);
 
       addPost({
-        avatar: auth.currentUser.photoURL ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c',
+        avatar: auth.currentUser.photoURL, // ? auth.currentUser.photoURL : 'https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=826&t=st=1695778431~exp=1695779031~hmac=d4122e27770a7ad67f3ab2561940aeaed1aefd69914d149cf76a9928d1f5bd8c',
+        // auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
         content,
-        userID: 'ID_DEL_USUARIO',
+        userID: 'ID_DEL_USUARIO', // se usa??
         userName: 'Nombre de usuario',
       })
         .then((postId) => {

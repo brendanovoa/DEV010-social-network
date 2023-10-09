@@ -2,7 +2,7 @@ import {
   collection, onSnapshot,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from '../firebase/firebaseConfig';
+import { auth, db } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
 import generalUser from '../assets/general-user.png';
@@ -92,7 +92,9 @@ function feed(navigateTo) {
   name.textContent = getAuth().currentUser.displayName;
   /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = generalUser;
+  pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
+
+  // generalUser;
 
   postTitle.textContent = 'LO QUE SE DICE EN NEW WAVE:';
 
