@@ -61,8 +61,6 @@ export const editPost = (id) => getDoc(doc(db, 'post', id));
 
 export const stateChanged = (user) => onAuthStateChanged(auth, (user));
 
-export const editPost = (id) => getDoc(doc(db, 'posts', id));
-
 // {
 // title: 'abcdefghi',
 // description: 'abcdefghi',
