@@ -95,6 +95,22 @@ function createPostCard(data) { /* cambio de content por data */
       document.querySelector('#editText').replaceWith(originalContentElement);
       // buttonEditSave.remove(); // debería eliminar el botón "Guardar"
       editStatus = false; // Cancelar la edición
+
+      // Para cambiar el boton "Delete" por boton "Cancelar"
+      // const buttonCancel = document.createElement('button');
+      // buttonCancel.id = 'btnCancelEdit';
+      // buttonCancel.textContent = 'Cancel';
+      // document.querySelector('.btn-delete').replaceWith(buttonCancel);
+      // buttonCancel.addEventListener('click', () => {
+      //   // debería cancelar la acción de editar post
+      // });
+      // const buttonSave = document.createElement('textarea');
+      // buttonSave.id = 'btnSaveEdit';
+      // buttonSave.textContent = 'Save';
+      // document.querySelector('.btn-edit').replaceWith(buttonSave);
+      // buttonSave.addEventListener('click', () => {
+      //   // debería guardar la actualización del post
+      // });
     });
 
     const buttonContainer = document.createElement('div');
