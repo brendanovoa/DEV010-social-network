@@ -23,8 +23,8 @@
 
 .userName {
     grid-area: userName;
-    font-size: 2rem;
-    margin-left: 0.2rem;
+    font-size: 1.8rem;
+    margin-left: 2rem;
 }
 
 .profileName {
@@ -108,6 +108,7 @@
 #likesSection {
     width: auto;
     height: auto;
+    padding-bottom: 10vh;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -121,6 +122,7 @@
 #profileSection {
     width: auto;
     height: auto;
+    padding-bottom: 10vh;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -143,6 +145,7 @@
 #postsSection {
     width: auto;
     height: auto;
+    padding-bottom: 10vh;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -385,4 +388,50 @@
 .imgHome {
     height: 80vh;
     padding: 5rem;
+}
+
+/* Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 50%;
+    height: 50%;
+    padding: 20px;
+    box-shadow: 0 20px 50px rgb(60, 14, 115);
+    border-radius: 1rem;
+    background: rgb(60, 14, 115);
+    color: white;
+}
+
+.close-button {
+    cursor: pointer;
+    background-color: rgb(250, 33, 175);
+    color: white;
+    font-family: 'Archivo', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border-style: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.modal-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 4rem;
+    color: white;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 400;
+    font-size: large;
 }

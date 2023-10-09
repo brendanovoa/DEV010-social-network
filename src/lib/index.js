@@ -2,11 +2,12 @@
 
 // export myFunction ...
 
+/*
 import {
-  collection, getDocs, addDoc, serverTimestamp,
+  collection, addDoc,
 } from 'firebase/firestore';
 import {
-  db, auth, createUse, emailVerification, googleCount,
+  db, auth,
 } from '../firebase/firebaseConfig';
 
 export function addProfile({
@@ -26,9 +27,9 @@ export function addProfile({
         reject(error);
       });
   });
-}
+} */
 
 // Aquí puedes mostrar la foto del usuario en tu aplicación
-const userProfilePhoto = document.createElement('img');
+/* const userProfilePhoto = document.createElement('img');
 userProfilePhoto.src = photoURL;
-userProfilePhoto.alt = 'Perfil de usuario';
+userProfilePhoto.alt = 'Perfil de usuario'; */

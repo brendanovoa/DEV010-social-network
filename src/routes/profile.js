@@ -1,6 +1,7 @@
 import {
   collection, getDocs, addDoc, serverTimestamp,
 } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
@@ -63,7 +64,7 @@ function profile(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = 'NOMBRE USUARIA';
+  name.textContent = getAuth().currentUser.displayName;
   profileName.textContent = '@nombreperfil';
   pictureUser.src = generalUser;
   // buttonEdit.src = iconoEditar;
