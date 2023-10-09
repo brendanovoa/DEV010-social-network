@@ -1,7 +1,8 @@
-import { getAuth, updateProfile } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import icono from '../assets/icono.png';
 import generalUser from '../assets/general-user.png';
 import { createUse, emailVerification, googleCount } from '../firebase/firebaseConfig.js';
+import { createModal, showModal } from './modal';
 
 function userRegister(navigateTo) {
   const section = document.createElement('section');
@@ -67,7 +68,10 @@ function userRegister(navigateTo) {
 
     /* verifica si el campo del correo electrónico no está vacío */
     if (email.trim() === '') {
-      window.alert('Ingrese un correo electrónico');
+      // window.alert('Ingrese un correo electrónico');
+      const message = 'Ingrese un correo electrónico';
+      const modal = createModal(message);
+      showModal(modal);
       return; // <-- Corrección: Cambiar "return;" a "return;"
     }
 
@@ -96,13 +100,19 @@ function userRegister(navigateTo) {
 
         emailVerification(user)
           .then(() => {
-            console.log('Verificando email');
-            alert('Correo de verificación enviado');
+            // console.log('Verificando email');
+            // alert('Correo de verificación enviado');
+            const message = 'Correo de verificación enviado. Revisa tu correo, valídalo e ingresa a tu cuenta desde la página de inicio.';
+            const modal = createModal(message);
+            showModal(modal);
             navigateTo('/login');
           });
       })
       .catch((error) => {
-        console.log(error.message);
+        // console.log(error.message);
+        const errorMessage = error.message;
+        const modal = createModal(errorMessage);
+        showModal(modal);
       });
   });
 

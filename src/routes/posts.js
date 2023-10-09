@@ -1,7 +1,10 @@
 import {
   collection, addDoc, onSnapshot, query,
 } from 'firebase/firestore';
-import { auth, db, deletePost, editPost, } from '../firebase/firebaseConfig';
+import { getAuth } from 'firebase/auth';
+import {
+  auth, db, deletePost, editPost,
+} from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 import btnEditar from '../assets/iconos/icono-editar.png';
@@ -201,7 +204,7 @@ function posts(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = 'NOMBRE USUARIA'; /* data.userName; auth.currentUser.displayName; `${data.userName}` */
+  name.textContent = getAuth().currentUser.displayName;
   profileName.textContent = '@nombreperfil';
   pictureUser.src = generalUser;
 

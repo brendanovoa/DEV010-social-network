@@ -3,6 +3,7 @@ import icono from '../assets/icono.png';
 import {
   signIn, resetEmail, googleCount,
 } from '../firebase/firebaseConfig.js';
+import { createModal, showModal } from './modal';
 
 // import { loadUserPosts } from './posts.js';
 
@@ -53,18 +54,16 @@ function login(navigateTo) {
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        alert('Acceso exitoso');
-
-        // Después de iniciar sesión con éxito, carga los posts del usuario
-        // loadUserPosts(myPosts);
-
+        // alert('Acceso exitoso');
         navigateTo('/feed');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
-        alert(errorCode);
+        // console.log(errorMessage);
+        console.log(errorCode);
+        const modal = createModal(errorMessage);
+        showModal(modal);
       });
   });
 
@@ -93,14 +92,19 @@ function login(navigateTo) {
 
     resetEmail(email)
       .then(() => {
-        console.log('Password reset email sent');
-        alert('Password reset email sent');
+        // console.log('Password reset email sent');
+        // alert('Password reset email sent');
+        const message = 'Revisa tu correo para restablecer tu contraseña';
+        const modal = createModal(message);
+        showModal(modal);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
-        alert(errorCode);
+        // console.log(errorMessage);
+        console.log(errorCode);
+        const modal = createModal(errorMessage);
+        showModal(modal);
       });
   });
 
