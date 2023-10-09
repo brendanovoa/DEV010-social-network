@@ -87,10 +87,8 @@ function feed(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  // const usuaria = auth.currentUser;
-  console.log(getAuth().currentUser);
+  // console.log(getAuth().currentUser);
   name.textContent = getAuth().currentUser.displayName;
-  /* `${data.userName}` auth.currentUser.displayName */
   profileName.textContent = '@nombreperfil';
   pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
 

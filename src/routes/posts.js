@@ -1,6 +1,7 @@
 import {
   collection, addDoc, onSnapshot, // query,
 } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import {
   auth, db, deletePost, editPost, updatePost,
 } from '../firebase/firebaseConfig';
@@ -255,8 +256,7 @@ function posts(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = auth.currentUser.displayName;
-  /* data.userName; auth.currentUser.displayName; `${data.userName}` */
+  name.textContent = getAuth().currentUser.displayName;
   profileName.textContent = '@nombreperfil';
   pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
 

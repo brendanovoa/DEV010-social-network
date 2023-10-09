@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 
@@ -41,7 +42,7 @@ function likes(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = 'NOMBRE USUARIA'; /* `${data.userName}` auth.currentUser.displayName */
+  name.textContent = getAuth().currentUser.displayName;
   profileName.textContent = '@nombreperfil';
   pictureUser.src = generalUser;
 
