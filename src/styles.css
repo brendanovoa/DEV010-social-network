@@ -11,7 +11,7 @@
     width: 100vw;
     height: 15vh;
     color: rgb(60, 14, 115);
-    padding: 1rem;
+    padding: 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -24,35 +24,30 @@
 .userName {
     grid-area: userName;
     font-size: 1.8rem;
-    margin-left: 2rem;
 }
 
 .profileName {
     grid-area: profileName;
     font-weight: 100;
-    margin-left: 2rem;
 }
 
 .pictureUser {
     grid-area: pictureUser;
-    border-color: linear-gradient(to right, rgb(250, 33, 175), rgb(60, 14, 115));
+    /* border-color: linear-gradient(to right, rgb(250, 33, 175), rgb(60, 14, 115)); */
     border-radius: 50%;
-    height: 11vh;
-    align-self: center;
+    height: 10vh;
     justify-self: flex-end;
-    margin-right: 2rem;
 }
 
 .specialText {
     grid-area: specialText;
     font-weight: 700;
-    margin-left: 2rem;
     color: rgb(250, 33, 175);
+    cursor: pointer;
 }
 
 .buttonSignoff {
     height: 2rem;
-
 }
 
 /* Nav Bar */
@@ -73,6 +68,11 @@
 .iconNav {
     height: 15vh;
     margin: 1rem;
+}
+
+.imgNav {
+    height: 2rem;
+    cursor: pointer;
 }
 
 .btnNav {
@@ -193,7 +193,7 @@
 .post-card {
     background-color: white;
     width: 18rem;
-    height: 8rem;/*6.5rem;*/
+    height: 8.2rem;/*6.5rem;*/
     border-radius: 1.5rem;
     border-color: rgb(60, 14, 115);
     border-style: solid;
@@ -241,6 +241,59 @@
     overflow: scroll;
 }
 
+.like {
+    cursor: pointer;
+}
+
+.likesCount {
+    font-size: 0.8rem;
+    color: rgb(250, 33, 175);
+    margin-left: -2rem;
+    margin-top: 0.4rem;
+}
+
+.btn-delete {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: rgb(250, 33, 175);
+    color: white;
+}
+
+.btn-edit {
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background-color: rgb(250, 33, 175);
+    color: white;
+}
+
+.btn-editSave {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-editSave:hover {
+    background-color: rgb(250, 33, 175);
+    color: white;
+}
+
+.btn-cancel {
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background-color: rgb(250, 33, 175);
+    color: white;
+}
+
 /* Login */
 
 #loginSection {
@@ -269,13 +322,26 @@
 }
 
 .text {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .link {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgb(250, 33, 175);
+}
+
+.link:hover {
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.linkReset:hover {
     font-size: 1rem;
     font-weight: 600;
     color: rgb(250, 33, 175);
+    cursor: pointer;
 }
 
 #loginForm {
@@ -305,6 +371,7 @@
     font-family: 'Archivo', sans-serif;
     font-weight: 800;
     font-size: large;
+    cursor: pointer;
 }
 
 .googleButton {
@@ -317,6 +384,7 @@
     border: none;
     border-radius: 5px;
     background-color: rgb(230, 223, 238);
+    cursor: pointer;
 
     /* border: 2px solid transparent; /* Establece un borde transparente para que se aplique el gradiente */
     /* border-image: linear-gradient(to right, rgb(250, 33, 175), rgb(60, 14, 115)); /* Define el gradiente como la imagen de fondo del borde */

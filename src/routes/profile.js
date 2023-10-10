@@ -6,6 +6,10 @@ import { db, auth } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 // import iconoEditar from '../assets/iconos/icono-editar.png';
+import navHome from '../assets/iconos/icono-home-off.png';
+import navLikes from '../assets/iconos/icono-likes-off.png';
+import navPosts from '../assets/iconos/icono-post-off.png';
+import navProfile from '../assets/iconos/icono-profile-on.png';
 
 const user = auth.currentUser;
 console.log(user);
@@ -40,11 +44,15 @@ function profile(navigateTo) {
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
-  const buttonHome = document.createElement('button');
-  const buttonLikes = document.createElement('button');
+  const buttonHome = document.createElement('img');
+  buttonHome.src = navHome;
+  const buttonLikes = document.createElement('img');
+  buttonLikes.src = navLikes;
   const iconElement = document.createElement('img');
-  const buttonPosts = document.createElement('button');
-  const buttonProfile = document.createElement('button');
+  const buttonPosts = document.createElement('img');
+  buttonPosts.src = navPosts;
+  const buttonProfile = document.createElement('img');
+  buttonProfile.src = navProfile;
 
   section.id = 'profileSection';
   header.id = 'header';
@@ -56,17 +64,17 @@ function profile(navigateTo) {
   profileTitle.classList.add('titles');
 
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('btnNav');
-  buttonLikes.classList.add('btnNav');
-  buttonPosts.classList.add('btnNav');
-  buttonProfile.classList.add('btnNav');
+  buttonHome.classList.add('imgNav');
+  buttonLikes.classList.add('imgNav');
+  buttonPosts.classList.add('imgNav');
+  buttonProfile.classList.add('imgNav');
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = getAuth().currentUser.displayName;
-  profileName.textContent = '@nombreperfil';
-  pictureUser.src = generalUser;
+  name.textContent = getAuth().currentUser?.displayName;
+  profileName.textContent = getAuth().currentUser?.email;
+  pictureUser.src = auth.currentUser?.photoURL ? auth.currentUser?.photoURL : generalUser;
   // buttonEdit.src = iconoEditar;
 
   profileTitle.textContent = 'PERFIL DE USUARIA:';

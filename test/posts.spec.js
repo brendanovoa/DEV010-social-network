@@ -2,6 +2,10 @@
 import { deletePost } from '../src/firebase/firebaseConfig';
 import addPost from '../src/routes/posts';
 
+/* jest.mock('../src/firebase/firebaseConfig', () => ({
+  deletePost: jest.fn(),
+})); */
+
 describe('addPost', () => {
   it('Agrega un post', async () => {
     const mockPostData = {
