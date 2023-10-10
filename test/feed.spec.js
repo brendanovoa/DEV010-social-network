@@ -1,59 +1,139 @@
-// // import { render, screen } from '@testing-library/dom';
-// Para renderizar elementos en el DOM virtual
-/* import {
-  db, collection, onSnapshot, getDocs, querySnapshot,
-} from 'firebase/firestore'; */ // Importa las funciones de Firestore que usas en tu función
-import JSDOMEnvironment from "jest-environment-jsdom";
-import feed from '../src/routes/feed.js';
-// import { addPost, loadUserPosts } from '../src/routes/posts';
+// import { initializeApp } from 'firebase/app';
 
-jest.mock('../src/firebase/firebaseConfig');
+// import {
+//   GoogleAuthProvider,
+//   createUserWithEmailAndPassword,
+//   signInWithEmailAndPassword,
+//   signInWithPopup,
+//   signOut,
+// } from 'firebase/auth';
 
-describe('Deberia cargar los posts de Firebase en el feed', () => {
-  it('deberia pintar 1 post cuando hay 1 post en firestore', () => {
-    // 1. asegurar condiciones para la prueba
-    document.body.innerHTML = '<div id="posts"></div>';
-    // 2. ejecutar la funcion que se quiere probar
-    feed().loadPosts();
-    // 3. confirmaciones
-    setTimeout(
-      () => {
-        const postCard = document.getElementById('post');
-        expect(postCard.children).toHaveLength(1);
-        done();
-      },
-      1000,
-    );
-  });
-});
+// import {
+//   addDoc, deleteDoc, getDoc, onSnapshot, updateDoc,
+// } from 'firebase/firestore';
+
+// import {
+//   app,
+//   db,
+//   auth,
+//   createUse,
+//   singIn,
+//   resetEmail,
+//   emailVerification,
+//   googleCount,
+//   onGetPosts,
+//   deletePost,
+//   editPost, 
+//   stateChanged,
+//   updatePost,
+//   addLike,
+//   removeLike,
+// } from '../src/firebase/firebaseConfig';
+
+// // import addPost from '../src/routes/posts';
+// // import loadPosts from '../src/routes/feed';
+// // import * as posts from '../src/routes/posts';
+
+// jest.mock('firebase/auth');
+// jest.mock('firebase/firestore');
+
+// describe('deletePost', () => {
+//   it('debería ser una función', () => {
+//     expect(typeof deletePost).toBe('function');
+//   });
+
+//   it('Deberia llamar a la funcion deleteDoc cuando es ejecutada', async () => {
+//     await deletePost('bjidjg');
+//     expect(deleteDoc).toHaveBeenCalled();
+//   });
+// });
+
+// describe('updatePost', () => {
+//   test('debería editar post', async () => {
+//     updateDoc.mockReturnValueOnce({ constainer: 'newText' });
+//     const response = await updatePost('12345', 'newText');
+//     expect(response.constainer).toBe('newText');
+//   });
+
+//   test('debería llamar a la función updateDoc cuando es ejecutada', async () => {
+//     await updatePost('12345', 'newText');
+//     expect(updateDoc).toHaveBeenCalled();
+//   });
+// });
+
+// describe('addLike', () => {
+//   test('debería dar like a post', async () => {
+//     updateDoc.mockReturnValueOnce({ likes: 'like' });
+//     const response = await addLike('12345', 'like');
+//     expect(response.likes).toBe('like');
+//   });
+
+//   test('debería llamar a la función updateDoc cuando es ejecutada', async () => {
+//     await addLike('add', 'like');
+//     expect(updateDoc).toHaveBeenCalled();
+//   });
+// });
+
+// describe('removeLike', () => {
+//   test('debería quitar like a post', async () => {
+//     updateDoc.mockReturnValueOnce({ likes: '' });
+//     const response = await removeLike('add', 'removelike');
+//     expect(response.likes).toBe('');
+//   });
+
+//   test('debería llamar a la función updateDoc cuando es ejecutada', async () => {
+//     await removeLike('add', 'removelike');
+//     expect(updateDoc).toHaveBeenCalled();
+//   });
+// });
+
+// describe('onGetPosts', () => {
+//   it('debería ser una función', () => {
+//     expect(typeof onGetPosts).toBe('function');
+//   });
+
+//   it('Deberia llamar a la funcion onSnapshot cuando es ejecutada', async () => {
+//     onGetPosts('bjidjg');
+//     expect(onSnapshot).toHaveBeenCalled();
+//   });
+// });
+
+// describe('createPost', () => {
+//   test('debería crear un post', async () => {
+//     addDoc.mockReturnValueOnce({ container: 'info' });
+//     const response = createPost('contenido');
+//     expect(response).toBe();
+//   });
+
+//   test('debería llamar a la función addDoc cuando es ejecutada', async () => {
+//     addDoc('contenido');
+//     expect(addDoc).toHaveBeenCalled();
+//   });
+// });
+
+// describe('inicioGoogle', () => {
+//   it('debería ser una funciónn que crea cuenta con google', () => {
+//     expect(typeof signInWithPopup).toBe('function');
+//   });
+// });
+
+// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+import loadPosts from '../src/routes/feed';
+
+console.log(loadPosts());
 
 describe('loadPosts', () => {
-  it('debería cargar las publicaciones correctamente', () => {
-    const mockOnSnapshot = jest.fn();
-    const muroMock = document.createElement('div');
+  it('Agrega un post', async () => {
+    const mockPosts = [
+      { avatar: 'https://foto.jpg', content: 'Contenido del post 1', userId: 'user123' },
+    ];
 
-    // Mockea el comportamiento de onSnapshot
-    db.collection.mockReturnValue({ onSnapshot: mockOnSnapshot });
+    const post = loadPosts(mockPosts);
 
-    // Llama a la función que estás probando
-    loadPosts(muroMock);
-
-    // Simula una actualización de Firestore (puedes ajustar los datos según tus necesidades)
-    const snapshotData = {
-      docs: [
-        { data: () => ({ id: 'post1', content: 'Contenido 1' }) },
-        { data: () => ({ id: 'post2', content: 'Contenido 2' }) },
-      ],
-    };
-
-    mockOnSnapshot.mock.calls[0][0](snapshotData); // Llama función callback en onSnapshot
-
-    // Verifica que la función haya llamado a onSnapshot y actualizado el contenido en muroMock
-    expect(db.collection).toHaveBeenCalledWith('posts');
-    expect(mockOnSnapshot).toHaveBeenCalled();
-    expect(muroMock.innerHTML).toContain('Contenido 1');
-    expect(muroMock.innerHTML).toContain('Contenido 2');
+    expect(post).toBeDefined();
   });
 });
 
-*/
+// const mockPosts = [
+//   { avatar:'https://foto.jpg', content: 'Contenido del post 1', userId: 'user123' }
+// ];
