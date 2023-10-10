@@ -67,9 +67,9 @@ function createPostCard(data) { /* cambio de content por data */
     const textArea = document.createElement('textarea');
     textArea.classList.add('post'); // Añadir la misma clase que el elemento original
     textArea.value = originalContent;
-
+    const contentElementP = card.querySelector('.post');
     // Reemplazar el elemento original con el textarea
-    card.replaceChild(textArea, contentElement);
+    card.replaceChild(textArea, contentElementP);
 
     const buttonEditSave = document.createElement('button');
     buttonEditSave.classList.add('btn-editSave');
@@ -107,12 +107,12 @@ function createPostCard(data) { /* cambio de content por data */
       contentElement.textContent = originalContent;
 
       // Crear un nuevo elemento <p> con el contenido original
-      const originalContentElement = document.createElement('p');
-      originalContentElement.classList.add('post');
-      originalContentElement.textContent = originalContent;
+      const ContentElement = document.createElement('p');
+      ContentElement.classList.add('post');
+      ContentElement.textContent = originalContent;
 
       // Reemplazar el <textarea> por el nuevo elemento <p>
-      card.replaceChild(originalContentElement, textArea);
+      card.replaceChild(ContentElement, textArea);
 
       // Mostrar los botones "Edit" y "Delete" 
       buttonDelete.style.display = 'block';
