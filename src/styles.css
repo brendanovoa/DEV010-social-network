@@ -435,3 +435,9 @@
     font-weight: 400;
     font-size: large;
 }
+
+/* Likes */
+
+.like {
+    width: 1.5rem;
+}

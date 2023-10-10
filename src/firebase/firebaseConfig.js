@@ -13,7 +13,16 @@ import {
 } from 'firebase/auth';
 
 import {
-  getFirestore, onSnapshot, collection, deleteDoc, doc, getDoc, updateDoc,
+  getFirestore,
+  onSnapshot,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  increment,
 } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -61,12 +70,35 @@ export const editPost = (id) => getDoc(doc(db, 'post', id));
 
 export const stateChanged = (user) => onAuthStateChanged(auth, (user));
 
-// {
-// title: 'abcdefghi',
-// description: 'abcdefghi',
-// }
-
 export const updatePost = (id, newFields) => updateDoc(doc(db, 'posts', id), newFields);
+
+// ADD LIKE
+/* const addLike = (id, like) => updateDoc(doc(db, 'posts', id), { likes: arrayUnion(like) }); */
+export const addLike = async (postId, userId) => {
+  try {
+    // Agregar el like al documento en Firestore
+    await updateDoc(doc(db, 'posts', postId), {
+      likes: arrayUnion(userId), // Agregar el usuario al arreglo de likes
+      likesCount: increment(1), // Incrementar el contador de likes en 1
+    });
+  } catch (error) {
+    console.error('Error al agregar el like:', error);
+  }
+};
+
+// REMOVE LIKE
+// const removeLike = (id, like) => updateDoc(doc(db, 'posts', id), { likes: arrayRemove(like) });
+export const removeLike = async (postId, userId) => {
+  try {
+    // Remover el like del documento en Firestore
+    await updateDoc(doc(db, 'posts', postId), {
+      likes: arrayRemove(userId), // Remover el usuario del arreglo de likes
+      likesCount: increment(-1), // Decrementar el contador de likes en 1
+    });
+  } catch (error) {
+    console.error('Error al remover el like:', error);
+  }
+};
 
 // En video usando firebase firestore midu.dev (1:00:41) habla de que el usuario en firebase tiene
 // una propiedad que se llama uid (unit ID) que implica que tiene un identificador unico para ese

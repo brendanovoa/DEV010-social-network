@@ -2,10 +2,12 @@ import {
   collection, onSnapshot,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { auth, db } from '../firebase/firebaseConfig';
+import { auth, db, addLike, removeLike } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
 import generalUser from '../assets/general-user.png';
+import likeRosa from '../assets/iconos/icono-like-on.png';
+import likeGris from '../assets/iconos/icono-like-off.png';
 
 // Crear una card que contenga cada post
 function createPostCard(data) {
@@ -27,7 +29,62 @@ function createPostCard(data) {
   dateElement.classList.add('date');
   const date = data.createdAt.toDate();
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(pictureUser, userNameElement, dateElement, contentElement);
+
+  const buttonLike = document.createElement('img');
+  buttonLike.classList.add('like');
+  // buttonLike.src = data.likes.includes(auth.currentUser.uid) ? likeRosa : likeGris;
+  // Verifica si 'likes' está definido y es un arreglo antes de usarlo
+  if (Array.isArray(data.likes)) {
+    // Comprueba si el usuario actual (auth.currentUser.uid) está en el arreglo 'likes'
+    if (data.likes.includes(auth.currentUser?.uid)) {
+      buttonLike.src = likeRosa; // Usuario actual dio like, muestra el ícono de like activo
+    } else {
+      buttonLike.src = likeGris; // Usuario actual no dio like, muestra el ícono de like inactivo
+    }
+  } else {
+    buttonLike.src = likeGris; // En caso de que 'likes' no esté definido o no sea un arreglo
+  }
+  
+  const likesCount = document.createElement('span');
+  likesCount.classList.add('likesCount');
+  // likesCount.textContent = data.likesCount /* `${doc[0].likes.length}` */;
+  
+  // Actualiza likesCount en el elemento HTML
+  /* const updateLikesCount = (count) => {
+    likesCount.textContent = count;
+  }; */
+
+  // Verifica si data.likesCount tiene un valor válido
+  if (typeof data.likesCount === 'number') {
+    likesCount.textContent = data.likesCount;
+  } else {
+    likesCount.textContent = '0'; // Mostrar '0' si no hay un valor válido
+  }
+
+  buttonLike.addEventListener('click', async () => {
+  // Implementa aquí la lógica para manejar el "Me gusta"
+  try {
+    const likes = data.likes || [];
+    // Comprueba si el usuario actual ya dio "Me gusta"
+    const userLiked = data.likes.includes(auth.currentUser?.uid);
+
+    if (userLiked) {
+      // Si el usuario ya dio "Me gusta", quita el "Me gusta"
+      await removeLike(data.id, auth.currentUser.uid);
+      // Actualiza el conteo de likes en el elemento HTML
+      likesCount.textContent = likes.length - 1;
+    } else {
+      // Si el usuario no ha dado "Me gusta", agrégalo
+      await addLike(data.id, auth.currentUser.uid);
+      // Actualiza el conteo de likes en el elemento HTML
+      likesCount.textContent = likes.length + 1;
+    }
+  } catch (error) {
+    console.error('Error al manejar "Me gusta":', error);
+  }
+});
+  
+  card.append(pictureUser, userNameElement, dateElement, contentElement,buttonLike, likesCount);
   return card;
 }
 
@@ -88,9 +145,9 @@ function feed(navigateTo) {
   iconElement.classList.add('iconNav');
 
   // console.log(getAuth().currentUser);
-  name.textContent = getAuth().currentUser.displayName;
+  name.textContent = getAuth().currentUser?.displayName;
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
+  pictureUser.src = auth.currentUser?.photoURL ? auth.currentUser?.photoURL : generalUser;
 
   // generalUser;
 
