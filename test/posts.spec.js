@@ -1,6 +1,11 @@
 // import { async } from 'regenerator-runtime';
+import { initializeApp } from 'firebase/app';
+import { deleteDoc } from 'firebase/firestore';
+import { addPost } from '../src/routes/posts';
 import { deletePost } from '../src/firebase/firebaseConfig';
-import addPost from '../src/routes/posts';
+
+jest.mock('firebase/auth');
+jest.mock('firebase/firestore');
 
 describe('addPost', () => {
   it('Agrega un post', async () => {
@@ -15,13 +20,12 @@ describe('addPost', () => {
 });
 
 describe('deletePost', () => {
-  it('Elimina un post', async () => {
-    const mockDeleteData = {
-      content: 'Quiero eliminar este post',
-    };
+  it('debería ser una función', () => {
+    expect(typeof deletePost).toBe('function');
+  });
 
-    const postId = deletePost(mockDeleteData);
-
-    expect(postId).toBeDefined();
+  it('Deberia llamar a la funcion deleteDoc cuando es ejecutada', async () => {
+    await deletePost('bjidjg');
+    expect(deleteDoc).toHaveBeenCalled();
   });
 });

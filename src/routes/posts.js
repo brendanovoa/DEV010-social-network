@@ -13,7 +13,7 @@ import likeGris from '../assets/iconos/icono-like-off.png';
 
 // const userLogin = localStorage.getItem('user');
 // console.log(userLogin);
-export const user = auth.currentUser;
+// export const user = auth.currentUser;
 // console.log(user);
 
 // Crear una card que contenga cada post
@@ -202,7 +202,7 @@ function loadUserPosts(myPosts) {
 }
 
 // Añadir un post a Firestore
-function addPost({
+export function addPost({
   content,
 }) {
   return new Promise((resolve, reject) => {
