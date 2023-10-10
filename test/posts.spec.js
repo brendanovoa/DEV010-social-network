@@ -9,6 +9,10 @@ jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
 
 
+/* jest.mock('../src/firebase/firebaseConfig', () => ({
+  deletePost: jest.fn(),
+})); */
+
 describe('addPost', () => {
   it('Agrega un post', async () => {
     const mockPostData = {

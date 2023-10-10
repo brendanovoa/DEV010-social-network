@@ -8,9 +8,13 @@ import iconoCerrar from '../assets/iconos/icono-cerrar.png';
 import generalUser from '../assets/general-user.png';
 import likeRosa from '../assets/iconos/icono-like-on.png';
 import likeGris from '../assets/iconos/icono-like-off.png';
+import navHome from '../assets/iconos/icono-home-on.png';
+import navLikes from '../assets/iconos/icono-likes-off.png';
+import navPosts from '../assets/iconos/icono-post-off.png';
+import navProfile from '../assets/iconos/icono-profile-off.png';
 
 // Crear una card que contenga cada post
-function createPostCard(data) {
+export function createPostCard(data) {
   const card = document.createElement('div');
   card.classList.add('post-card');
   const userNameElement = document.createElement('h3');
@@ -107,7 +111,7 @@ function feed(navigateTo) {
   const profileName = document.createElement('h4');
   const pictureUser = document.createElement('img');
   const textSignoff = document.createElement('span');
-  const buttonSignoff = document.createElement('img');
+  // const buttonSignoff = document.createElement('img');
 
   const main = document.createElement('main');
 
@@ -117,11 +121,15 @@ function feed(navigateTo) {
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
-  const buttonHome = document.createElement('button');
-  const buttonLikes = document.createElement('button');
+  const buttonHome = document.createElement('img');
+  buttonHome.src = navHome;
+  const buttonLikes = document.createElement('img');
+  buttonLikes.src = navLikes;
   const iconElement = document.createElement('img');
-  const buttonPosts = document.createElement('button');
-  const buttonProfile = document.createElement('button');
+  const buttonPosts = document.createElement('img');
+  buttonPosts.src = navPosts;
+  const buttonProfile = document.createElement('img');
+  buttonProfile.src = navProfile;
 
   section.id = 'feedSection';
   header.id = 'header';
@@ -133,28 +141,28 @@ function feed(navigateTo) {
   postTitle.classList.add('titles');
 
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('btnNav');
-  buttonLikes.classList.add('btnNav');
-  buttonPosts.classList.add('btnNav');
-  buttonProfile.classList.add('btnNav');
+  buttonHome.classList.add('imgNav');
+  buttonLikes.classList.add('imgNav');
+  buttonPosts.classList.add('imgNav');
+  buttonProfile.classList.add('imgNav');
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
   // console.log(getAuth().currentUser);
   name.textContent = getAuth().currentUser?.displayName;
-  profileName.textContent = '@nombreperfil';
+  profileName.textContent = getAuth().currentUser?.email;
   pictureUser.src = auth.currentUser?.photoURL ? auth.currentUser?.photoURL : generalUser;
 
   // generalUser;
 
   postTitle.textContent = 'LO QUE SE DICE EN NEW WAVE:';
 
+  // buttonSignoff.src = iconoCerrar;
+  // buttonSignoff.classList.add('buttonSignoff');
   textSignoff.textContent = 'Cerrar sesión';
   textSignoff.classList.add('specialText');
-  buttonSignoff.src = iconoCerrar;
-  buttonSignoff.classList.add('buttonSignoff');
-  buttonSignoff.addEventListener('click', () => {
+  textSignoff.addEventListener('click', () => {
     navigateTo('/login');
   });
 
@@ -182,7 +190,7 @@ function feed(navigateTo) {
   });
 
   // ORGANIZAR CONTENIDOS
-  header.append(name, pictureUser, profileName, textSignoff, buttonSignoff);
+  header.append(name, pictureUser, profileName, textSignoff);
   main.append(postContainer);
   postContainer.append(postTitle, muro);
   menuContainer.append(buttonHome, buttonLikes, iconElement, buttonPosts, buttonProfile);
