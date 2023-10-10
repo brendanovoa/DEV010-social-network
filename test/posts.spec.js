@@ -1,4 +1,5 @@
 // import { async } from 'regenerator-runtime';
+
 import { initializeApp } from 'firebase/app';
 import { deleteDoc } from 'firebase/firestore';
 import { addPost } from '../src/routes/posts';
@@ -6,6 +7,7 @@ import { deletePost } from '../src/firebase/firebaseConfig';
 
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
+
 
 describe('addPost', () => {
   it('Agrega un post', async () => {
