@@ -2,10 +2,12 @@ import {
   collection, onSnapshot,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { auth, db } from '../firebase/firebaseConfig';
+import { auth, db, addLike, removeLike } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import iconoCerrar from '../assets/iconos/icono-cerrar.png';
 import generalUser from '../assets/general-user.png';
+import likeRosa from '../assets/iconos/icono-like-on.png';
+import likeGris from '../assets/iconos/icono-like-off.png';
 
 // Crear una card que contenga cada post
 function createPostCard(data) {
@@ -16,9 +18,6 @@ function createPostCard(data) {
   userNameElement.textContent = data.userName;
   const pictureUser = document.createElement('img');
   pictureUser.classList.add('user-img');
-  // pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL :
-  // '../src/assets/person_FILL1_wght400_GRAD0_opsz24.png';
-  // console.log(auth.currentUser.displayName);
   pictureUser.src = data.avatar.includes('example') ? generalUser : data.avatar;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
@@ -27,7 +26,11 @@ function createPostCard(data) {
   dateElement.classList.add('date');
   const date = data.createdAt.toDate();
   dateElement.textContent = `${date.toLocaleDateString()}`;
-  card.append(pictureUser, userNameElement, dateElement, contentElement);
+  const likeContent = document.createElement('img');
+  likeContent.src = likeGris;
+  likeContent.classList.add('likeGris');
+
+  card.append(pictureUser, userNameElement, dateElement, contentElement, likeContent);
   return card;
 }
 
