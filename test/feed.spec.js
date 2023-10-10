@@ -137,3 +137,4 @@ describe('loadPosts', () => {
 // const mockPosts = [
 //   { avatar:'https://foto.jpg', content: 'Contenido del post 1', userId: 'user123' }
 // ];
+
