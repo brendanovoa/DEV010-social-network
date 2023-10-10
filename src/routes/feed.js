@@ -22,9 +22,6 @@ export function createPostCard(data) {
   userNameElement.textContent = data.userName;
   const pictureUser = document.createElement('img');
   pictureUser.classList.add('user-img');
-  // pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL :
-  // '../src/assets/person_FILL1_wght400_GRAD0_opsz24.png';
-  // console.log(auth.currentUser.displayName);
   pictureUser.src = data.avatar.includes('example') ? generalUser : data.avatar;
   const contentElement = document.createElement('p');
   contentElement.classList.add('post');
