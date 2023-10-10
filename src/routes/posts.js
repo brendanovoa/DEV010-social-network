@@ -1,12 +1,12 @@
-import {
-  collection, addDoc, onSnapshot, // query,
-} from 'firebase/firestore';
+import { collection, addDoc, onSnapshot } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import {
-  auth, db, deletePost, updatePost,
+  auth, db, deletePost, updatePost, addLike, removeLike,
 } from '../firebase/firebaseConfig';
 import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
+import likeRosa from '../assets/iconos/icono-like-on.png';
+import likeGris from '../assets/iconos/icono-like-off.png';
 // import { async } from 'regenerator-runtime';
 // import btnEditar from '../assets/iconos/icono-editar.png';
 // import btnBorrar from '../assets/iconos/icono-cerrar.png';
@@ -22,7 +22,8 @@ function createPostCard(data) { /* cambio de content por data */
   card.classList.add('post-card');
   const pictureUser = document.createElement('img');
   pictureUser.classList.add('user-img');
-  pictureUser.src = data.avatar || generalUser;
+  pictureUser.src = data.avatar.includes('example') ? generalUser : data.avatar;
+  // pictureUser.src = data.avatar || generalUser;
   const userNameElement = document.createElement('h3');
   userNameElement.classList.add('user-name');
   userNameElement.textContent = data.userName;
@@ -38,11 +39,11 @@ function createPostCard(data) { /* cambio de content por data */
 
   const buttonEdit = document.createElement('button');
   buttonEdit.classList.add('btn-edit');
-  buttonEdit.textContent = 'Edit';
+  buttonEdit.textContent = 'Editar';
 
   const buttonDelete = document.createElement('button');
   buttonDelete.classList.add('btn-delete');
-  buttonDelete.textContent = 'Delete';
+  buttonDelete.textContent = 'Borrar';
   buttonDelete.addEventListener('click', () => {
     deletePost(data.id);
   });
@@ -72,11 +73,11 @@ function createPostCard(data) { /* cambio de content por data */
 
     const buttonEditSave = document.createElement('button');
     buttonEditSave.classList.add('btn-editSave');
-    buttonEditSave.textContent = 'Save';
+    buttonEditSave.textContent = 'Guardar';
 
     const buttonCancel = document.createElement('button');
     buttonCancel.classList.add('btn-cancel');
-    buttonCancel.textContent = 'Cancel';
+    buttonCancel.textContent = 'Cancelar';
 
     // Agregar botones "Save" y "Cancel"
     card.appendChild(buttonEditSave);
@@ -86,13 +87,13 @@ function createPostCard(data) { /* cambio de content por data */
       const updateContent = textArea.value;
       await updatePost(data.id, { content: updateContent }); /* revisar si es id, o data.id */
 
-      // Restaurar el contenido original
-      contentElement.textContent = updateContent;
-
       // Remover el textarea y los botones "Save" y "Cancel"
       card.removeChild(textArea);
       card.removeChild(buttonEditSave);
       card.removeChild(buttonCancel);
+
+      // Restaurar el contenido original
+      contentElement.textContent = updateContent;
 
       // Mostrar los botones "Edit" y "Delete" nuevamente
       buttonDelete.style.display = 'block';
@@ -105,20 +106,80 @@ function createPostCard(data) { /* cambio de content por data */
       // Restaurar el contenido original
       contentElement.textContent = originalContent;
 
-      // Remover el textarea y los botones "Save" y "Cancel"
-      card.removeChild(textArea);
-      card.removeChild(buttonEditSave);
-      card.removeChild(buttonCancel);
+      // Crear un nuevo elemento <p> con el contenido original
+      const originalContentElement = document.createElement('p');
+      originalContentElement.classList.add('post');
+      originalContentElement.textContent = originalContent;
 
-      // Mostrar los botones "Edit" y "Delete" nuevamente
+      // Reemplazar el <textarea> por el nuevo elemento <p>
+      card.replaceChild(originalContentElement, textArea);
+
+      // Mostrar los botones "Edit" y "Delete" 
       buttonDelete.style.display = 'block';
       buttonEdit.style.display = 'block';
+
+      // Eliminar los botones "Save" y "Cancel"
+      card.removeChild(buttonEditSave);
+      card.removeChild(buttonCancel);
+      // card.removeChild(textArea);
 
       editStatus = false; // Cancelar la edición
     });
   });
+  const buttonLike = document.createElement('img');
+  buttonLike.classList.add('like');
+  // buttonLike.src = data.likes.includes(auth.currentUser.uid) ? likeRosa : likeGris;
+  // Verifica si 'likes' está definido y es un arreglo antes de usarlo
+  if (Array.isArray(data.likes)) {
+    // Comprueba si el usuario actual (auth.currentUser.uid) está en el arreglo 'likes'
+    if (data.likes.includes(auth.currentUser?.uid)) {
+      buttonLike.src = likeRosa; // Usuario actual dio like, muestra el ícono de like activo
+    } else {
+      buttonLike.src = likeGris; // Usuario actual no dio like, muestra el ícono de like inactivo
+    }
+  } else {
+    buttonLike.src = likeGris; // En caso de que 'likes' no esté definido o no sea un arreglo
+  }
+  
+  const likesCount = document.createElement('span');
+  likesCount.classList.add('likesCount');
+  // likesCount.textContent = data.likesCount /* `${doc[0].likes.length}` */;
+  
+  // Actualiza likesCount en el elemento HTML
+  /* const updateLikesCount = (count) => {
+    likesCount.textContent = count;
+  }; */
 
-  card.append(pictureUser, userNameElement, dateElement, contentElement, buttonDelete, buttonEdit);
+  // Verifica si data.likesCount tiene un valor válido
+  if (typeof data.likesCount === 'number') {
+    likesCount.textContent = data.likesCount;
+  } else {
+    likesCount.textContent = '0'; // Mostrar '0' si no hay un valor válido
+  }
+
+  buttonLike.addEventListener('click', async () => {
+  // Implementa aquí la lógica para manejar el "Me gusta"
+  try {
+    const likes = data.likes || [];
+    // Comprueba si el usuario actual ya dio "Me gusta"
+    const userLiked = data.likes.includes(auth.currentUser?.uid);
+
+    if (userLiked) {
+      // Si el usuario ya dio "Me gusta", quita el "Me gusta"
+      await removeLike(data.id, auth.currentUser.uid);
+      // Actualiza el conteo de likes en el elemento HTML
+      likesCount.textContent = likes.length - 1;
+    } else {
+      // Si el usuario no ha dado "Me gusta", agrégalo
+      await addLike(data.id, auth.currentUser.uid);
+      // Actualiza el conteo de likes en el elemento HTML
+      likesCount.textContent = likes.length + 1;
+    }
+  } catch (error) {
+    console.error('Error al manejar "Me gusta":', error);
+  }
+});
+  card.append(pictureUser, userNameElement, dateElement, contentElement, buttonLike, likesCount, buttonDelete, buttonEdit);
   // console.log(card); /* muestra el contenido escrito en el posts */
   return card;
 }
@@ -165,6 +226,7 @@ function addPost({
       createdAt: new Date(), // Fecha y hora de creación del post
       likesCount: 0, // likes en el post
       sharedCount: 0, // cuántas veces se compartió
+      likes: [],
     })
       .then((docRef) => {
         console.log('Publicación agregada con ID: ', docRef.id);
@@ -228,9 +290,9 @@ function posts(navigateTo) {
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
-  name.textContent = getAuth().currentUser.displayName;
+  name.textContent = getAuth().currentUser?.displayName;
   profileName.textContent = '@nombreperfil';
-  pictureUser.src = auth.currentUser.photoURL ? auth.currentUser.photoURL : generalUser;
+  pictureUser.src = auth.currentUser?.photoURL ? auth.currentUser?.photoURL : generalUser;
 
   postTitle.textContent = 'CREAR UN POST:';
   postInput.placeholder = 'Escribe tu publicación aquí';
