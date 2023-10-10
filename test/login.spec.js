@@ -97,10 +97,18 @@ describe('login', () => {
 
   it('Dando click al link "¿Olvidaste tu contraseña?" debe llamar a resetEmail', async () => {
     resetEmail.mockResolvedValue({});
+
+    // Crear tu elemento linkResetEmail y agregarlo al DOM
+    /* const linkResetEmail = document.createElement('span');
+    linkResetEmail.classList.add('linkResetEmail');
+    component.appendChild(linkResetEmail);
+
+    // Simular el clic en el enlace
+    linkResetEmail.click(); */
+
     // Crea los elementos necesarios para el test
     // component = resetEmail();
-    console.log(component);
-    // document.body.appendChild(component);
+    document.body.appendChild(component);
     component.querySelector('.linkResetEmail').click();
     expect(resetEmail).toHaveBeenCalled();
   });

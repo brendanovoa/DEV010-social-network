@@ -7,6 +7,10 @@ import iconoNav from '../assets/iconoBlanco.png';
 import generalUser from '../assets/general-user.png';
 import likeRosa from '../assets/iconos/icono-like-on.png';
 import likeGris from '../assets/iconos/icono-like-off.png';
+import navHome from '../assets/iconos/icono-home-off.png';
+import navLikes from '../assets/iconos/icono-likes-off.png';
+import navPosts from '../assets/iconos/icono-post-on.png';
+import navProfile from '../assets/iconos/icono-profile-off.png';
 // import { async } from 'regenerator-runtime';
 // import btnEditar from '../assets/iconos/icono-editar.png';
 // import btnBorrar from '../assets/iconos/icono-cerrar.png';
@@ -17,7 +21,7 @@ import likeGris from '../assets/iconos/icono-like-off.png';
 // console.log(user);
 
 // Crear una card que contenga cada post
-function createPostCard(data) { /* cambio de content por data */
+export function createPostCard(data) { /* cambio de content por data */
   const card = document.createElement('div');
   card.classList.add('post-card');
   const pictureUser = document.createElement('img');
@@ -87,17 +91,17 @@ function createPostCard(data) { /* cambio de content por data */
       const updateContent = textArea.value;
       await updatePost(data.id, { content: updateContent }); /* revisar si es id, o data.id */
 
-      // Remover el textarea y los botones "Save" y "Cancel"
-      card.removeChild(textArea);
-      card.removeChild(buttonEditSave);
-      card.removeChild(buttonCancel);
-
       // Restaurar el contenido original
       contentElement.textContent = updateContent;
 
       // Mostrar los botones "Edit" y "Delete" nuevamente
       buttonDelete.style.display = 'block';
       buttonEdit.style.display = 'block';
+
+      // Remover el textarea y los botones "Save" y "Cancel"
+      card.removeChild(textArea);
+      card.removeChild(buttonEditSave);
+      card.removeChild(buttonCancel);
 
       editStatus = false; // Finalizar la edición
     });
@@ -260,11 +264,15 @@ function posts(navigateTo) {
 
   const nav = document.createElement('nav');
   const menuContainer = document.createElement('div');
-  const buttonHome = document.createElement('button');
-  const buttonLikes = document.createElement('button');
+  const buttonHome = document.createElement('img');
+  buttonHome.src = navHome;
+  const buttonLikes = document.createElement('img');
+  buttonLikes.src = navLikes;
   const iconElement = document.createElement('img');
-  const buttonPosts = document.createElement('button');
-  const buttonProfile = document.createElement('button');
+  const buttonPosts = document.createElement('img');
+  buttonPosts.src = navPosts;
+  const buttonProfile = document.createElement('img');
+  buttonProfile.src = navProfile;
 
   section.id = 'postsSection';
   header.id = 'header';
@@ -281,17 +289,17 @@ function posts(navigateTo) {
   myPostsTitle.classList.add('titles');
 
   menuContainer.id = 'navbar';
-  buttonHome.classList.add('btnNav');
-  buttonLikes.classList.add('btnNav');
-  buttonPosts.classList.add('btnNav');
-  buttonProfile.classList.add('btnNav');
+  buttonHome.classList.add('imgNav');
+  buttonLikes.classList.add('imgNav');
+  buttonPosts.classList.add('imgNav');
+  buttonProfile.classList.add('imgNav');
   // buttonProfile.src = iconoProfile;
   iconElement.src = iconoNav;
   iconElement.alt = 'New Wave Icon';
   iconElement.classList.add('iconNav');
 
   name.textContent = getAuth().currentUser?.displayName;
-  profileName.textContent = '@nombreperfil';
+  profileName.textContent = getAuth().currentUser?.email;
   pictureUser.src = auth.currentUser?.photoURL ? auth.currentUser?.photoURL : generalUser;
 
   postTitle.textContent = 'CREAR UN POST:';
@@ -373,7 +381,7 @@ function posts(navigateTo) {
   section.append(header, main, menuContainer);
   return section;
 }
-
+// export { createPostCard };
 export default posts;
 
 // import useUser from "hookss/useUser"
