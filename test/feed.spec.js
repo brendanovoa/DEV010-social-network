@@ -123,7 +123,7 @@ import loadPosts from '../src/routes/feed';
 console.log(loadPosts());
 
 describe('loadPosts', () => {
-  it('Agrega un post', async () => {
+  it('Mostrar un post', async () => {
     const mockPosts = [
       { avatar: 'https://foto.jpg', content: 'Contenido del post 1', userId: 'user123' },
     ];
