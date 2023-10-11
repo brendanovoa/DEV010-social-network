@@ -76,38 +76,9 @@ describe('login', () => {
     expect(dirige).toBe('/userRegister');
   });
 
-  // it('Dando click al link "¿Olvidaste tu contraseña?"
-  // de mandar un correo de para reestablecerla', async () => {
-  //   // Mock de resetEmail para que devuelva un elemento HTML válido
-  //   resetEmail.mockResolvedValueOnce({ user: { email: 'correo@example.com' } });
-
-  //   component.querySelector('.input[type="email"]').value = 'correo@example.com';
-  //   // Crea el componente
-  //   // component = resetEmail();
-  //   // Simula el click en el componente
-  //   component.querySelector('.linkResetEmail').click();
-
-  //   // Esperar a que las promesas se resuelvan (puedes usar await o .then)
-  //   await Promise.resolve();
-
-  //   // Verifica que la función resetEmail haya sido llamada
-  //   expect(resetEmail).toHaveBeenCalled();
-  //   expect(resetEmail).toHaveBeenCalledWith({ email: 'correo@example.com' });
-  // });
-
   it('Dando click al link "¿Olvidaste tu contraseña?" debe llamar a resetEmail', async () => {
     resetEmail.mockResolvedValue({});
 
-    // Crear tu elemento linkResetEmail y agregarlo al DOM
-    /* const linkResetEmail = document.createElement('span');
-    linkResetEmail.classList.add('linkResetEmail');
-    component.appendChild(linkResetEmail);
-
-    // Simular el clic en el enlace
-    linkResetEmail.click(); */
-
-    // Crea los elementos necesarios para el test
-    // component = resetEmail();
     document.body.appendChild(component);
     component.querySelector('.linkReset').click();
     expect(resetEmail).toHaveBeenCalled();

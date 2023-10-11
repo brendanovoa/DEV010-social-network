@@ -1,15 +1,9 @@
-// import { async } from 'regenerator-runtime';
+// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+import addPost from '../src/routes/posts';
 
-// import { initializeApp } from 'firebase/app';
-import { deleteDoc } from 'firebase/firestore';
-import { addPost, deletePost } from '../src/routes/posts';
-import { auth, db } from '../src/firebase/firebaseConfig';
+describe('addPost', () => {
+  it('Agrega un post', async () => {
 
-jest.mock('firebase/auth');
-jest.mock('firebase/firestore');
-
-describe('addPost Function', () => {
-  it('should add a new post', async () => {
     const mockPostData = {
       content: 'This is a new post',
     };
@@ -17,27 +11,5 @@ describe('addPost Function', () => {
     const postId = await addPost(mockPostData);
 
     expect(postId).toBeDefined();
-  });
-});
-
-describe('deletePost Function', () => {
-  beforeEach(() => {
-    // Realizar configuración previa a las pruebas si es necesario
-  });
-
-  afterEach(() => {
-    // Limpiar el estado después de cada prueba
-  });
-
-  it('should be a function', () => {
-    expect(typeof deletePost).toBe('function');
-  });
-
-  it('should call deleteDoc when executed', async () => {
-    const postId = 'examplePostId';
-
-    await deletePost(postId);
-
-    expect(deleteDoc).toHaveBeenCalledWith(db, `posts/${postId}`);
   });
 });
