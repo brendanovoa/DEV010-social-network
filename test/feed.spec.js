@@ -2,7 +2,7 @@
 import loadPosts from '../src/routes/feed';
 
 describe('loadPosts', () => {
-  it('Muestra un post', async () => {
+  it('Mostrar un post', async () => {
     const mockPosts = [
       { avatar: 'https://foto.jpg', content: 'Contenido del post 1', userId: 'user123' },
     ];
@@ -12,4 +12,3 @@ describe('loadPosts', () => {
     expect(post).toBeDefined();
   });
 });
-
