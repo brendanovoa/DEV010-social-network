@@ -3,11 +3,12 @@ import addPost from '../src/routes/posts';
 
 describe('addPost', () => {
   it('Agrega un post', async () => {
+
     const mockPostData = {
-      content: 'Este es un nuevo post',
+      content: 'This is a new post',
     };
 
-    const postId = addPost(mockPostData);
+    const postId = await addPost(mockPostData);
 
     expect(postId).toBeDefined();
   });
