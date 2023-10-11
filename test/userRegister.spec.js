@@ -99,22 +99,7 @@ describe('userRegister', () => {
       expect(emailVerification).toHaveBeenCalled();
       expect(emailVerification).toHaveBeenCalledWith({ email: 'correo@example.com' });
     }).catch((err) => console.log({ err }));
-
-    // Verificar que la función emailVerification se haya llamado
-    // expect(emailVerification).toHaveBeenCalled();
-
-    /* Quitar doble promesa y llamado a createUse
-      createUse().then((user) => {
-      expect(emailVerification).toHaveBeenCalled(); */
-
-    // Verificar que la función emailVerification se haya llamado con el usuario simulado
-    // No colocar un objeto dentro de otro objeto {user} //
-    // expect(emailVerification).toHaveBeenCalledWith({ email: 'correo@example.com' });
   });
-  /* Quitar estas líneas pues ya se usó await para esperar la resolución de la promesa createUse
-  y ya se verificó la llamada emailVerification con expect(emailVerification).toHaveBeenCalledWith
-  return Promise.resolve().then(() => expect(emailVerification).toHaveBeenCalledWith
-  ({user: { email: 'correo@example.com' } })); */
 });
 
 // Verifica que se crear una cuenta
@@ -127,12 +112,3 @@ describe('buttonLogin llama a la función createUse', () => {
     expect(createUse).toHaveBeenCalled();
   });
 });
-
-// Crear un spy para la función emailVerification
-// const emailVerification = jest.spyOn(require('../src/firebase/fConf'), 'emailVerification');
-// Crea un mock para la función navigateTo
-// const mockNavigateTo = jest.fn();
-// Enviamos el formulario dando clic en el botón `Registrarse`.
-// component.querySelector('#registerForm').dispatchEvent(new Event('submit'));
-// Verificamos visualmente que la aplicación redija a `/feed`.
-// return Promise.resolve().then(() => expect(mockNavigateTo).toHaveBeenCalledWith('/feed'));

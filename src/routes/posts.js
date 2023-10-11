@@ -71,9 +71,9 @@ export function createPostCard(data) { /* cambio de content por data */
     const textArea = document.createElement('textarea');
     textArea.classList.add('post'); // Añadir la misma clase que el elemento original
     textArea.value = originalContent;
-    const contentElementP = card.querySelector('.post');
+    const newContentElement = card.querySelector('.post');
     // Reemplazar el elemento original con el textarea
-    card.replaceChild(textArea, contentElementP);
+    card.replaceChild(textArea, newContentElement);
 
     const buttonEditSave = document.createElement('button');
     buttonEditSave.classList.add('btn-editSave');
