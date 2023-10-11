@@ -1,37 +1,43 @@
 // import { async } from 'regenerator-runtime';
 
-import { initializeApp } from 'firebase/app';
+// import { initializeApp } from 'firebase/app';
 import { deleteDoc } from 'firebase/firestore';
-import { addPost } from '../src/routes/posts';
-import { deletePost } from '../src/firebase/firebaseConfig';
+import { addPost, deletePost } from '../src/routes/posts';
+import { auth, db } from '../src/firebase/firebaseConfig';
 
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
 
-
-/* jest.mock('../src/firebase/firebaseConfig', () => ({
-  deletePost: jest.fn(),
-})); */
-
-describe('addPost', () => {
-  it('Agrega un post', async () => {
+describe('addPost Function', () => {
+  it('should add a new post', async () => {
     const mockPostData = {
-      content: 'Este es un nuevo post',
+      content: 'This is a new post',
     };
 
-    const postId = addPost(mockPostData);
+    const postId = await addPost(mockPostData);
 
     expect(postId).toBeDefined();
   });
 });
 
-describe('deletePost', () => {
-  it('debería ser una función', () => {
+describe('deletePost Function', () => {
+  beforeEach(() => {
+    // Realizar configuración previa a las pruebas si es necesario
+  });
+
+  afterEach(() => {
+    // Limpiar el estado después de cada prueba
+  });
+
+  it('should be a function', () => {
     expect(typeof deletePost).toBe('function');
   });
 
-  it('Deberia llamar a la funcion deleteDoc cuando es ejecutada', async () => {
-    await deletePost('bjidjg');
-    expect(deleteDoc).toHaveBeenCalled();
+  it('should call deleteDoc when executed', async () => {
+    const postId = 'examplePostId';
+
+    await deletePost(postId);
+
+    expect(deleteDoc).toHaveBeenCalledWith(db, `posts/${postId}`);
   });
 });

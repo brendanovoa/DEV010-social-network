@@ -109,7 +109,7 @@ describe('login', () => {
     // Crea los elementos necesarios para el test
     // component = resetEmail();
     document.body.appendChild(component);
-    component.querySelector('.linkResetEmail').click();
+    component.querySelector('.linkReset').click();
     expect(resetEmail).toHaveBeenCalled();
   });
 });
